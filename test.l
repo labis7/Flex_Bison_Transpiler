@@ -6,24 +6,34 @@
 
 KEYWORD	    ("int")|("real")|("bool")|("string")|("true")|("false")|("if")|("else")|("fi")|("while")|("loop")|("pool")|("const")|("let")|("break")|("return")|("not")|("and")|("or")|("start")
 
-DIGIT       [0-9]([a-z])?
-NUMBER      [0-9]([0-9])?
-DECIMAL     ("."{NUMBER})|({NUMBER}("."{NUMBER}?)?)
 
-ID          [a-zA-Z_][0-9a-zA-Z_]*
+INT_CON      ("0")|([1-9]([0-9])*)
+DECIMAL     ("."{INT_CON})|({INT_CON}("."{INT_CON}?)?)
 
+ID          [a-zA-Z][0-9a-zA-Z_]*
+ID_ERROR    (("_")|({INT_CON}))[0-9a-zA-Z_]*
+INT_CON_ERROR	  ("0")+({INT_CON}) 
 %%
 
 
+{INT_CON}   { printf("Line %d: Found the positive integer constant: %s\n", lineNum, yytext); }
 
-{DIGIT}		{ printf("Line %d: Found the digit %s\n", lineNum, yytext); }
+{KEYWORD} { printf("Line %d: Found the Keyword:  %s\n", lineNum, yytext); }
 
-{NUMBER}   { printf("Line %d: Found the number %s\n", lineNum, yytext); }
-
-{KEYWORD} { printf("Line %d: Found the keyword %s\n", lineNum, yytext); }
+{ID}        { printf("Line %d: Found the Identifier: %s\n", lineNum, yytext); }
 
 
-{ID}        { printf("Line %d: Found the identifier %s\n", lineNum, yytext); }
+
+	/*////////// ERROR HANDLING ///////////*/
+
+{INT_CON_ERROR} { printf("Line %d: Integer format ERROR (Zero padding is not allowed at the start of the integer): %s\n", lineNum, yytext); } 
+
+{ID_ERROR} { printf("Line %d: Identifier Error: %s\n", lineNum, yytext); } 
+
+	/*////////////////////////////////////*/
+
+
+
 
 
 [ \r\t]		/* skip whitespace */
