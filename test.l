@@ -8,12 +8,19 @@ KEYWORD	    ("int")|("real")|("bool")|("string")|("true")|("false")|("if")|("els
 
 
 INT_CON      ("0")|([1-9]([0-9])*)
-DECIMAL     ("."{INT_CON})|({INT_CON}("."{INT_CON}?)?)
+	/* 0.1 , 0.002  */
+REAL	     ({INT_CON})(".")("0")*({INT_CON}) 	   
+REAL_CON     ({REAL})([E](("+")|("-"))?({INT_CON}))?
+ID           [a-zA-Z][0-9a-zA-Z_]*
 
-ID          [a-zA-Z][0-9a-zA-Z_]*
-ID_ERROR    (("_")|({INT_CON}))[0-9a-zA-Z_]*
-INT_CON_ERROR	  ("0")+({INT_CON}) 
-%%
+
+
+ID_ERROR          (("_")|({INT_CON}))[0-9a-zA-Z_]*
+	
+	/* 0123 OR 0123.5 OR 0123.5E+01 */
+INT_CON_ERROR	  (("0")+({INT_CON}|{REAL_CON})) | (("0")*({REAL})[Ee](("+")|("-"))?("0")+({INT_CON}))	
+	
+%% 
 
 
 {INT_CON}   { printf("Line %d: Found the positive integer constant: %s\n", lineNum, yytext); }
@@ -27,6 +34,7 @@ INT_CON_ERROR	  ("0")+({INT_CON})
 	/*////////// ERROR HANDLING ///////////*/
 
 {INT_CON_ERROR} { printf("Line %d: Integer format ERROR (Zero padding is not allowed at the start of the integer): %s\n", lineNum, yytext); } 
+ 	
 
 {ID_ERROR} { printf("Line %d: Identifier Error: %s\n", lineNum, yytext); } 
 
@@ -38,7 +46,7 @@ INT_CON_ERROR	  ("0")+({INT_CON})
 
 [ \r\t]		/* skip whitespace */
 \n 			++lineNum;
-<<EOF>> 	return EOF;
+<<EOF>> 	return EOF;  
 
 .           { printf("Line %d: Error %s\n", lineNum, yytext); }
 
