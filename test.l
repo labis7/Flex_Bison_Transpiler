@@ -25,27 +25,27 @@ INT_CON_ERROR	  ((("0")+(({INT_CON})|({REAL_CON})))|(("0")*({REAL})[Ee](("+")|("
 
 
  
-{INT_CON}   { printf("Line %d: Found the positive integer constant: %s\n", lineNum, yytext); }
+{INT_CON}   { printf("Token INTEGER_POS_CONST: %s\n", yytext); }
 
-{REAL_CON}   { printf("Line %d: Found the positive real constant: %s\n", lineNum, yytext);
+{REAL_CON}   { printf("Token REAL_POS_CONST: %s\n", yytext);
  }
-("true"|"false") { printf("Line %d: Found the Boolean: %s\n", lineNum, yytext); }
+("true"|"false") { printf("Token BOOLEAN_CONST: %s\n", yytext); }
 
-{KEYWORD} { printf("Line %d: Found the Keyword:  %s\n", lineNum, yytext); }
+{KEYWORD} { printf("Token KEYWORD_CONST: %s\n", yytext); }
 
-{ID}        { printf("Line %d: Found the Identifier: %s\n", lineNum, yytext); }
+{ID}        { printf("Token IDENTIFIER: %s\n", yytext); }
 
 	/*/////////// Strings & Comments //////////*/
 
-"\""         { BEGIN(string); printf("String started at line: %d\nString Content: ", lineNum); }
+"\""         { BEGIN(string); printf("Token CONST_STRING: \""); }
  
-<string>"\\""\""  {printf("\"");}
-<string>"\\""n" {printf("(LF)");}
-<string>"\\""t" {printf("(TAB)");}
-<string>"\\""r" {printf("(CR)");}
+<string>"\\""\""  {printf("\\\"");}
+<string>"\\""n" {printf("\\n");}
+<string>"\\""t" {printf("\\t");}
+<string>"\\""r" {printf("\\r");}
 <string>\n  	{BEGIN(SE);lineNum++;}
-<string>"\"" { BEGIN(INITIAL); printf("\nString ended at line: %d\n", lineNum); }
-	
+<string>"\""    { BEGIN(INITIAL); printf("\"\n"); }
+<string>.  	{ECHO;}	
 	/* Nom-nom(eat it) */
 
 
@@ -54,18 +54,21 @@ INT_CON_ERROR	  ((("0")+(({INT_CON})|({REAL_CON})))|(("0")*({REAL})[Ee](("+")|("
 
 	/*////////// ERROR HANDLING ///////////*/
 
-{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", lineNum, yytext); } 
+{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", lineNum, yytext); } /* na ektupwsw kai olh thn grammh, kai return EOF*/
  	
 
-{ID_ERROR} { printf("Line %d: Identifier Error: %s\n", lineNum, yytext); } 
+{ID_ERROR} { printf("Line %d: Identifier Error: %s\n", lineNum, yytext); } /* na ektupwsw kai olh thn grammh, kai return EOF*/
 
-<SE>"\\""\""  {printf("\"");}
-<SE>"\\""n" {printf("(LF)");}
-<SE>"\\""t" {printf("(TAB)");}
-<SE>"\\""r" {printf("(CR)");}
+<SE>"\\""\""  {printf("\\\"");}
+<SE>"\\""n" {printf("\\n");}
+<SE>"\\""t" {printf("\\t");}
+<SE>"\\""r" {printf("\\r");}
 <SE>\n  	{lineNum++;}
-<SE>"\"" { BEGIN(INITIAL); printf("\nString ended at line: %d\tString ERROR - Multiple String lines\n", lineNum); }
+<SE>"\"" { BEGIN(INITIAL); printf("\"\nString ERROR - Multiple String lines\n");}  
 	/*////////////////////////////////////*/
+
+
+
 
 
 
@@ -75,7 +78,7 @@ INT_CON_ERROR	  ((("0")+(({INT_CON})|({REAL_CON})))|(("0")*({REAL})[Ee](("+")|("
 \n 			++lineNum;
 <<EOF>> 	return EOF;  
 
-.           { printf("Line %d: Error %s\n", lineNum, yytext); }
+.           {printf("Unrecognised Token %s in line %d:\n",yytext,lineNum);} /* na ektupwsw kai olh thn grammh, kai return EOF*/
 
 
 %%
