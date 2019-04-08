@@ -1,3 +1,4 @@
+int
 INT 5
 l
 bool
@@ -14,15 +15,16 @@ _LAB
 0.4
 0.123e+34
 14.043E2
-01.4
-003.1e2
-0.1E02
-0.1e+03
-01.1e-3
+
 true
 truee
 "labiz"
-"\nlab
-\tskoufiz "
+"\nlab\tskoufiz "
 "iaso \"koukla\""
-5^10
+mal 534+10
+--eimI malaks
+(*yep eim*)
+(*h
+
+
+*)
