@@ -15,23 +15,46 @@
 %define parse.trace
 %debug
 
+%token <str> KW_TRUE
+%token <str> KW_FALSE
+%token <str> KW_INT
+%token <str> KW_CHAR
+%token <str> KW_REAL 
+%token <str> KW_BOOL
+%token <str> KW_STRING
+%token <str> KW_ELSE
+%token <str> KW_IF
+%token <str> KW_THEN
+%token <str> KW_FI
+%token <str> KW_WHILE
+%token <str> KW_LOOP
+%token <str> KW_POOL
+%token <str> KW_CONST
+%token <str> KW_LET
+%token <str> KW_RETURN
+%token <str> KW_NOT
+%token <str> KW_AND
+%token <str> KW_OR
+%token <str> KW_START
+%token <str> NOT_EQUAL_OP
+%token <str> LESS_OP
+%token <str> LESS_EQUAL_OP
+%token <str> FUNC_START_ARROW
 
 %token <str> IDENTIFIER
 %token <str> POSINT 
-%token <str> REAL 
 %token <str> STRING
+%token <str> REAL
 
 %token <str> ASSIGN
 
-%token <str> KW_INT
-%token <str> KW_CHAR
-%token <str> KW_IF
-%token <str> KW_THEN
-%token <str> KW_ELSE
-%token <str> KW_LET
 
-%token <str> KW_TRUE
-%token <str> KW_FALSE
+
+
+
+
+
+
 
 %start input
 

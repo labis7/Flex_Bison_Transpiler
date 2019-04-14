@@ -6,12 +6,29 @@ Nonterminals useless in grammar
 
 Terminals unused in grammar
 
-   STRING
-   KW_IF
-   KW_THEN
-   KW_ELSE
    KW_TRUE
    KW_FALSE
+   KW_REAL
+   KW_BOOL
+   KW_STRING
+   KW_ELSE
+   KW_IF
+   KW_THEN
+   KW_FI
+   KW_WHILE
+   KW_LOOP
+   KW_POOL
+   KW_CONST
+   KW_RETURN
+   KW_NOT
+   KW_AND
+   KW_OR
+   KW_START
+   NOT_EQUAL_OP
+   LESS_OP
+   LESS_EQUAL_OP
+   FUNC_START_ARROW
+   STRING
 
 
 Rules useless in grammar
@@ -69,38 +86,55 @@ $end (0) 0
 '{' (123) 2
 '}' (125) 2
 error (256)
-IDENTIFIER (258) 2 9 10
-POSINT (259) 13
-REAL (260) 14
-STRING (261)
-ASSIGN (262) 6 8
-KW_INT (263) 11
-KW_CHAR (264) 12
-KW_IF (265)
-KW_THEN (266)
-KW_ELSE (267)
-KW_LET (268) 3 4 5
-KW_TRUE (269)
-KW_FALSE (270)
+KW_TRUE (258)
+KW_FALSE (259)
+KW_INT (260) 11
+KW_CHAR (261) 12
+KW_REAL (262)
+KW_BOOL (263)
+KW_STRING (264)
+KW_ELSE (265)
+KW_IF (266)
+KW_THEN (267)
+KW_FI (268)
+KW_WHILE (269)
+KW_LOOP (270)
+KW_POOL (271)
+KW_CONST (272)
+KW_LET (273) 3 4 5
+KW_RETURN (274)
+KW_NOT (275)
+KW_AND (276)
+KW_OR (277)
+KW_START (278)
+NOT_EQUAL_OP (279)
+LESS_OP (280)
+LESS_EQUAL_OP (281)
+FUNC_START_ARROW (282)
+IDENTIFIER (283) 2 9 10
+POSINT (284) 13
+STRING (285)
+REAL (286) 14
+ASSIGN (287) 6 8
 
 
 Nonterminals, with rules where they appear
 
-$accept (27)
+$accept (44)
     on left: 0
-input (28)
+input (45)
     on left: 1, on right: 0
-main (29)
+main (46)
     on left: 2, on right: 1
-var_decl (30)
+var_decl (47)
     on left: 3 4 5, on right: 2 5
-var_decl_part (31)
+var_decl_part (48)
     on left: 6 7 8, on right: 4 5 7 8
-multiple_ident (32)
+multiple_ident (49)
     on left: 9 10, on right: 3 6 7 8 10
-data_type (33)
+data_type (50)
     on left: 11 12, on right: 3 4 5
-expr (34)
+expr (51)
     on left: 13 14 15 16 17 18 19, on right: 6 8 15 16 17 18 19
 
 

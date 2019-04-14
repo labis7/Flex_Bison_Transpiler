@@ -4,7 +4,7 @@
   #include "cgen.h"
   #include  "parser_test.tab.h"
 
-  int lineNum = 1;
+  int line_num = 1;
 %}
 %x string 
 %x comment
@@ -49,7 +49,7 @@ loop			return KW_LOOP;
 pool			return KW_POOL;
 const			return KW_CONST; 
 let			return KW_LET; 		
-break			{ yylval.str = strdup(yytext); return KW_BREAK; }		
+then			{ yylval.str = strdup(yytext); return KW_THEN; }		
 return			{ yylval.str = strdup(yytext); return KW_RETURN; }	
 not			{ yylval.str = strdup(yytext); return KW_NOT; }	
 and			{ yylval.str = strdup(yytext); return KW_AND; }
@@ -100,7 +100,7 @@ start			return KW_START;
 <string>"\\""n" {printf("\\n");}
 <string>"\\""t" {printf("\\t");}
 <string>"\\""r" {printf("\\r");}
-<string>\n  	{printf("\nString ERROR - Multiple String lines\n"); lineNum++; return EOF;}
+<string>\n  	{printf("\nString ERROR - Multiple String lines\n"); line_num++; return EOF;}
 <string>"\""    { BEGIN(INITIAL); printf("\n"); }
 <string>.  	{ECHO;}	
 	/* Nom-nom(eat it) */
@@ -112,8 +112,8 @@ start			return KW_START;
 
 <comment>[^*\n]*        /* eat anything that's not a '*' */
 <comment>"*"+[^*)\n]*   /* eat up '*'s not followed by '/'s */
-<comment>\n             ++lineNum;
-<comment>"*"+")"        { BEGIN(INITIAL); printf("comment ended at line: %d\n", lineNum); }
+<comment>\n             ++line_num;
+<comment>"*"+")"        { BEGIN(INITIAL); printf("comment ended at line: %d\n", line_num); }
 
 
 
@@ -123,10 +123,10 @@ start			return KW_START;
 
 	/*////////// ERROR HANDLING ///////////*/
 
-{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", lineNum, yytext); } /* na ektupwsw kai olh thn grammh, kai return EOF*/
+{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", line_num, yytext); } /* na ektupwsw kai olh thn grammh, kai return EOF*/
  	
 
-{ID_ERROR} { printf("Line %d: Identifier Error:\t%s\n", lineNum, yytext); } 
+{ID_ERROR} { printf("Line %d: Identifier Error:\t%s\n", line_num, yytext); } 
 
 
 	/*////////////////////////////////////*/
@@ -139,10 +139,10 @@ start			return KW_START;
 
 
 [ \r\t]		/* skip whitespace */
-\n 			++lineNum;
+\n 			++line_num;
 <<EOF>> 	return EOF;  
 
-.           {printf("Unrecognised Token %s in line %d:\n",yytext,lineNum); return EOF;} /* na ektupwsw kai olh thn grammh, kai return EOF*/
+.           {printf("Unrecognised Token %s in line %d:\n",yytext,line_num); return EOF;} /* na ektupwsw kai olh thn grammh, kai return EOF*/
 
 
 %%
@@ -152,8 +152,8 @@ int main() {
   int token;
   while ( (token = yylex()) != EOF ){
 	
-	//printf("Line %d Token %s:\t %s\n",lineNum,s,yytext );
-	//printf("Line %d Token %d: %s\n", lineNum, token, yytext);
+	//printf("Line %d Token %s:\t %s\n",line_num,s,yytext );
+	//printf("Line %d Token %d: %s\n", line_num, token, yytext);
   }	
 }
 */

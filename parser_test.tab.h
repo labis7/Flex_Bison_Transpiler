@@ -45,19 +45,36 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENTIFIER = 258,
-    POSINT = 259,
-    REAL = 260,
-    STRING = 261,
-    ASSIGN = 262,
-    KW_INT = 263,
-    KW_CHAR = 264,
-    KW_IF = 265,
-    KW_THEN = 266,
-    KW_ELSE = 267,
-    KW_LET = 268,
-    KW_TRUE = 269,
-    KW_FALSE = 270
+    KW_TRUE = 258,
+    KW_FALSE = 259,
+    KW_INT = 260,
+    KW_CHAR = 261,
+    KW_REAL = 262,
+    KW_BOOL = 263,
+    KW_STRING = 264,
+    KW_ELSE = 265,
+    KW_IF = 266,
+    KW_THEN = 267,
+    KW_FI = 268,
+    KW_WHILE = 269,
+    KW_LOOP = 270,
+    KW_POOL = 271,
+    KW_CONST = 272,
+    KW_LET = 273,
+    KW_RETURN = 274,
+    KW_NOT = 275,
+    KW_AND = 276,
+    KW_OR = 277,
+    KW_START = 278,
+    NOT_EQUAL_OP = 279,
+    LESS_OP = 280,
+    LESS_EQUAL_OP = 281,
+    FUNC_START_ARROW = 282,
+    IDENTIFIER = 283,
+    POSINT = 284,
+    STRING = 285,
+    REAL = 286,
+    ASSIGN = 287
   };
 #endif
 
@@ -71,7 +88,7 @@ union YYSTYPE
   char* str;
   int num;
 
-#line 75 "parser_test.tab.h" /* yacc.c:1909  */
+#line 92 "parser_test.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
