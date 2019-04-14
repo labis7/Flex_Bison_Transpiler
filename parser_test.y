@@ -101,14 +101,18 @@ multiple_ident ASSIGN expr     		     		 {$$ = template("%s = %s",$1,$3);}      
 ;
 
 multiple_ident:
-IDENTIFIER							  			     // x
+IDENTIFIER 											// x	
+|IDENTIFIER '[' POSINT ']'                               {$$ = template ("%s[%s]",$1,$3);}  //i[10]
 |multiple_ident ',' IDENTIFIER 				 {$$ = template("%s , %s",$1,$3);}  // i,x,z,var
+|multiple_ident ',' IDENTIFIER '[' POSINT ']'  		 {$$ = template("%s , %s[%s]",$1,$3,$5);}  // i[5],x,z[10],var
 ;
 
 
 data_type:
-KW_INT     						 {$$ = template("%s", $1);}
+ KW_INT     						 {$$ = template("%s", $1);}
 |KW_CHAR   						 {$$ = template("%s", $1);}
+|KW_REAL   						 {$$ = template("%s", $1);}
+|KW_STRING   						 {$$ = template("%s", $1);}
 ;
 ///////////////////////////////////////////
 
