@@ -1,0 +1,659 @@
+Nonterminals useless in grammar
+
+   assignment
+   more
+
+
+Terminals unused in grammar
+
+   STRING
+   KW_IF
+   KW_THEN
+   KW_ELSE
+   KW_TRUE
+   KW_FALSE
+
+
+Rules useless in grammar
+
+   20 assignment: IDENTIFIER ASSIGN expr ';'
+   21           | assignment IDENTIFIER ASSIGN expr ';'
+
+
+State 25 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: input $end
+
+    1 input: main
+
+    2 main: IDENTIFIER '(' ')' '{' var_decl '}'
+
+    3 var_decl: KW_LET multiple_ident ':' data_type ';'
+    4         | KW_LET var_decl_part ':' data_type ';'
+    5         | var_decl KW_LET var_decl_part ':' data_type ';'
+
+    6 var_decl_part: multiple_ident ASSIGN expr
+    7              | var_decl_part ',' multiple_ident
+    8              | var_decl_part ',' multiple_ident ASSIGN expr
+
+    9 multiple_ident: IDENTIFIER
+   10               | multiple_ident ',' IDENTIFIER
+
+   11 data_type: KW_INT
+   12          | KW_CHAR
+
+   13 expr: POSINT
+   14     | REAL
+   15     | '(' expr ')'
+   16     | expr '+' expr
+   17     | expr '-' expr
+   18     | expr '*' expr
+   19     | expr '/' expr
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 2 15
+')' (41) 2 15
+'*' (42) 18
+'+' (43) 16
+',' (44) 7 8 10
+'-' (45) 17
+'/' (47) 19
+':' (58) 3 4 5
+';' (59) 3 4 5
+'{' (123) 2
+'}' (125) 2
+error (256)
+IDENTIFIER (258) 2 9 10
+POSINT (259) 13
+REAL (260) 14
+STRING (261)
+ASSIGN (262) 6 8
+KW_INT (263) 11
+KW_CHAR (264) 12
+KW_IF (265)
+KW_THEN (266)
+KW_ELSE (267)
+KW_LET (268) 3 4 5
+KW_TRUE (269)
+KW_FALSE (270)
+
+
+Nonterminals, with rules where they appear
+
+$accept (27)
+    on left: 0
+input (28)
+    on left: 1, on right: 0
+main (29)
+    on left: 2, on right: 1
+var_decl (30)
+    on left: 3 4 5, on right: 2 5
+var_decl_part (31)
+    on left: 6 7 8, on right: 4 5 7 8
+multiple_ident (32)
+    on left: 9 10, on right: 3 6 7 8 10
+data_type (33)
+    on left: 11 12, on right: 3 4 5
+expr (34)
+    on left: 13 14 15 16 17 18 19, on right: 6 8 15 16 17 18 19
+
+
+State 0
+
+    0 $accept: . input $end
+    1 input: . main
+    2 main: . IDENTIFIER '(' ')' '{' var_decl '}'
+
+    IDENTIFIER  shift, and go to state 1
+
+    input  go to state 2
+    main   go to state 3
+
+
+State 1
+
+    2 main: IDENTIFIER . '(' ')' '{' var_decl '}'
+
+    '('  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: input . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 input: main .
+
+    $default  reduce using rule 1 (input)
+
+
+State 4
+
+    2 main: IDENTIFIER '(' . ')' '{' var_decl '}'
+
+    ')'  shift, and go to state 6
+
+
+State 5
+
+    0 $accept: input $end .
+
+    $default  accept
+
+
+State 6
+
+    2 main: IDENTIFIER '(' ')' . '{' var_decl '}'
+
+    '{'  shift, and go to state 7
+
+
+State 7
+
+    2 main: IDENTIFIER '(' ')' '{' . var_decl '}'
+    3 var_decl: . KW_LET multiple_ident ':' data_type ';'
+    4         | . KW_LET var_decl_part ':' data_type ';'
+    5         | . var_decl KW_LET var_decl_part ':' data_type ';'
+
+    KW_LET  shift, and go to state 8
+
+    var_decl  go to state 9
+
+
+State 8
+
+    3 var_decl: KW_LET . multiple_ident ':' data_type ';'
+    4         | KW_LET . var_decl_part ':' data_type ';'
+    6 var_decl_part: . multiple_ident ASSIGN expr
+    7              | . var_decl_part ',' multiple_ident
+    8              | . var_decl_part ',' multiple_ident ASSIGN expr
+    9 multiple_ident: . IDENTIFIER
+   10               | . multiple_ident ',' IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 10
+
+    var_decl_part   go to state 11
+    multiple_ident  go to state 12
+
+
+State 9
+
+    2 main: IDENTIFIER '(' ')' '{' var_decl . '}'
+    5 var_decl: var_decl . KW_LET var_decl_part ':' data_type ';'
+
+    KW_LET  shift, and go to state 13
+    '}'     shift, and go to state 14
+
+
+State 10
+
+    9 multiple_ident: IDENTIFIER .
+
+    $default  reduce using rule 9 (multiple_ident)
+
+
+State 11
+
+    4 var_decl: KW_LET var_decl_part . ':' data_type ';'
+    7 var_decl_part: var_decl_part . ',' multiple_ident
+    8              | var_decl_part . ',' multiple_ident ASSIGN expr
+
+    ':'  shift, and go to state 15
+    ','  shift, and go to state 16
+
+
+State 12
+
+    3 var_decl: KW_LET multiple_ident . ':' data_type ';'
+    6 var_decl_part: multiple_ident . ASSIGN expr
+   10 multiple_ident: multiple_ident . ',' IDENTIFIER
+
+    ASSIGN  shift, and go to state 17
+    ':'     shift, and go to state 18
+    ','     shift, and go to state 19
+
+
+State 13
+
+    5 var_decl: var_decl KW_LET . var_decl_part ':' data_type ';'
+    6 var_decl_part: . multiple_ident ASSIGN expr
+    7              | . var_decl_part ',' multiple_ident
+    8              | . var_decl_part ',' multiple_ident ASSIGN expr
+    9 multiple_ident: . IDENTIFIER
+   10               | . multiple_ident ',' IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 10
+
+    var_decl_part   go to state 20
+    multiple_ident  go to state 21
+
+
+State 14
+
+    2 main: IDENTIFIER '(' ')' '{' var_decl '}' .
+
+    $default  reduce using rule 2 (main)
+
+
+State 15
+
+    4 var_decl: KW_LET var_decl_part ':' . data_type ';'
+   11 data_type: . KW_INT
+   12          | . KW_CHAR
+
+    KW_INT   shift, and go to state 22
+    KW_CHAR  shift, and go to state 23
+
+    data_type  go to state 24
+
+
+State 16
+
+    7 var_decl_part: var_decl_part ',' . multiple_ident
+    8              | var_decl_part ',' . multiple_ident ASSIGN expr
+    9 multiple_ident: . IDENTIFIER
+   10               | . multiple_ident ',' IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 10
+
+    multiple_ident  go to state 25
+
+
+State 17
+
+    6 var_decl_part: multiple_ident ASSIGN . expr
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 29
+
+
+State 18
+
+    3 var_decl: KW_LET multiple_ident ':' . data_type ';'
+   11 data_type: . KW_INT
+   12          | . KW_CHAR
+
+    KW_INT   shift, and go to state 22
+    KW_CHAR  shift, and go to state 23
+
+    data_type  go to state 30
+
+
+State 19
+
+   10 multiple_ident: multiple_ident ',' . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 31
+
+
+State 20
+
+    5 var_decl: var_decl KW_LET var_decl_part . ':' data_type ';'
+    7 var_decl_part: var_decl_part . ',' multiple_ident
+    8              | var_decl_part . ',' multiple_ident ASSIGN expr
+
+    ':'  shift, and go to state 32
+    ','  shift, and go to state 16
+
+
+State 21
+
+    6 var_decl_part: multiple_ident . ASSIGN expr
+   10 multiple_ident: multiple_ident . ',' IDENTIFIER
+
+    ASSIGN  shift, and go to state 17
+    ','     shift, and go to state 19
+
+
+State 22
+
+   11 data_type: KW_INT .
+
+    $default  reduce using rule 11 (data_type)
+
+
+State 23
+
+   12 data_type: KW_CHAR .
+
+    $default  reduce using rule 12 (data_type)
+
+
+State 24
+
+    4 var_decl: KW_LET var_decl_part ':' data_type . ';'
+
+    ';'  shift, and go to state 33
+
+
+State 25
+
+    7 var_decl_part: var_decl_part ',' multiple_ident .  [':', ',']
+    8              | var_decl_part ',' multiple_ident . ASSIGN expr
+   10 multiple_ident: multiple_ident . ',' IDENTIFIER
+
+    ASSIGN  shift, and go to state 34
+    ','     shift, and go to state 19
+
+    ','       [reduce using rule 7 (var_decl_part)]
+    $default  reduce using rule 7 (var_decl_part)
+
+
+State 26
+
+   13 expr: POSINT .
+
+    $default  reduce using rule 13 (expr)
+
+
+State 27
+
+   14 expr: REAL .
+
+    $default  reduce using rule 14 (expr)
+
+
+State 28
+
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   15     | '(' . expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 35
+
+
+State 29
+
+    6 var_decl_part: multiple_ident ASSIGN expr .  [':', ',']
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+
+    '-'  shift, and go to state 36
+    '+'  shift, and go to state 37
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 6 (var_decl_part)
+
+
+State 30
+
+    3 var_decl: KW_LET multiple_ident ':' data_type . ';'
+
+    ';'  shift, and go to state 40
+
+
+State 31
+
+   10 multiple_ident: multiple_ident ',' IDENTIFIER .
+
+    $default  reduce using rule 10 (multiple_ident)
+
+
+State 32
+
+    5 var_decl: var_decl KW_LET var_decl_part ':' . data_type ';'
+   11 data_type: . KW_INT
+   12          | . KW_CHAR
+
+    KW_INT   shift, and go to state 22
+    KW_CHAR  shift, and go to state 23
+
+    data_type  go to state 41
+
+
+State 33
+
+    4 var_decl: KW_LET var_decl_part ':' data_type ';' .
+
+    $default  reduce using rule 4 (var_decl)
+
+
+State 34
+
+    8 var_decl_part: var_decl_part ',' multiple_ident ASSIGN . expr
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 42
+
+
+State 35
+
+   15 expr: '(' expr . ')'
+   16     | expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+
+    '-'  shift, and go to state 36
+    '+'  shift, and go to state 37
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+    ')'  shift, and go to state 43
+
+
+State 36
+
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   17     | expr '-' . expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 44
+
+
+State 37
+
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   16     | expr '+' . expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 45
+
+
+State 38
+
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   18     | expr '*' . expr
+   19     | . expr '/' expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 46
+
+
+State 39
+
+   13 expr: . POSINT
+   14     | . REAL
+   15     | . '(' expr ')'
+   16     | . expr '+' expr
+   17     | . expr '-' expr
+   18     | . expr '*' expr
+   19     | . expr '/' expr
+   19     | expr '/' . expr
+
+    POSINT  shift, and go to state 26
+    REAL    shift, and go to state 27
+    '('     shift, and go to state 28
+
+    expr  go to state 47
+
+
+State 40
+
+    3 var_decl: KW_LET multiple_ident ':' data_type ';' .
+
+    $default  reduce using rule 3 (var_decl)
+
+
+State 41
+
+    5 var_decl: var_decl KW_LET var_decl_part ':' data_type . ';'
+
+    ';'  shift, and go to state 48
+
+
+State 42
+
+    8 var_decl_part: var_decl_part ',' multiple_ident ASSIGN expr .  [':', ',']
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+
+    '-'  shift, and go to state 36
+    '+'  shift, and go to state 37
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 8 (var_decl_part)
+
+
+State 43
+
+   15 expr: '(' expr ')' .
+
+    $default  reduce using rule 15 (expr)
+
+
+State 44
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   17     | expr '-' expr .  ['-', '+', ')', ':', ',']
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 17 (expr)
+
+    Conflict between rule 17 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 17 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 17 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 17 and token '/' resolved as shift ('-' < '/').
+
+
+State 45
+
+   16 expr: expr . '+' expr
+   16     | expr '+' expr .  ['-', '+', ')', ':', ',']
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 16 (expr)
+
+    Conflict between rule 16 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 16 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 16 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 16 and token '/' resolved as shift ('+' < '/').
+
+
+State 46
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   18     | expr '*' expr .  ['-', '+', '*', '/', ')', ':', ',']
+   19     | expr . '/' expr
+
+    $default  reduce using rule 18 (expr)
+
+    Conflict between rule 18 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 18 and token '+' resolved as reduce ('+' < '*').
+    Conflict between rule 18 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 18 and token '/' resolved as reduce (%left '/').
+
+
+State 47
+
+   16 expr: expr . '+' expr
+   17     | expr . '-' expr
+   18     | expr . '*' expr
+   19     | expr . '/' expr
+   19     | expr '/' expr .  ['-', '+', '*', '/', ')', ':', ',']
+
+    $default  reduce using rule 19 (expr)
+
+    Conflict between rule 19 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 19 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 19 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 19 and token '/' resolved as reduce (%left '/').
+
+
+State 48
+
+    5 var_decl: var_decl KW_LET var_decl_part ':' data_type ';' .
+
+    $default  reduce using rule 5 (var_decl)

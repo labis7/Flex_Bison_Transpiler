@@ -1,30 +1,51 @@
-int
-INT 5
-l
-bool
-boolean
-if
-IFOR
-_7
-lab_sk7
-_LAB
-7thura
-0
-0123
-234
-0.4
-0.123e+34
-14.043E2
+-- File: prime.tc
+let limit, number, counter: int;
+  
 
-true
-truee
-"labiz"
-"\nlab\tskoufiz "
-"iaso \"koukla\""
-mal 534+10
---eimI malaks
-(*yep eim*)
-(*h
+const prime <- (n: int): bool => {
+
+  let i: int; 
+  let result, isPrime: bool;
 
 
-*)
+  if n < 0 then
+    result <- prime(-n);
+  else if n < 2 then
+    result <- false;
+  else if n = 2 then
+    result <- true;
+  else if n % 2 = 0 then
+    result <- false;
+  else 
+    i <- 3;
+    isPrime := true;
+    while isPrime and (i < n / 2) loop
+      isPrime <- n % i != 0;
+      i <- i + 2;
+    pool;
+    result <- isPrime;
+  fi;
+  
+  return result;
+};
+
+const start <- ():int => {
+
+  limit <- readInt();
+  counter <- 0;
+  number <- 2;
+
+  while number <= limit loop 
+    if prime(number) then 
+      counter <- counter + 1;
+      writeInt(number);
+      writeString(" ");
+    fi;
+    number <- number + 1;
+  pool;
+  
+  writeString("\n");
+  writeInt(counter);
+	
+  return 0;
+}
