@@ -79,46 +79,47 @@ input:
 ;
 
 main:
-IDENTIFIER '('')''{' var_decl '}' {$$ = template("main(){ %s }",$5);};
+IDENTIFIER '('')''{' var_decl '}' 			  {$$ = template("main(){ %s }",$5);};
 
 assignment:
-IDENTIFIER ASSIGN expr ';'	{$$ = template("%s = %s;",$1,$3);}
-|assignment IDENTIFIER ASSIGN expr ';' {$$ = template("%s %s = %s;",$1,$2,$4);};
+IDENTIFIER ASSIGN expr ';'				  {$$ = template("%s = %s;",$1,$3);}
+|assignment IDENTIFIER ASSIGN expr ';'			  {$$ = template("%s %s = %s;",$1,$2,$4);};
 
 
 ///////////////////////////////////////  Variable declaration
 var_decl:
-KW_LET multiple_ident ':' data_type ';'		 {$$ = template("%s %s ;",$4,$2);}//to format let i,y : int;
-|KW_LET var_decl_part ':' data_type ';'		 {$$ = template("%s %s ;",$4,$2);}//let i,y <- 10;  or let i,y<-10 ,z<-12 : int ;
-|var_decl KW_LET var_decl_part ':' data_type ';' {$$ = template("%s %s %s ;",$1,$5,$3);}//multiple lines like the above
-;
+KW_LET multiple_ident ':' data_type ';'			  {$$ = template("%s %s ;",$4,$2);}//to format let i,y : int;
+
+|KW_LET var_decl_part ':' data_type ';'			  {$$ = template("%s %s ;",$4,$2);}//let i,y <- 10;  or let i,y<-10 ,z<-12 : int ;
+|KW_LET var_decl_part ',' multiple_ident ':' data_type ';'{$$ = template("%s  %s , %s;",$6,$2,$4);}//like above + let i,x<-10,y,a : int;
+|var_decl KW_LET var_decl_part ':' data_type ';'	  {$$ = template("%s %s %s ;",$1,$5,$3);}//multiple lines like the above
+; 
 
 var_decl_part:   // declaration of multiple vars, supports diff value assignment for each var(s).
-multiple_ident ASSIGN expr     		      {$$ = template("%s = %s",$1,$3);}        //x,i <- 10  
-|var_decl_part ',' multiple_ident 	      {$$ = template("%s , %s",$1,$3);}//x,i<-10 , z, a, b 
-|var_decl_part ',' multiple_ident ASSIGN expr {$$ = template("%s , %s = %s",$1,$3,$5);}//x,i<-10 , z<-12
+multiple_ident ASSIGN expr     		     		 {$$ = template("%s = %s",$1,$3);}        //x,i <- 10  
+|var_decl_part ',' multiple_ident ASSIGN expr 		 {$$ = template("%s , %s = %s",$1,$3,$5);}//x,i<-10 , z<-12
 ;
 
 multiple_ident:
-IDENTIFIER							  // x
-|multiple_ident ',' IDENTIFIER {$$ = template("%s , %s",$1,$3);}  // i,x,z,var
+IDENTIFIER							  			     // x
+|multiple_ident ',' IDENTIFIER 				 {$$ = template("%s , %s",$1,$3);}  // i,x,z,var
 ;
 
 
 data_type:
-KW_INT      {$$ = template("%s", $1);}
-|KW_CHAR    {$$ = template("%s", $1);}
+KW_INT     						 {$$ = template("%s", $1);}
+|KW_CHAR   						 {$$ = template("%s", $1);}
 ;
 ///////////////////////////////////////////
 
 expr:
   POSINT
 | REAL
-| '(' expr ')' { $$ = template("(%s)", $2); }
-| expr '+' expr { $$ = template("%s + %s", $1, $3); }
-| expr '-' expr { $$ = template("%s - %s", $1, $3); }
-| expr '*' expr { $$ = template("%s * %s", $1, $3); }
-| expr '/' expr { $$ = template("%s / %s", $1, $3); }
+| '(' expr ')'  	{ $$ = template("(%s)", $2); }
+| expr '+' expr 	{ $$ = template("%s + %s", $1, $3); }
+| expr '-' expr 	{ $$ = template("%s - %s", $1, $3); }
+| expr '*' expr 	{ $$ = template("%s * %s", $1, $3); }
+| expr '/' expr 	{ $$ = template("%s / %s", $1, $3); }
 ;
 
 %%
