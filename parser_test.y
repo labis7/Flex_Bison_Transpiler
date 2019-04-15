@@ -18,7 +18,6 @@
 %token <str> KW_TRUE
 %token <str> KW_FALSE
 %token <str> KW_INT
-%token <str> KW_CHAR
 %token <str> KW_REAL 
 %token <str> KW_BOOL
 %token <str> KW_STRING
@@ -58,10 +57,10 @@
 
 %start input
 
-%type <str> data_type assignment var_decl var_decl_part multiple_ident
-%type <str> main
-%type <str> expr
-%type <str> more
+%type <str> data_type var_decl var_decl_part multiple_ident
+%type <str> main main_internals
+%type <str> expr if_st
+
 
 %left '-' '+'
 %left '*' '/'
@@ -79,20 +78,36 @@ input:
 ;
 
 main:
-IDENTIFIER '('')''{' var_decl '}' 			  {$$ = template("main(){ %s }",$5);};
+IDENTIFIER '('')''{' main_internals '}' 			  {$$ = template("\nmain()\n{\n%s\n}",$5);};
 
-assignment:
-IDENTIFIER ASSIGN expr ';'				  {$$ = template("%s = %s;",$1,$3);}
-|assignment IDENTIFIER ASSIGN expr ';'			  {$$ = template("%s %s = %s;",$1,$2,$4);};
 
+main_internals:
+var_decl ';'					       	  {$$ = template("%s;",$1);}
+|if_st ';'					  	  {$$ = template("%s;",$1);}
+|main_internals if_st ';'				  {$$ = template("%s\n%s;",$1,$2);}		  
+|main_internals var_decl ';'				  {$$ = template("%s\n%s;",$1,$2);}
+
+;
+
+if_st:
+KW_TRUE   {$$=template("true");};
 
 ///////////////////////////////////////  Variable declaration
 var_decl:
-KW_LET multiple_ident ':' data_type ';'			  {$$ = template("%s %s ;",$4,$2);}//to format let i,y : int;
+////Simple assignments
+IDENTIFIER ASSIGN expr 					  {$$ = template("%s = %s",$1,$3);} //ASSIGNMENT WITHOUT LET
+//|var_decl ';' IDENTIFIER ASSIGN expr 			  {$$ = template("%s;\n%s = %s",$1,$3,$5);}//ASSIGNMENT WITHOUT LET
+/////////////////////////////
 
-|KW_LET var_decl_part ':' data_type ';'			  {$$ = template("%s %s ;",$4,$2);}//let i,y <- 10;  or let i,y<-10 ,z<-12 : int ;
-|KW_LET var_decl_part ',' multiple_ident ':' data_type ';'{$$ = template("%s  %s , %s;",$6,$2,$4);}//like above + let i,x<-10,y,a : int;
-|var_decl KW_LET var_decl_part ':' data_type ';'	  {$$ = template("%s %s %s ;",$1,$5,$3);}//multiple lines like the above
+|KW_LET multiple_ident ':' data_type 			 	        {$$ = template("%s %s",$4,$2);}//to format let i,y : int;
+
+|KW_LET var_decl_part ':' data_type 			  		{$$ = template("%s %s",$4,$2);}//let i,y <- 10;  or let i,y<-10 ,z<-12 : int ;
+|KW_LET var_decl_part ',' multiple_ident ':' data_type 			{$$ = template("%s %s , %s",$6,$2,$4);}//like above + let i,x<-10,y,a : int;
+/*
+|var_decl ';' KW_LET var_decl_part ':' data_type 		 	{$$ = template("%s;\n%s %s",$1,$6,$4);}//multiple lines like the above
+|var_decl ';' KW_LET multiple_ident ':' data_type 			{$$ = template("%s;\n%s %s",$1,$6,$4);}//multiple lines like the above
+|var_decl ';' KW_LET var_decl_part ',' multiple_ident ':' data_type 	{$$ = template("%s;\n%s %s , %s",$1,$8,$4,$6);}//multiple lines like the above
+*/
 ; 
 
 var_decl_part:   // declaration of multiple vars, supports diff value assignment for each var(s).
@@ -110,9 +125,9 @@ IDENTIFIER 											// x
 
 data_type:
  KW_INT     						 {$$ = template("%s", $1);}
-|KW_CHAR   						 {$$ = template("%s", $1);}
-|KW_REAL   						 {$$ = template("%s", $1);}
-|KW_STRING   						 {$$ = template("%s", $1);}
+|KW_BOOL   						 {$$ = template("%s", $1);}
+|KW_REAL   						 {$$ = template("float");}
+|KW_STRING   						 {$$ = template("char");}
 ;
 ///////////////////////////////////////////
 

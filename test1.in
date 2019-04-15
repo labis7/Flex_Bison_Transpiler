@@ -1,3 +1,9 @@
 main(){
-let a[10]<-5,y : int;
+true;
+let y<-10 : int;
+let z,q<-1 : int;
+let x:int;
+let x[10]<-5,x<-10,z: real;
+true;
+
 } 
