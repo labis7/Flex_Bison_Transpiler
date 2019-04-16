@@ -93,7 +93,7 @@ decl		 		{ $$ = template("%s",$1); }
 
 decl:
 KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
-|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...
+|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...95% completed(x,y<-10 format is not supported)
 |KW_CONST func_decl							{ $$ = template("const %s", $2); }//const func
 ;
 
@@ -115,7 +115,7 @@ ident_form_part  ASSIGN '(' func_parameters')' ':' data_type FUNC_START_ARROW '{
 decl_body_part:
 decl_form ':' data_type ';' 		{  $$ = template("%s %s;", $3, $1); }  //{ yyerror("Wrong way nigg\n");return -1;}
 ;
- 
+
 decl_body_part_c: //const
 decl_form_c ':' data_type ';' 		{  $$ = template("%s %s;", $3, $1); }
 ;
