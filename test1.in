@@ -1,3 +1,11 @@
 let x,y<-5,y[]<-3,x,y:int;
-const x,y<-5,y[]<-3,x,y:int;
+const x<-5,y<-2:int;
 let x:int;
+const x<-(a:int,b:bool):[]int;
+const x<-():[]int=>{}
+let x:int;
+
+const start<-():int=>
+{
+let x:int;
+}
