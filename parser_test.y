@@ -1,9 +1,10 @@
 %{
   #include <stdio.h>
   #include "cgen.h"
-  
+  #include <string.h>
   extern int yylex(void);
   extern int line_num;
+  int check(char a,char b);
 %}
 
 %union
@@ -97,14 +98,22 @@ KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
 ;
 
 func_decl:
-ident_form_part  ASSIGN '(' func_parameters')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$1,$4);}
-|ident_form_part  ASSIGN '(' func_parameters')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);}//decl
-|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);}//decl,returns pointer
-|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type FUNC_START_ARROW '{''}'  {$$ = template("%s *%s(%s);",$9,$1,$4);}//returns pointer
+ident_form_part  ASSIGN '(' func_parameters')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$1,$4);
+											int res=check($1[0],$1[strlen($1)-1]);
+											if(res) return -1;}
+|ident_form_part  ASSIGN '(' func_parameters')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);
+									int res=check($1[0],$1[strlen($1)-1]);
+									if(res) return -1;}//decl
+|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);
+									int res=check($1[0],$1[strlen($1)-1]);
+									if(res) return -1;}//decl,returns pointer
+|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type FUNC_START_ARROW '{''}'  {$$ = template("%s *%s(%s);",$9,$1,$4);
+												int res=check($1[0],$1[strlen($1)-1]);
+												 if(res) return -1;}//returns pointer
 ;
 
 decl_body_part:
-decl_form ':' data_type ';' 		{  $$ = template("%s %s;", $3, $1); }
+decl_form ':' data_type ';' 		{  $$ = template("%s %s;", $3, $1); }  //{ yyerror("Wrong way nigg\n");return -1;}
 ;
  
 decl_body_part_c: //const
@@ -129,6 +138,7 @@ ident_form_part   			{$$ = template ("%s",$1);}//x or x[]
 ident_form_part:
 IDENTIFIER 				{$$ = template("%s",$1);}				// x	
 |IDENTIFIER '['']'             		{$$ = template ("*%s",$1);}  //i[10]
+|IDENTIFIER '[' POSINT']'               {$$ = template ("%s[%s]",$1,$3);} 
 ;
 
 ///////////////////////////////////////////
@@ -163,3 +173,17 @@ int main () {
   else
     printf("Rejected!\n");
 }
+
+
+int check(char a,char b){
+if((a=='*')||(b==']')){
+    yyerror("\nWrong identifier format(No '[]' allowed!\n)\n");
+    return 1;
+//printf("\n\n%c%c\n",a,b);
+}
+else 
+return 0;
+}
+
+
+

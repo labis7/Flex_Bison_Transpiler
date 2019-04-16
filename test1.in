@@ -1,7 +1,7 @@
-let x,y<-5,y[]<-3,x,y:int;
-const x<-5,y<-2:int;
+let x,y<-5,y[5]<-3,x[10],y:int;
+const y<-5,x<-5:int;
 let x:int;
-const x<-(a:int,b:bool):[]int;
+const x<-(a:int,b:bool):int;
 const x<-():[]int=>{}
 let x:int;
 
