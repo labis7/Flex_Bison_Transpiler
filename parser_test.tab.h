@@ -64,16 +64,17 @@ extern int yydebug;
     KW_NOT = 274,
     KW_AND = 275,
     KW_OR = 276,
-    KW_START = 277,
-    NOT_EQUAL_OP = 278,
-    LESS_OP = 279,
-    LESS_EQUAL_OP = 280,
-    FUNC_START_ARROW = 281,
+    NOT_EQUAL_OP = 277,
+    LESS_OP = 278,
+    LESS_EQUAL_OP = 279,
+    FUNC_START_ARROW = 280,
+    KW_START = 281,
     IDENTIFIER = 282,
     POSINT = 283,
     STRING = 284,
     REAL = 285,
-    ASSIGN = 286
+    ASSIGN = 286,
+    EQUAL_OP = 287
   };
 #endif
 
@@ -87,7 +88,7 @@ union YYSTYPE
   char* str;
   int num;
 
-#line 91 "parser_test.tab.h" /* yacc.c:1909  */
+#line 92 "parser_test.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

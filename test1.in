@@ -7,5 +7,8 @@ let x:int;
 
 const start<-():int=>
 {
-let x:int;
+a<- mal();
+b<- skata(a,b,b+2);
+c<- a + skt(5);
+x<- (a+1)/cube(b+3);
 }

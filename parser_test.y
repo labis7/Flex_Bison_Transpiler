@@ -32,15 +32,17 @@
 %token <str> KW_CONST
 %token <str> KW_LET
 %token <str> KW_RETURN
+///*
 %token <str> KW_NOT
 %token <str> KW_AND
 %token <str> KW_OR
-%token <str> KW_START
+
 %token <str> NOT_EQUAL_OP
 %token <str> LESS_OP
 %token <str> LESS_EQUAL_OP
+//*/
 %token <str> FUNC_START_ARROW
-
+%token <str> KW_START
 %token <str> IDENTIFIER
 %token <str> POSINT 
 %token <str> STRING
@@ -54,16 +56,22 @@
 
 
 
-
-
 %start input
 
-%type <str> data_type main_decl main_decl_part multiple_ident func_decl
-%type <str> main main_internals func_parameters func_decl1 decl_body_part_c decl_form_c
+%type <str> data_type main_decl main_decl_part multiple_ident func_decl cmd_line func_parameters function_call
+%type <str> main main_internals func_parameters_decl func_decl1 decl_body_part_c decl_form_c
 %type <str> expr if_st decl_assign decl_form ident_form_part decl_list decl decl_body_part body func_body_part 
 
+%left KW_AND
+%left KW_OR
+%left EQUAL_OP
+%left NOT_EQUAL_OP
+%left LESS_OP
+%left LESS_EQUAL_OP
 %left '-' '+'
-%left '*' '/'
+%left '*' '/' '%'
+%right KW_NOT
+
 
 %%
 
@@ -86,28 +94,29 @@ body:
 
 
 decl_list:
-decl		 		{ $$ = template("%s",$1); }
-//|IDENTIFIER  ASSIGN '(' ')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$2);}//const func		
+cmd_line
+|decl		 		{ $$ = template("%s",$1); }		
 |decl_list decl 		{ $$ = template("%s\n%s", $1, $2); }
+|decl_list cmd_line		{ $$ = template("%s\n%s", $1, $2); }
 ;
 
 decl:
 KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
-|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...95% completed(x,y<-10 format is not supported)
+|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...95% completed(x,y<-10 format is not supported: #TODO)
 |KW_CONST func_decl							{ $$ = template("const %s", $2); }//const func
 ;
 
 func_decl:
-ident_form_part  ASSIGN '(' func_parameters')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$1,$4);
+ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$1,$4);
 											int res=check($1[0],$1[strlen($1)-1]);
 											if(res) return -1;}
-|ident_form_part  ASSIGN '(' func_parameters')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);
+|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);
 									int res=check($1[0],$1[strlen($1)-1]);
 									if(res) return -1;}//decl
-|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);
+|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);
 									int res=check($1[0],$1[strlen($1)-1]);
 									if(res) return -1;}//decl,returns pointer
-|ident_form_part  ASSIGN '(' func_parameters')' ':' '['']'data_type FUNC_START_ARROW '{''}'  {$$ = template("%s *%s(%s);",$9,$1,$4);
+|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type FUNC_START_ARROW '{''}'  {$$ = template("%s *%s(%s);",$9,$1,$4);
 												int res=check($1[0],$1[strlen($1)-1]);
 												 if(res) return -1;}//returns pointer
 ;
@@ -138,15 +147,21 @@ ident_form_part   			{$$ = template ("%s",$1);}//x or x[]
 ident_form_part:
 IDENTIFIER 				{$$ = template("%s",$1);}				// x	
 |IDENTIFIER '['']'             		{$$ = template ("*%s",$1);}  //i[10]
-|IDENTIFIER '[' POSINT']'               {$$ = template ("%s[%s]",$1,$3);} 
+|IDENTIFIER '[' expr']'               {$$ = template ("%s[%s]",$1,$3);} 
 ;
 
 ///////////////////////////////////////////
 
 func_parameters:
+%empty			  {$$ = "";}
+|expr                     {$$ = template("%s",$1);}
+|func_parameters ',' expr {$$ = template("%s , %s",$1, $3);}
+;
+
+func_parameters_decl:
 %empty {$$="";}
 |ident_form_part ':' data_type			   {$$ = template("%s %s",$3,$1);}
-|func_parameters ',' ident_form_part ':' data_type {$$ = template("%s ,%s %s",$1,$5,$3);}
+|func_parameters_decl ',' ident_form_part ':' data_type {$$ = template("%s ,%s %s",$1,$5,$3);}
 ;
 
 
@@ -156,14 +171,34 @@ data_type:
 |KW_REAL   						 {$$ = template("float");}
 |KW_STRING   						 {$$ = template("char");}
 ;
+
+function_call:
+IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
+;
+cmd_line:
+ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
+//| ident_form_part ASSIGN function_call;(Coming Soon. . .)
+;
 expr:
-  POSINT
+function_call
+| ident_form_part
+| '+' expr		 { $$ = template("+%s", $2); }
+| '-' expr		 { $$ = template("-%s", $2); }
+| KW_NOT expr 		 { $$ = template("!%s", $2); }
+| POSINT
 | REAL
-| '(' expr ')'  	{ $$ = template("(%s)", $2); }
-| expr '+' expr 	{ $$ = template("%s + %s", $1, $3); }
-| expr '-' expr 	{ $$ = template("%s - %s", $1, $3); }
-| expr '*' expr 	{ $$ = template("%s * %s", $1, $3); }
-| expr '/' expr 	{ $$ = template("%s / %s", $1, $3); }
+| '(' expr ')'  	 { $$ = template("(%s)", $2); }
+| expr '+' expr 	 { $$ = template("%s + %s", $1, $3); }
+| expr '-' expr  	 { $$ = template("%s - %s", $1, $3); }
+| expr '*' expr 	 { $$ = template("%s * %s", $1, $3); }
+| expr '/' expr 	 { $$ = template("%s / %s", $1, $3); }
+| expr '%' expr          { $$ = template("%s % %s", $1, $3); }
+| expr EQUAL_OP expr     { $$ = template("%s = %s", $1, $3); }
+| expr NOT_EQUAL_OP expr { $$ = template("%s != %s", $1, $3); }
+| expr LESS_OP expr      { $$ = template("%s < %s", $1, $3); }
+| expr LESS_EQUAL_OP expr{ $$ = template("%s <= %s", $1, $3); }
+| expr KW_AND expr 	 { $$ = template("%s && %s", $1, $3); }
+| expr KW_OR expr 	 { $$ = template("%s || %s", $1, $3); }
 ;
 
 %%
