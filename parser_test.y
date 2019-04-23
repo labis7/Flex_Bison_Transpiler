@@ -58,9 +58,9 @@
 
 %start input
 
-%type <str> data_type main_decl main_decl_part multiple_ident func_decl cmd_line func_parameters function_call
-%type <str> main main_internals func_parameters_decl func_decl1 decl_body_part_c decl_form_c
-%type <str> expr if_st decl_assign decl_form ident_form_part decl_list decl decl_body_part body func_body_part 
+%type <str> data_type func_decl cmd_line func_parameters function_call
+%type <str> func_parameters_decl decl_body_part_c decl_form_c
+%type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
 
 %left KW_AND
 %left KW_OR
@@ -87,7 +87,7 @@ decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body 
 ;
 
 body:
-	 { $$="";}
+%empty	 { $$="";}
 |decl_list {$$=template("%s",$1);}
 ;
 
