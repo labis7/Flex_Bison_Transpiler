@@ -5,6 +5,7 @@
   #include  "parser_test.tab.h"
 
   int line_num = 1;
+
 %}
 %x string 
 %x comment
@@ -16,7 +17,7 @@ INT_CON      ("0")|([1-9]([0-9])*)
 REAL	     ({INT_CON})(".")("0")*({INT_CON}) 	   
 REAL_CON     ({REAL})([Ee](("+")|("-"))?({INT_CON}))?
 ID           [a-zA-Z][0-9a-zA-Z_]*
-
+STRING       (\")[^\n]((\\[ntr\\\'\"]|[^\"\n]))*[^\n](\")
 
 
 
@@ -93,17 +94,9 @@ start			return KW_START;
 
 
 	/*/////////// Strings & Comments //////////*/
-
-"\""         { BEGIN(string); printf("Token CONST_STRING:\t\t"); }
- 
-<string>"\\""\""  {printf("\\\"");}
-<string>"\\""n" {printf("\\n");}
-<string>"\\""t" {printf("\\t");}
-<string>"\\""r" {printf("\\r");}
-<string>\n  	{printf("\nString ERROR - Multiple String lines\n"); line_num++; return EOF;}
-<string>"\""    { BEGIN(INITIAL); printf("\n"); }
-<string>.  	{ECHO;}	
-	/* Nom-nom(eat it) */
+	
+{STRING}  		{printf("\n\n\n%s",yytext);}
+	
 
 
 "--"[^\n]*  		/* eat line comments */

@@ -107,7 +107,7 @@ KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
 ;
 
 func_decl:
-ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARROW '{''}'  {$$ = template("%s %s(%s);",$7,$1,$4);
+ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARROW '{'body'}'  {$$ = template("%s %s(%s)\n{\n%s\n}\n",$7,$1,$4,$10);
 											int res=check($1[0],$1[strlen($1)-1]);
 											if(res) return -1;}
 |ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);
@@ -116,7 +116,7 @@ ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARR
 |ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);
 									int res=check($1[0],$1[strlen($1)-1]);
 									if(res) return -1;}//decl,returns pointer
-|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type FUNC_START_ARROW '{''}'  {$$ = template("%s *%s(%s);",$9,$1,$4);
+|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type FUNC_START_ARROW '{'body'}'  {$$ = template("%s *%s(%s)\n{\n%s\n}\n",$9,$1,$4,$12);
 												int res=check($1[0],$1[strlen($1)-1]);
 												 if(res) return -1;}//returns pointer
 ;
