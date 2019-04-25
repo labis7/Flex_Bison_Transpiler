@@ -74,7 +74,9 @@ extern int yydebug;
     STRING = 284,
     REAL = 285,
     ASSIGN = 286,
-    EQUAL_OP = 287
+    LINE_COMMENT = 287,
+    MLINE_COMMENT = 288,
+    EQUAL_OP = 289
   };
 #endif
 
@@ -88,7 +90,7 @@ union YYSTYPE
   char* str;
   int num;
 
-#line 92 "parser_test.tab.h" /* yacc.c:1909  */
+#line 94 "parser_test.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

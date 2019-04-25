@@ -4,8 +4,9 @@
   #include "cgen.h"
   #include  "parser_test.tab.h"
 
-  int line_num = 1;
-
+ int line_num = 1;
+ char comm[255];
+ int comm_pointer,old_p;
 %}
 %x string 
 %x comment
@@ -17,7 +18,7 @@ INT_CON      ("0")|([1-9]([0-9])*)
 REAL	     ({INT_CON})(".")("0")*({INT_CON}) 	   
 REAL_CON     ({REAL})([Ee](("+")|("-"))?({INT_CON}))?
 ID           [a-zA-Z][0-9a-zA-Z_]*
-STRING       (\")[^\n]((\\[ntr\\\'\"]|[^\"\n]))*[^\n](\")
+STRING_L       (\")[^\n]((\\[ntr\\\'\"]|[^\"\n]))*[^\n](\")
 
 
 
@@ -95,18 +96,22 @@ start			return KW_START;
 
 	/*/////////// Strings & Comments //////////*/
 	
-{STRING}  		{printf("\n\n\n%s",yytext);}
+{STRING_L}  		{yylval.str = strdup(yytext); return STRING;}
 	
 
 
-"--"[^\n]*  		/* eat line comments */
+"--"[^\n]*  		{yylval.str = strdup(yytext+2); return LINE_COMMENT;}  /* Line Commend  */ /* Returns only the usefull content  */
 
-"(*"                    BEGIN(comment); 
+"(*"                    {BEGIN(comment); comm_pointer = 0;old_p=0;} 		/* Multiline Commend */
 
-<comment>[^*\n]*        /* eat anything that's not a '*' */
-<comment>"*"+[^*)\n]*   /* eat up '*'s not followed by '/'s */
-<comment>\n             ++line_num;
-<comment>"*"+")"        { BEGIN(INITIAL); printf("comment ended at line: %d\n", line_num); }
+<comment>(("*"+[^*)])|([^*]))*    {comm_pointer = 0;  while (yytext[comm_pointer] != '\0') {
+    			 comm[old_p + comm_pointer] = yytext[comm_pointer];
+   			 comm_pointer++;}old_p=comm_pointer;}	
+<comment>"*"		{comm[old_p]='*';comm_pointer++;old_p+=1;}
+<comment>"*"+")"        { BEGIN(INITIAL);comm_pointer=0;		while(comm_pointer<=strlen(comm))
+									{if(comm[comm_pointer] == '\n') 										line_num++;
+									  comm_pointer++; 
+									} yylval.str = strdup(comm);  return MLINE_COMMENT; }
 
 
 

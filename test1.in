@@ -1,14 +1,11 @@
-let x,y<-5,y[5]<-3,x[10],y:int;
-const y<-5,y<-5:int;
-let x:int;
-const x<-(a:int,b:bool):int;
+(*eimai e\n ligo***
+malakas*)
+--akolouthei sobaro prama
 const x<-():[]int=>{ let x<-5*10:int; }
 let x:int;
-
+--kala pame
 const start<-():int=>
 {
-a<- mal();
-b<- skata(a,b,b+2);
-c<- a + skt(5);
+
 x<- (a+1)/cube(b+3);
 }

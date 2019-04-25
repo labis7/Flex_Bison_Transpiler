@@ -1,3 +1,8 @@
+Nonterminals useless in grammar
+
+   string
+
+
 Terminals unused in grammar
 
    KW_TRUE
@@ -13,108 +18,118 @@ Terminals unused in grammar
    STRING
 
 
+Rules useless in grammar
+
+   61 string: STRING
+
+
 Grammar
 
     0 $accept: input $end
 
     1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    2 body: %empty
-    3     | decl_list
+    2 comment: LINE_COMMENT
+    3        | MLINE_COMMENT
 
-    4 decl_list: cmd_line
-    5          | decl
-    6          | decl_list decl
-    7          | decl_list cmd_line
+    4 body: %empty
+    5     | decl_list
 
-    8 decl: KW_LET decl_body_part
-    9     | KW_CONST decl_body_part_c
-   10     | KW_CONST func_decl
+    6 decl_list: cmd_line
+    7          | comment
+    8          | decl
+    9          | decl_list decl
+   10          | decl_list cmd_line
+   11          | decl_list comment
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
-   13          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   12 decl: KW_LET decl_body_part
+   13     | KW_CONST decl_body_part_c
+   14     | KW_CONST func_decl
 
-   15 decl_body_part: decl_form ':' data_type ';'
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
+   17          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
 
-   16 decl_body_part_c: decl_form_c ':' data_type ';'
+   19 decl_body_part: decl_form ':' data_type ';'
 
-   17 decl_form_c: ident_form_part ASSIGN expr
-   18            | decl_form_c ',' ident_form_part ASSIGN expr
+   20 decl_body_part_c: decl_form_c ':' data_type ';'
 
-   19 decl_form: decl_assign
-   20          | decl_form ',' decl_assign
+   21 decl_form_c: ident_form_part ASSIGN expr
+   22            | decl_form_c ',' ident_form_part ASSIGN expr
 
-   21 decl_assign: ident_form_part
-   22            | ident_form_part ASSIGN expr
+   23 decl_form: decl_assign
+   24          | decl_form ',' decl_assign
 
-   23 ident_form_part: IDENTIFIER
-   24                | IDENTIFIER '[' ']'
-   25                | IDENTIFIER '[' expr ']'
+   25 decl_assign: ident_form_part
+   26            | ident_form_part ASSIGN expr
 
-   26 func_parameters: %empty
-   27                | expr
-   28                | func_parameters ',' expr
+   27 ident_form_part: IDENTIFIER
+   28                | IDENTIFIER '[' ']'
+   29                | IDENTIFIER '[' expr ']'
 
-   29 func_parameters_decl: %empty
-   30                     | ident_form_part ':' data_type
-   31                     | func_parameters_decl ',' ident_form_part ':' data_type
+   30 func_parameters: %empty
+   31                | expr
+   32                | func_parameters ',' expr
 
-   32 data_type: KW_INT
-   33          | KW_BOOL
-   34          | KW_REAL
-   35          | KW_STRING
+   33 func_parameters_decl: %empty
+   34                     | ident_form_part ':' data_type
+   35                     | func_parameters_decl ',' ident_form_part ':' data_type
 
-   36 function_call: IDENTIFIER '(' func_parameters ')'
+   36 data_type: KW_INT
+   37          | KW_BOOL
+   38          | KW_REAL
+   39          | KW_STRING
 
-   37 cmd_line: ident_form_part ASSIGN expr ';'
+   40 function_call: IDENTIFIER '(' func_parameters ')'
 
-   38 expr: function_call
-   39     | ident_form_part
-   40     | '+' expr
-   41     | '-' expr
-   42     | KW_NOT expr
-   43     | POSINT
-   44     | REAL
-   45     | '(' expr ')'
-   46     | expr '+' expr
-   47     | expr '-' expr
-   48     | expr '*' expr
-   49     | expr '/' expr
-   50     | expr '%' expr
-   51     | expr EQUAL_OP expr
-   52     | expr NOT_EQUAL_OP expr
-   53     | expr LESS_OP expr
-   54     | expr LESS_EQUAL_OP expr
-   55     | expr KW_AND expr
-   56     | expr KW_OR expr
+   41 cmd_line: ident_form_part ASSIGN expr ';'
+
+   42 expr: function_call
+   43     | ident_form_part
+   44     | '+' expr
+   45     | '-' expr
+   46     | KW_NOT expr
+   47     | POSINT
+   48     | REAL
+   49     | '(' expr ')'
+   50     | expr '+' expr
+   51     | expr '-' expr
+   52     | expr '*' expr
+   53     | expr '/' expr
+   54     | expr '%' expr
+   55     | expr EQUAL_OP expr
+   56     | expr NOT_EQUAL_OP expr
+   57     | expr LESS_OP expr
+   58     | expr LESS_EQUAL_OP expr
+   59     | expr KW_AND expr
+   60     | expr KW_OR expr
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'%' (37) 50
-'(' (40) 1 11 12 13 14 36 45
-')' (41) 1 11 12 13 14 36 45
-'*' (42) 48
-'+' (43) 40 46
-',' (44) 18 20 28 31
-'-' (45) 41 47
-'/' (47) 49
-':' (58) 1 11 12 13 14 15 16 30 31
-';' (59) 12 13 15 16 37
-'[' (91) 13 14 24 25
-']' (93) 13 14 24 25
-'{' (123) 1 11 14
-'}' (125) 1 11 14
+'%' (37) 54
+'(' (40) 1 15 16 17 18 40 49
+')' (41) 1 15 16 17 18 40 49
+'*' (42) 52
+'+' (43) 44 50
+',' (44) 22 24 32 35
+'-' (45) 45 51
+'/' (47) 53
+':' (58) 1 15 16 17 18 19 20 34 35
+';' (59) 16 17 19 20 41
+'[' (91) 17 18 28 29
+']' (93) 17 18 28 29
+'{' (123) 1 15 18
+'}' (125) 1 15 18
 error (256)
 KW_TRUE (258)
 KW_FALSE (259)
-KW_INT (260) 1 32
-KW_REAL (261) 34
-KW_BOOL (262) 33
-KW_STRING (263) 35
+KW_INT (260) 1 36
+KW_REAL (261) 38
+KW_BOOL (262) 37
+KW_STRING (263) 39
 KW_ELSE (264)
 KW_IF (265)
 KW_THEN (266)
@@ -122,2579 +137,2651 @@ KW_FI (267)
 KW_WHILE (268)
 KW_LOOP (269)
 KW_POOL (270)
-KW_CONST (271) 1 9 10
-KW_LET (272) 8
+KW_CONST (271) 1 13 14
+KW_LET (272) 12
 KW_RETURN (273)
-KW_NOT (274) 42
-KW_AND (275) 55
-KW_OR (276) 56
-NOT_EQUAL_OP (277) 52
-LESS_OP (278) 53
-LESS_EQUAL_OP (279) 54
-FUNC_START_ARROW (280) 1 11 14
+KW_NOT (274) 46
+KW_AND (275) 59
+KW_OR (276) 60
+NOT_EQUAL_OP (277) 56
+LESS_OP (278) 57
+LESS_EQUAL_OP (279) 58
+FUNC_START_ARROW (280) 1 15 18
 KW_START (281) 1
-IDENTIFIER (282) 23 24 25 36
-POSINT (283) 43
+IDENTIFIER (282) 27 28 29 40
+POSINT (283) 47
 STRING (284)
-REAL (285) 44
-ASSIGN (286) 1 11 12 13 14 17 18 22 37
-EQUAL_OP (287) 51
+REAL (285) 48
+ASSIGN (286) 1 15 16 17 18 21 22 26 41
+LINE_COMMENT (287) 2
+MLINE_COMMENT (288) 3
+EQUAL_OP (289) 55
 
 
 Nonterminals, with rules where they appear
 
-$accept (47)
+$accept (49)
     on left: 0
-input (48)
+input (50)
     on left: 1, on right: 0
-body (49)
-    on left: 2 3, on right: 1 11 14
-decl_list (50)
-    on left: 4 5 6 7, on right: 1 3 6 7
-decl (51)
-    on left: 8 9 10, on right: 5 6
-func_decl (52)
-    on left: 11 12 13 14, on right: 10
-decl_body_part (53)
-    on left: 15, on right: 8
-decl_body_part_c (54)
-    on left: 16, on right: 9
-decl_form_c (55)
-    on left: 17 18, on right: 16 18
-decl_form (56)
-    on left: 19 20, on right: 15 20
-decl_assign (57)
-    on left: 21 22, on right: 19 20
-ident_form_part (58)
-    on left: 23 24 25, on right: 11 12 13 14 17 18 21 22 30 31 37 39
-func_parameters (59)
-    on left: 26 27 28, on right: 28 36
-func_parameters_decl (60)
-    on left: 29 30 31, on right: 11 12 13 14 31
-data_type (61)
-    on left: 32 33 34 35, on right: 11 12 13 14 15 16 30 31
-function_call (62)
-    on left: 36, on right: 38
-cmd_line (63)
-    on left: 37, on right: 4 7
-expr (64)
-    on left: 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55
-    56, on right: 17 18 22 25 27 28 37 40 41 42 45 46 47 48 49 50 51
-    52 53 54 55 56
+comment (51)
+    on left: 2 3, on right: 7 11
+body (52)
+    on left: 4 5, on right: 1 15 18
+decl_list (53)
+    on left: 6 7 8 9 10 11, on right: 1 5 9 10 11
+decl (54)
+    on left: 12 13 14, on right: 8 9
+func_decl (55)
+    on left: 15 16 17 18, on right: 14
+decl_body_part (56)
+    on left: 19, on right: 12
+decl_body_part_c (57)
+    on left: 20, on right: 13
+decl_form_c (58)
+    on left: 21 22, on right: 20 22
+decl_form (59)
+    on left: 23 24, on right: 19 24
+decl_assign (60)
+    on left: 25 26, on right: 23 24
+ident_form_part (61)
+    on left: 27 28 29, on right: 15 16 17 18 21 22 25 26 34 35 41 43
+func_parameters (62)
+    on left: 30 31 32, on right: 32 40
+func_parameters_decl (63)
+    on left: 33 34 35, on right: 15 16 17 18 35
+data_type (64)
+    on left: 36 37 38 39, on right: 15 16 17 18 19 20 34 35
+function_call (65)
+    on left: 40, on right: 42
+cmd_line (66)
+    on left: 41, on right: 6 10
+expr (67)
+    on left: 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+    60, on right: 21 22 26 29 31 32 41 44 45 46 49 50 51 52 53 54 55
+    56 57 58 59 60
 
 
 State 0
 
     0 $accept: . input $end
     1 input: . decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
-    4 decl_list: . cmd_line
-    5          | . decl
-    6          | . decl_list decl
-    7          | . decl_list cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    6 decl_list: . cmd_line
+    7          | . comment
+    8          | . decl
+    9          | . decl_list decl
+   10          | . decl_list cmd_line
+   11          | . decl_list comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
 
-    KW_CONST    shift, and go to state 1
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
+    KW_CONST       shift, and go to state 1
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
 
-    input            go to state 4
-    decl_list        go to state 5
-    decl             go to state 6
-    ident_form_part  go to state 7
-    cmd_line         go to state 8
+    input            go to state 6
+    comment          go to state 7
+    decl_list        go to state 8
+    decl             go to state 9
+    ident_form_part  go to state 10
+    cmd_line         go to state 11
 
 
 State 1
 
-    9 decl: KW_CONST . decl_body_part_c
-   10     | KW_CONST . func_decl
-   11 func_decl: . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
-   13          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   16 decl_body_part_c: . decl_form_c ':' data_type ';'
-   17 decl_form_c: . ident_form_part ASSIGN expr
-   18            | . decl_form_c ',' ident_form_part ASSIGN expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
+   13 decl: KW_CONST . decl_body_part_c
+   14     | KW_CONST . func_decl
+   15 func_decl: . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
+   17          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   20 decl_body_part_c: . decl_form_c ':' data_type ';'
+   21 decl_form_c: . ident_form_part ASSIGN expr
+   22            | . decl_form_c ',' ident_form_part ASSIGN expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
 
     IDENTIFIER  shift, and go to state 3
 
-    func_decl         go to state 9
-    decl_body_part_c  go to state 10
-    decl_form_c       go to state 11
-    ident_form_part   go to state 12
+    func_decl         go to state 12
+    decl_body_part_c  go to state 13
+    decl_form_c       go to state 14
+    ident_form_part   go to state 15
 
 
 State 2
 
-    8 decl: KW_LET . decl_body_part
-   15 decl_body_part: . decl_form ':' data_type ';'
-   19 decl_form: . decl_assign
-   20          | . decl_form ',' decl_assign
-   21 decl_assign: . ident_form_part
-   22            | . ident_form_part ASSIGN expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
+   12 decl: KW_LET . decl_body_part
+   19 decl_body_part: . decl_form ':' data_type ';'
+   23 decl_form: . decl_assign
+   24          | . decl_form ',' decl_assign
+   25 decl_assign: . ident_form_part
+   26            | . ident_form_part ASSIGN expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
 
     IDENTIFIER  shift, and go to state 3
 
-    decl_body_part   go to state 13
-    decl_form        go to state 14
-    decl_assign      go to state 15
-    ident_form_part  go to state 16
+    decl_body_part   go to state 16
+    decl_form        go to state 17
+    decl_assign      go to state 18
+    ident_form_part  go to state 19
 
 
 State 3
 
-   23 ident_form_part: IDENTIFIER .  [ASSIGN, ':', ',']
-   24                | IDENTIFIER . '[' ']'
-   25                | IDENTIFIER . '[' expr ']'
+   27 ident_form_part: IDENTIFIER .  [ASSIGN, ':', ',']
+   28                | IDENTIFIER . '[' ']'
+   29                | IDENTIFIER . '[' expr ']'
 
-    '['  shift, and go to state 17
+    '['  shift, and go to state 20
 
-    $default  reduce using rule 23 (ident_form_part)
+    $default  reduce using rule 27 (ident_form_part)
 
 
 State 4
 
-    0 $accept: input . $end
+    2 comment: LINE_COMMENT .
 
-    $end  shift, and go to state 18
+    $default  reduce using rule 2 (comment)
 
 
 State 5
 
-    1 input: decl_list . KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
-    6 decl_list: decl_list . decl
-    7          | decl_list . cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+    3 comment: MLINE_COMMENT .
 
-    KW_CONST    shift, and go to state 19
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
-
-    decl             go to state 20
-    ident_form_part  go to state 7
-    cmd_line         go to state 21
+    $default  reduce using rule 3 (comment)
 
 
 State 6
 
-    5 decl_list: decl .
+    0 $accept: input . $end
 
-    $default  reduce using rule 5 (decl_list)
+    $end  shift, and go to state 21
 
 
 State 7
 
-   37 cmd_line: ident_form_part . ASSIGN expr ';'
+    7 decl_list: comment .
 
-    ASSIGN  shift, and go to state 22
+    $default  reduce using rule 7 (decl_list)
 
 
 State 8
 
-    4 decl_list: cmd_line .
+    1 input: decl_list . KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    9 decl_list: decl_list . decl
+   10          | decl_list . cmd_line
+   11          | decl_list . comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
 
-    $default  reduce using rule 4 (decl_list)
+    KW_CONST       shift, and go to state 22
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
+
+    comment          go to state 23
+    decl             go to state 24
+    ident_form_part  go to state 10
+    cmd_line         go to state 25
 
 
 State 9
 
-   10 decl: KW_CONST func_decl .
+    8 decl_list: decl .
 
-    $default  reduce using rule 10 (decl)
+    $default  reduce using rule 8 (decl_list)
 
 
 State 10
 
-    9 decl: KW_CONST decl_body_part_c .
+   41 cmd_line: ident_form_part . ASSIGN expr ';'
 
-    $default  reduce using rule 9 (decl)
+    ASSIGN  shift, and go to state 26
 
 
 State 11
 
-   16 decl_body_part_c: decl_form_c . ':' data_type ';'
-   18 decl_form_c: decl_form_c . ',' ident_form_part ASSIGN expr
+    6 decl_list: cmd_line .
 
-    ':'  shift, and go to state 23
-    ','  shift, and go to state 24
+    $default  reduce using rule 6 (decl_list)
 
 
 State 12
 
-   11 func_decl: ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
-   13          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   17 decl_form_c: ident_form_part . ASSIGN expr
+   14 decl: KW_CONST func_decl .
 
-    ASSIGN  shift, and go to state 25
+    $default  reduce using rule 14 (decl)
 
 
 State 13
 
-    8 decl: KW_LET decl_body_part .
+   13 decl: KW_CONST decl_body_part_c .
 
-    $default  reduce using rule 8 (decl)
+    $default  reduce using rule 13 (decl)
 
 
 State 14
 
-   15 decl_body_part: decl_form . ':' data_type ';'
-   20 decl_form: decl_form . ',' decl_assign
+   20 decl_body_part_c: decl_form_c . ':' data_type ';'
+   22 decl_form_c: decl_form_c . ',' ident_form_part ASSIGN expr
 
-    ':'  shift, and go to state 26
-    ','  shift, and go to state 27
+    ':'  shift, and go to state 27
+    ','  shift, and go to state 28
 
 
 State 15
 
-   19 decl_form: decl_assign .
+   15 func_decl: ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
+   17          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   21 decl_form_c: ident_form_part . ASSIGN expr
 
-    $default  reduce using rule 19 (decl_form)
+    ASSIGN  shift, and go to state 29
 
 
 State 16
 
-   21 decl_assign: ident_form_part .  [':', ',']
-   22            | ident_form_part . ASSIGN expr
+   12 decl: KW_LET decl_body_part .
 
-    ASSIGN  shift, and go to state 28
-
-    $default  reduce using rule 21 (decl_assign)
+    $default  reduce using rule 12 (decl)
 
 
 State 17
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   24                | IDENTIFIER '[' . ']'
-   25                | . IDENTIFIER '[' expr ']'
-   25                | IDENTIFIER '[' . expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   19 decl_body_part: decl_form . ':' data_type ';'
+   24 decl_form: decl_form . ',' decl_assign
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-    ']'         shift, and go to state 36
-
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 39
+    ':'  shift, and go to state 30
+    ','  shift, and go to state 31
 
 
 State 18
+
+   23 decl_form: decl_assign .
+
+    $default  reduce using rule 23 (decl_form)
+
+
+State 19
+
+   25 decl_assign: ident_form_part .  [':', ',']
+   26            | ident_form_part . ASSIGN expr
+
+    ASSIGN  shift, and go to state 32
+
+    $default  reduce using rule 25 (decl_assign)
+
+
+State 20
+
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   28                | IDENTIFIER '[' . ']'
+   29                | . IDENTIFIER '[' expr ']'
+   29                | IDENTIFIER '[' . expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
+
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+    ']'         shift, and go to state 40
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 43
+
+
+State 21
 
     0 $accept: input $end .
 
     $default  accept
 
 
-State 19
-
-    1 input: decl_list KW_CONST . KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
-    9 decl: KW_CONST . decl_body_part_c
-   10     | KW_CONST . func_decl
-   11 func_decl: . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
-   13          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   16 decl_body_part_c: . decl_form_c ':' data_type ';'
-   17 decl_form_c: . ident_form_part ASSIGN expr
-   18            | . decl_form_c ',' ident_form_part ASSIGN expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-
-    KW_START    shift, and go to state 40
-    IDENTIFIER  shift, and go to state 3
-
-    func_decl         go to state 9
-    decl_body_part_c  go to state 10
-    decl_form_c       go to state 11
-    ident_form_part   go to state 12
-
-
-State 20
-
-    6 decl_list: decl_list decl .
-
-    $default  reduce using rule 6 (decl_list)
-
-
-State 21
-
-    7 decl_list: decl_list cmd_line .
-
-    $default  reduce using rule 7 (decl_list)
-
-
 State 22
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   37 cmd_line: ident_form_part ASSIGN . expr ';'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+    1 input: decl_list KW_CONST . KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+   13 decl: KW_CONST . decl_body_part_c
+   14     | KW_CONST . func_decl
+   15 func_decl: . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';'
+   17          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | . ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   20 decl_body_part_c: . decl_form_c ':' data_type ';'
+   21 decl_form_c: . ident_form_part ASSIGN expr
+   22            | . decl_form_c ',' ident_form_part ASSIGN expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_START    shift, and go to state 44
+    IDENTIFIER  shift, and go to state 3
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 41
+    func_decl         go to state 12
+    decl_body_part_c  go to state 13
+    decl_form_c       go to state 14
+    ident_form_part   go to state 15
 
 
 State 23
 
-   16 decl_body_part_c: decl_form_c ':' . data_type ';'
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   11 decl_list: decl_list comment .
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
-
-    data_type  go to state 46
+    $default  reduce using rule 11 (decl_list)
 
 
 State 24
 
-   18 decl_form_c: decl_form_c ',' . ident_form_part ASSIGN expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
+    9 decl_list: decl_list decl .
 
-    IDENTIFIER  shift, and go to state 3
-
-    ident_form_part  go to state 47
+    $default  reduce using rule 9 (decl_list)
 
 
 State 25
 
-   11 func_decl: ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type ';'
-   13          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   17 decl_form_c: ident_form_part ASSIGN . expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   10 decl_list: decl_list cmd_line .
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 48
-
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 49
+    $default  reduce using rule 10 (decl_list)
 
 
 State 26
 
-   15 decl_body_part: decl_form ':' . data_type ';'
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   41 cmd_line: ident_form_part ASSIGN . expr ';'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    data_type  go to state 50
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 45
 
 
 State 27
 
-   20 decl_form: decl_form ',' . decl_assign
-   21 decl_assign: . ident_form_part
-   22            | . ident_form_part ASSIGN expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
+   20 decl_body_part_c: decl_form_c ':' . data_type ';'
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    IDENTIFIER  shift, and go to state 3
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
 
-    decl_assign      go to state 51
-    ident_form_part  go to state 16
+    data_type  go to state 50
 
 
 State 28
 
-   22 decl_assign: ident_form_part ASSIGN . expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   22 decl_form_c: decl_form_c ',' . ident_form_part ASSIGN expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    IDENTIFIER  shift, and go to state 3
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 52
+    ident_form_part  go to state 51
 
 
 State 29
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   42     | KW_NOT . expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   15 func_decl: ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type ';'
+   17          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   21 decl_form_c: ident_form_part ASSIGN . expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 52
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 53
 
 
 State 30
 
-   23 ident_form_part: IDENTIFIER .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   24                | IDENTIFIER . '[' ']'
-   25                | IDENTIFIER . '[' expr ']'
-   36 function_call: IDENTIFIER . '(' func_parameters ')'
+   19 decl_body_part: decl_form ':' . data_type ';'
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    '('  shift, and go to state 54
-    '['  shift, and go to state 17
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
 
-    $default  reduce using rule 23 (ident_form_part)
+    data_type  go to state 54
 
 
 State 31
 
-   43 expr: POSINT .
+   24 decl_form: decl_form ',' . decl_assign
+   25 decl_assign: . ident_form_part
+   26            | . ident_form_part ASSIGN expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
 
-    $default  reduce using rule 43 (expr)
+    IDENTIFIER  shift, and go to state 3
+
+    decl_assign      go to state 55
+    ident_form_part  go to state 19
 
 
 State 32
 
-   44 expr: REAL .
+   26 decl_assign: ident_form_part ASSIGN . expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 44 (expr)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 56
 
 
 State 33
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   41     | '-' . expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   46     | KW_NOT . expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 55
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 57
 
 
 State 34
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   40     | '+' . expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: IDENTIFIER .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   28                | IDENTIFIER . '[' ']'
+   29                | IDENTIFIER . '[' expr ']'
+   40 function_call: IDENTIFIER . '(' func_parameters ')'
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    '('  shift, and go to state 58
+    '['  shift, and go to state 20
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 56
+    $default  reduce using rule 27 (ident_form_part)
 
 
 State 35
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   45     | '(' . expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   47 expr: POSINT .
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 57
+    $default  reduce using rule 47 (expr)
 
 
 State 36
 
-   24 ident_form_part: IDENTIFIER '[' ']' .
+   48 expr: REAL .
 
-    $default  reduce using rule 24 (ident_form_part)
+    $default  reduce using rule 48 (expr)
 
 
 State 37
 
-   39 expr: ident_form_part .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   45     | '-' . expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 39 (expr)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 59
 
 
 State 38
 
-   38 expr: function_call .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   44     | '+' . expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 38 (expr)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 60
 
 
 State 39
 
-   25 ident_form_part: IDENTIFIER '[' expr . ']'
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   49     | '(' . expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-    ']'            shift, and go to state 69
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 61
 
 
 State 40
 
-    1 input: decl_list KW_CONST KW_START . ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+   28 ident_form_part: IDENTIFIER '[' ']' .
 
-    ASSIGN  shift, and go to state 70
+    $default  reduce using rule 28 (ident_form_part)
 
 
 State 41
 
-   37 cmd_line: ident_form_part ASSIGN expr . ';'
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   43 expr: ident_form_part .
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-    ';'            shift, and go to state 71
+    $default  reduce using rule 43 (expr)
 
 
 State 42
 
-   32 data_type: KW_INT .
+   42 expr: function_call .
 
-    $default  reduce using rule 32 (data_type)
+    $default  reduce using rule 42 (expr)
 
 
 State 43
 
-   34 data_type: KW_REAL .
+   29 ident_form_part: IDENTIFIER '[' expr . ']'
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 34 (data_type)
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
+    ']'            shift, and go to state 73
 
 
 State 44
 
-   33 data_type: KW_BOOL .
+    1 input: decl_list KW_CONST KW_START . ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    $default  reduce using rule 33 (data_type)
+    ASSIGN  shift, and go to state 74
 
 
 State 45
 
-   35 data_type: KW_STRING .
+   41 cmd_line: ident_form_part ASSIGN expr . ';'
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 35 (data_type)
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
+    ';'            shift, and go to state 75
 
 
 State 46
 
-   16 decl_body_part_c: decl_form_c ':' data_type . ';'
+   36 data_type: KW_INT .
 
-    ';'  shift, and go to state 72
+    $default  reduce using rule 36 (data_type)
 
 
 State 47
 
-   18 decl_form_c: decl_form_c ',' ident_form_part . ASSIGN expr
+   38 data_type: KW_REAL .
 
-    ASSIGN  shift, and go to state 73
+    $default  reduce using rule 38 (data_type)
 
 
 State 48
 
-   11 func_decl: ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type ';'
-   13          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   29 func_parameters_decl: . %empty  [')', ',']
-   30                     | . ident_form_part ':' data_type
-   31                     | . func_parameters_decl ',' ident_form_part ':' data_type
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   45     | '(' . expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   37 data_type: KW_BOOL .
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-
-    $default  reduce using rule 29 (func_parameters_decl)
-
-    ident_form_part       go to state 74
-    func_parameters_decl  go to state 75
-    function_call         go to state 38
-    expr                  go to state 57
+    $default  reduce using rule 37 (data_type)
 
 
 State 49
 
-   17 decl_form_c: ident_form_part ASSIGN expr .  [':', ',']
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   39 data_type: KW_STRING .
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-
-    $default  reduce using rule 17 (decl_form_c)
+    $default  reduce using rule 39 (data_type)
 
 
 State 50
 
-   15 decl_body_part: decl_form ':' data_type . ';'
+   20 decl_body_part_c: decl_form_c ':' data_type . ';'
 
     ';'  shift, and go to state 76
 
 
 State 51
 
-   20 decl_form: decl_form ',' decl_assign .
+   22 decl_form_c: decl_form_c ',' ident_form_part . ASSIGN expr
 
-    $default  reduce using rule 20 (decl_form)
+    ASSIGN  shift, and go to state 77
 
 
 State 52
 
-   22 decl_assign: ident_form_part ASSIGN expr .  [':', ',']
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   15 func_decl: ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type ';'
+   17          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   33 func_parameters_decl: . %empty  [')', ',']
+   34                     | . ident_form_part ':' data_type
+   35                     | . func_parameters_decl ',' ident_form_part ':' data_type
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   49     | '(' . expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    $default  reduce using rule 22 (decl_assign)
+    $default  reduce using rule 33 (func_parameters_decl)
+
+    ident_form_part       go to state 78
+    func_parameters_decl  go to state 79
+    function_call         go to state 42
+    expr                  go to state 61
 
 
 State 53
 
-   42 expr: KW_NOT expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   46     | expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   21 decl_form_c: ident_form_part ASSIGN expr .  [':', ',']
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 42 (expr)
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    Conflict between rule 42 and token KW_AND resolved as reduce (KW_AND < KW_NOT).
-    Conflict between rule 42 and token KW_OR resolved as reduce (KW_OR < KW_NOT).
-    Conflict between rule 42 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < KW_NOT).
-    Conflict between rule 42 and token LESS_OP resolved as reduce (LESS_OP < KW_NOT).
-    Conflict between rule 42 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < KW_NOT).
-    Conflict between rule 42 and token EQUAL_OP resolved as reduce (EQUAL_OP < KW_NOT).
-    Conflict between rule 42 and token '-' resolved as reduce ('-' < KW_NOT).
-    Conflict between rule 42 and token '+' resolved as reduce ('+' < KW_NOT).
-    Conflict between rule 42 and token '*' resolved as reduce ('*' < KW_NOT).
-    Conflict between rule 42 and token '/' resolved as reduce ('/' < KW_NOT).
-    Conflict between rule 42 and token '%' resolved as reduce ('%' < KW_NOT).
+    $default  reduce using rule 21 (decl_form_c)
 
 
 State 54
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   26 func_parameters: . %empty  [')', ',']
-   27                | . expr
-   28                | . func_parameters ',' expr
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   36              | IDENTIFIER '(' . func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   19 decl_body_part: decl_form ':' data_type . ';'
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-
-    $default  reduce using rule 26 (func_parameters)
-
-    ident_form_part  go to state 37
-    func_parameters  go to state 77
-    function_call    go to state 38
-    expr             go to state 78
+    ';'  shift, and go to state 80
 
 
 State 55
 
-   41 expr: '-' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   46     | expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   24 decl_form: decl_form ',' decl_assign .
 
-    '*'  shift, and go to state 66
-    '/'  shift, and go to state 67
-    '%'  shift, and go to state 68
-
-    $default  reduce using rule 41 (expr)
-
-    Conflict between rule 41 and token KW_AND resolved as reduce (KW_AND < '-').
-    Conflict between rule 41 and token KW_OR resolved as reduce (KW_OR < '-').
-    Conflict between rule 41 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
-    Conflict between rule 41 and token LESS_OP resolved as reduce (LESS_OP < '-').
-    Conflict between rule 41 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
-    Conflict between rule 41 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
-    Conflict between rule 41 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 41 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 41 and token '*' resolved as shift ('-' < '*').
-    Conflict between rule 41 and token '/' resolved as shift ('-' < '/').
-    Conflict between rule 41 and token '%' resolved as shift ('-' < '%').
+    $default  reduce using rule 24 (decl_form)
 
 
 State 56
 
-   40 expr: '+' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   46     | expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   26 decl_assign: ident_form_part ASSIGN expr .  [':', ',']
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    '*'  shift, and go to state 66
-    '/'  shift, and go to state 67
-    '%'  shift, and go to state 68
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 40 (expr)
-
-    Conflict between rule 40 and token KW_AND resolved as reduce (KW_AND < '+').
-    Conflict between rule 40 and token KW_OR resolved as reduce (KW_OR < '+').
-    Conflict between rule 40 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
-    Conflict between rule 40 and token LESS_OP resolved as reduce (LESS_OP < '+').
-    Conflict between rule 40 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
-    Conflict between rule 40 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
-    Conflict between rule 40 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 40 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 40 and token '*' resolved as shift ('+' < '*').
-    Conflict between rule 40 and token '/' resolved as shift ('+' < '/').
-    Conflict between rule 40 and token '%' resolved as shift ('+' < '%').
+    $default  reduce using rule 26 (decl_assign)
 
 
 State 57
 
-   45 expr: '(' expr . ')'
-   46     | expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   46 expr: KW_NOT expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   50     | expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-    ')'            shift, and go to state 79
+    $default  reduce using rule 46 (expr)
+
+    Conflict between rule 46 and token KW_AND resolved as reduce (KW_AND < KW_NOT).
+    Conflict between rule 46 and token KW_OR resolved as reduce (KW_OR < KW_NOT).
+    Conflict between rule 46 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < KW_NOT).
+    Conflict between rule 46 and token LESS_OP resolved as reduce (LESS_OP < KW_NOT).
+    Conflict between rule 46 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < KW_NOT).
+    Conflict between rule 46 and token EQUAL_OP resolved as reduce (EQUAL_OP < KW_NOT).
+    Conflict between rule 46 and token '-' resolved as reduce ('-' < KW_NOT).
+    Conflict between rule 46 and token '+' resolved as reduce ('+' < KW_NOT).
+    Conflict between rule 46 and token '*' resolved as reduce ('*' < KW_NOT).
+    Conflict between rule 46 and token '/' resolved as reduce ('/' < KW_NOT).
+    Conflict between rule 46 and token '%' resolved as reduce ('%' < KW_NOT).
 
 
 State 58
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   55     | expr KW_AND . expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   30 func_parameters: . %empty  [')', ',']
+   31                | . expr
+   32                | . func_parameters ',' expr
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   40              | IDENTIFIER '(' . func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 80
+    $default  reduce using rule 30 (func_parameters)
+
+    ident_form_part  go to state 41
+    func_parameters  go to state 81
+    function_call    go to state 42
+    expr             go to state 82
 
 
 State 59
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
-   56     | expr KW_OR . expr
+   45 expr: '-' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   50     | expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 81
+    $default  reduce using rule 45 (expr)
+
+    Conflict between rule 45 and token KW_AND resolved as reduce (KW_AND < '-').
+    Conflict between rule 45 and token KW_OR resolved as reduce (KW_OR < '-').
+    Conflict between rule 45 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
+    Conflict between rule 45 and token LESS_OP resolved as reduce (LESS_OP < '-').
+    Conflict between rule 45 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
+    Conflict between rule 45 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
+    Conflict between rule 45 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 45 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 45 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 45 and token '/' resolved as shift ('-' < '/').
+    Conflict between rule 45 and token '%' resolved as shift ('-' < '%').
 
 
 State 60
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   52     | expr NOT_EQUAL_OP . expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   44 expr: '+' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   50     | expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 82
+    $default  reduce using rule 44 (expr)
+
+    Conflict between rule 44 and token KW_AND resolved as reduce (KW_AND < '+').
+    Conflict between rule 44 and token KW_OR resolved as reduce (KW_OR < '+').
+    Conflict between rule 44 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
+    Conflict between rule 44 and token LESS_OP resolved as reduce (LESS_OP < '+').
+    Conflict between rule 44 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
+    Conflict between rule 44 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
+    Conflict between rule 44 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 44 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 44 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 44 and token '/' resolved as shift ('+' < '/').
+    Conflict between rule 44 and token '%' resolved as shift ('+' < '%').
 
 
 State 61
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   53     | expr LESS_OP . expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   49 expr: '(' expr . ')'
+   50     | expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 83
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
+    ')'            shift, and go to state 83
 
 
 State 62
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   54     | expr LESS_EQUAL_OP . expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   59     | expr KW_AND . expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 84
 
 
 State 63
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   51     | expr EQUAL_OP . expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
+   60     | expr KW_OR . expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 85
 
 
 State 64
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   47     | expr '-' . expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   56     | expr NOT_EQUAL_OP . expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 86
 
 
 State 65
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   46     | expr '+' . expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   57     | expr LESS_OP . expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 87
 
 
 State 66
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   48     | expr '*' . expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   58     | expr LESS_EQUAL_OP . expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 88
 
 
 State 67
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   49     | expr '/' . expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   55     | expr EQUAL_OP . expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 89
 
 
 State 68
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   50     | expr '%' . expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   51     | expr '-' . expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
+    ident_form_part  go to state 41
+    function_call    go to state 42
     expr             go to state 90
 
 
 State 69
 
-   25 ident_form_part: IDENTIFIER '[' expr ']' .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   50     | expr '+' . expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 25 (ident_form_part)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 91
 
 
 State 70
 
-    1 input: decl_list KW_CONST KW_START ASSIGN . '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   52     | expr '*' . expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    '('  shift, and go to state 91
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 92
 
 
 State 71
 
-   37 cmd_line: ident_form_part ASSIGN expr ';' .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   53     | expr '/' . expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 37 (cmd_line)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 93
 
 
 State 72
 
-   16 decl_body_part_c: decl_form_c ':' data_type ';' .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   54     | expr '%' . expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    $default  reduce using rule 16 (decl_body_part_c)
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 94
 
 
 State 73
 
-   18 decl_form_c: decl_form_c ',' ident_form_part ASSIGN . expr
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   29 ident_form_part: IDENTIFIER '[' expr ']' .
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
-
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 92
+    $default  reduce using rule 29 (ident_form_part)
 
 
 State 74
 
-   30 func_parameters_decl: ident_form_part . ':' data_type
-   39 expr: ident_form_part .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')']
+    1 input: decl_list KW_CONST KW_START ASSIGN . '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    ':'  shift, and go to state 93
-
-    $default  reduce using rule 39 (expr)
+    '('  shift, and go to state 95
 
 
 State 75
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type ';'
-   13          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   31 func_parameters_decl: func_parameters_decl . ',' ident_form_part ':' data_type
+   41 cmd_line: ident_form_part ASSIGN expr ';' .
 
-    ')'  shift, and go to state 94
-    ','  shift, and go to state 95
+    $default  reduce using rule 41 (cmd_line)
 
 
 State 76
 
-   15 decl_body_part: decl_form ':' data_type ';' .
+   20 decl_body_part_c: decl_form_c ':' data_type ';' .
 
-    $default  reduce using rule 15 (decl_body_part)
+    $default  reduce using rule 20 (decl_body_part_c)
 
 
 State 77
 
-   28 func_parameters: func_parameters . ',' expr
-   36 function_call: IDENTIFIER '(' func_parameters . ')'
+   22 decl_form_c: decl_form_c ',' ident_form_part ASSIGN . expr
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    ')'  shift, and go to state 96
-    ','  shift, and go to state 97
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 96
 
 
 State 78
 
-   27 func_parameters: expr .  [')', ',']
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   34 func_parameters_decl: ident_form_part . ':' data_type
+   43 expr: ident_form_part .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')']
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
+    ':'  shift, and go to state 97
 
-    $default  reduce using rule 27 (func_parameters)
+    $default  reduce using rule 43 (expr)
 
 
 State 79
 
-   45 expr: '(' expr ')' .
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type ';'
+   17          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   35 func_parameters_decl: func_parameters_decl . ',' ident_form_part ':' data_type
 
-    $default  reduce using rule 45 (expr)
+    ')'  shift, and go to state 98
+    ','  shift, and go to state 99
 
 
 State 80
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   55     | expr KW_AND expr .  [KW_AND, ')', ':', ';', ']', ',']
-   56     | expr . KW_OR expr
+   19 decl_body_part: decl_form ':' data_type ';' .
 
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-
-    $default  reduce using rule 55 (expr)
-
-    Conflict between rule 55 and token KW_AND resolved as reduce (%left KW_AND).
-    Conflict between rule 55 and token KW_OR resolved as shift (KW_AND < KW_OR).
-    Conflict between rule 55 and token NOT_EQUAL_OP resolved as shift (KW_AND < NOT_EQUAL_OP).
-    Conflict between rule 55 and token LESS_OP resolved as shift (KW_AND < LESS_OP).
-    Conflict between rule 55 and token LESS_EQUAL_OP resolved as shift (KW_AND < LESS_EQUAL_OP).
-    Conflict between rule 55 and token EQUAL_OP resolved as shift (KW_AND < EQUAL_OP).
-    Conflict between rule 55 and token '-' resolved as shift (KW_AND < '-').
-    Conflict between rule 55 and token '+' resolved as shift (KW_AND < '+').
-    Conflict between rule 55 and token '*' resolved as shift (KW_AND < '*').
-    Conflict between rule 55 and token '/' resolved as shift (KW_AND < '/').
-    Conflict between rule 55 and token '%' resolved as shift (KW_AND < '%').
+    $default  reduce using rule 19 (decl_body_part)
 
 
 State 81
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
-   56     | expr KW_OR expr .  [KW_AND, KW_OR, ')', ':', ';', ']', ',']
+   32 func_parameters: func_parameters . ',' expr
+   40 function_call: IDENTIFIER '(' func_parameters . ')'
 
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-
-    $default  reduce using rule 56 (expr)
-
-    Conflict between rule 56 and token KW_AND resolved as reduce (KW_AND < KW_OR).
-    Conflict between rule 56 and token KW_OR resolved as reduce (%left KW_OR).
-    Conflict between rule 56 and token NOT_EQUAL_OP resolved as shift (KW_OR < NOT_EQUAL_OP).
-    Conflict between rule 56 and token LESS_OP resolved as shift (KW_OR < LESS_OP).
-    Conflict between rule 56 and token LESS_EQUAL_OP resolved as shift (KW_OR < LESS_EQUAL_OP).
-    Conflict between rule 56 and token EQUAL_OP resolved as shift (KW_OR < EQUAL_OP).
-    Conflict between rule 56 and token '-' resolved as shift (KW_OR < '-').
-    Conflict between rule 56 and token '+' resolved as shift (KW_OR < '+').
-    Conflict between rule 56 and token '*' resolved as shift (KW_OR < '*').
-    Conflict between rule 56 and token '/' resolved as shift (KW_OR < '/').
-    Conflict between rule 56 and token '%' resolved as shift (KW_OR < '%').
+    ')'  shift, and go to state 100
+    ','  shift, and go to state 101
 
 
 State 82
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   52     | expr NOT_EQUAL_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   31 func_parameters: expr .  [')', ',']
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 52 (expr)
-
-    Conflict between rule 52 and token KW_AND resolved as reduce (KW_AND < NOT_EQUAL_OP).
-    Conflict between rule 52 and token KW_OR resolved as reduce (KW_OR < NOT_EQUAL_OP).
-    Conflict between rule 52 and token NOT_EQUAL_OP resolved as reduce (%left NOT_EQUAL_OP).
-    Conflict between rule 52 and token LESS_OP resolved as shift (NOT_EQUAL_OP < LESS_OP).
-    Conflict between rule 52 and token LESS_EQUAL_OP resolved as shift (NOT_EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 52 and token EQUAL_OP resolved as reduce (EQUAL_OP < NOT_EQUAL_OP).
-    Conflict between rule 52 and token '-' resolved as shift (NOT_EQUAL_OP < '-').
-    Conflict between rule 52 and token '+' resolved as shift (NOT_EQUAL_OP < '+').
-    Conflict between rule 52 and token '*' resolved as shift (NOT_EQUAL_OP < '*').
-    Conflict between rule 52 and token '/' resolved as shift (NOT_EQUAL_OP < '/').
-    Conflict between rule 52 and token '%' resolved as shift (NOT_EQUAL_OP < '%').
+    $default  reduce using rule 31 (func_parameters)
 
 
 State 83
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   53     | expr LESS_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   49 expr: '(' expr ')' .
 
-    LESS_EQUAL_OP  shift, and go to state 62
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-
-    $default  reduce using rule 53 (expr)
-
-    Conflict between rule 53 and token KW_AND resolved as reduce (KW_AND < LESS_OP).
-    Conflict between rule 53 and token KW_OR resolved as reduce (KW_OR < LESS_OP).
-    Conflict between rule 53 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_OP).
-    Conflict between rule 53 and token LESS_OP resolved as reduce (%left LESS_OP).
-    Conflict between rule 53 and token LESS_EQUAL_OP resolved as shift (LESS_OP < LESS_EQUAL_OP).
-    Conflict between rule 53 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_OP).
-    Conflict between rule 53 and token '-' resolved as shift (LESS_OP < '-').
-    Conflict between rule 53 and token '+' resolved as shift (LESS_OP < '+').
-    Conflict between rule 53 and token '*' resolved as shift (LESS_OP < '*').
-    Conflict between rule 53 and token '/' resolved as shift (LESS_OP < '/').
-    Conflict between rule 53 and token '%' resolved as shift (LESS_OP < '%').
+    $default  reduce using rule 49 (expr)
 
 
 State 84
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   54     | expr LESS_EQUAL_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   59     | expr KW_AND expr .  [KW_AND, ')', ':', ';', ']', ',']
+   60     | expr . KW_OR expr
 
-    '-'  shift, and go to state 64
-    '+'  shift, and go to state 65
-    '*'  shift, and go to state 66
-    '/'  shift, and go to state 67
-    '%'  shift, and go to state 68
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 54 (expr)
+    $default  reduce using rule 59 (expr)
 
-    Conflict between rule 54 and token KW_AND resolved as reduce (KW_AND < LESS_EQUAL_OP).
-    Conflict between rule 54 and token KW_OR resolved as reduce (KW_OR < LESS_EQUAL_OP).
-    Conflict between rule 54 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 54 and token LESS_OP resolved as reduce (LESS_OP < LESS_EQUAL_OP).
-    Conflict between rule 54 and token LESS_EQUAL_OP resolved as reduce (%left LESS_EQUAL_OP).
-    Conflict between rule 54 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 54 and token '-' resolved as shift (LESS_EQUAL_OP < '-').
-    Conflict between rule 54 and token '+' resolved as shift (LESS_EQUAL_OP < '+').
-    Conflict between rule 54 and token '*' resolved as shift (LESS_EQUAL_OP < '*').
-    Conflict between rule 54 and token '/' resolved as shift (LESS_EQUAL_OP < '/').
-    Conflict between rule 54 and token '%' resolved as shift (LESS_EQUAL_OP < '%').
+    Conflict between rule 59 and token KW_AND resolved as reduce (%left KW_AND).
+    Conflict between rule 59 and token KW_OR resolved as shift (KW_AND < KW_OR).
+    Conflict between rule 59 and token NOT_EQUAL_OP resolved as shift (KW_AND < NOT_EQUAL_OP).
+    Conflict between rule 59 and token LESS_OP resolved as shift (KW_AND < LESS_OP).
+    Conflict between rule 59 and token LESS_EQUAL_OP resolved as shift (KW_AND < LESS_EQUAL_OP).
+    Conflict between rule 59 and token EQUAL_OP resolved as shift (KW_AND < EQUAL_OP).
+    Conflict between rule 59 and token '-' resolved as shift (KW_AND < '-').
+    Conflict between rule 59 and token '+' resolved as shift (KW_AND < '+').
+    Conflict between rule 59 and token '*' resolved as shift (KW_AND < '*').
+    Conflict between rule 59 and token '/' resolved as shift (KW_AND < '/').
+    Conflict between rule 59 and token '%' resolved as shift (KW_AND < '%').
 
 
 State 85
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   51     | expr EQUAL_OP expr .  [KW_AND, KW_OR, EQUAL_OP, ')', ':', ';', ']', ',']
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
+   60     | expr KW_OR expr .  [KW_AND, KW_OR, ')', ':', ';', ']', ',']
 
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 51 (expr)
+    $default  reduce using rule 60 (expr)
 
-    Conflict between rule 51 and token KW_AND resolved as reduce (KW_AND < EQUAL_OP).
-    Conflict between rule 51 and token KW_OR resolved as reduce (KW_OR < EQUAL_OP).
-    Conflict between rule 51 and token NOT_EQUAL_OP resolved as shift (EQUAL_OP < NOT_EQUAL_OP).
-    Conflict between rule 51 and token LESS_OP resolved as shift (EQUAL_OP < LESS_OP).
-    Conflict between rule 51 and token LESS_EQUAL_OP resolved as shift (EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 51 and token EQUAL_OP resolved as reduce (%left EQUAL_OP).
-    Conflict between rule 51 and token '-' resolved as shift (EQUAL_OP < '-').
-    Conflict between rule 51 and token '+' resolved as shift (EQUAL_OP < '+').
-    Conflict between rule 51 and token '*' resolved as shift (EQUAL_OP < '*').
-    Conflict between rule 51 and token '/' resolved as shift (EQUAL_OP < '/').
-    Conflict between rule 51 and token '%' resolved as shift (EQUAL_OP < '%').
+    Conflict between rule 60 and token KW_AND resolved as reduce (KW_AND < KW_OR).
+    Conflict between rule 60 and token KW_OR resolved as reduce (%left KW_OR).
+    Conflict between rule 60 and token NOT_EQUAL_OP resolved as shift (KW_OR < NOT_EQUAL_OP).
+    Conflict between rule 60 and token LESS_OP resolved as shift (KW_OR < LESS_OP).
+    Conflict between rule 60 and token LESS_EQUAL_OP resolved as shift (KW_OR < LESS_EQUAL_OP).
+    Conflict between rule 60 and token EQUAL_OP resolved as shift (KW_OR < EQUAL_OP).
+    Conflict between rule 60 and token '-' resolved as shift (KW_OR < '-').
+    Conflict between rule 60 and token '+' resolved as shift (KW_OR < '+').
+    Conflict between rule 60 and token '*' resolved as shift (KW_OR < '*').
+    Conflict between rule 60 and token '/' resolved as shift (KW_OR < '/').
+    Conflict between rule 60 and token '%' resolved as shift (KW_OR < '%').
 
 
 State 86
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   47     | expr '-' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   56     | expr NOT_EQUAL_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    '*'  shift, and go to state 66
-    '/'  shift, and go to state 67
-    '%'  shift, and go to state 68
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 47 (expr)
+    $default  reduce using rule 56 (expr)
 
-    Conflict between rule 47 and token KW_AND resolved as reduce (KW_AND < '-').
-    Conflict between rule 47 and token KW_OR resolved as reduce (KW_OR < '-').
-    Conflict between rule 47 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
-    Conflict between rule 47 and token LESS_OP resolved as reduce (LESS_OP < '-').
-    Conflict between rule 47 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
-    Conflict between rule 47 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
-    Conflict between rule 47 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 47 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 47 and token '*' resolved as shift ('-' < '*').
-    Conflict between rule 47 and token '/' resolved as shift ('-' < '/').
-    Conflict between rule 47 and token '%' resolved as shift ('-' < '%').
+    Conflict between rule 56 and token KW_AND resolved as reduce (KW_AND < NOT_EQUAL_OP).
+    Conflict between rule 56 and token KW_OR resolved as reduce (KW_OR < NOT_EQUAL_OP).
+    Conflict between rule 56 and token NOT_EQUAL_OP resolved as reduce (%left NOT_EQUAL_OP).
+    Conflict between rule 56 and token LESS_OP resolved as shift (NOT_EQUAL_OP < LESS_OP).
+    Conflict between rule 56 and token LESS_EQUAL_OP resolved as shift (NOT_EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 56 and token EQUAL_OP resolved as reduce (EQUAL_OP < NOT_EQUAL_OP).
+    Conflict between rule 56 and token '-' resolved as shift (NOT_EQUAL_OP < '-').
+    Conflict between rule 56 and token '+' resolved as shift (NOT_EQUAL_OP < '+').
+    Conflict between rule 56 and token '*' resolved as shift (NOT_EQUAL_OP < '*').
+    Conflict between rule 56 and token '/' resolved as shift (NOT_EQUAL_OP < '/').
+    Conflict between rule 56 and token '%' resolved as shift (NOT_EQUAL_OP < '%').
 
 
 State 87
 
-   46 expr: expr . '+' expr
-   46     | expr '+' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   57     | expr LESS_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    '*'  shift, and go to state 66
-    '/'  shift, and go to state 67
-    '%'  shift, and go to state 68
+    LESS_EQUAL_OP  shift, and go to state 66
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    $default  reduce using rule 46 (expr)
+    $default  reduce using rule 57 (expr)
 
-    Conflict between rule 46 and token KW_AND resolved as reduce (KW_AND < '+').
-    Conflict between rule 46 and token KW_OR resolved as reduce (KW_OR < '+').
-    Conflict between rule 46 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
-    Conflict between rule 46 and token LESS_OP resolved as reduce (LESS_OP < '+').
-    Conflict between rule 46 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
-    Conflict between rule 46 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
-    Conflict between rule 46 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 46 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 46 and token '*' resolved as shift ('+' < '*').
-    Conflict between rule 46 and token '/' resolved as shift ('+' < '/').
-    Conflict between rule 46 and token '%' resolved as shift ('+' < '%').
+    Conflict between rule 57 and token KW_AND resolved as reduce (KW_AND < LESS_OP).
+    Conflict between rule 57 and token KW_OR resolved as reduce (KW_OR < LESS_OP).
+    Conflict between rule 57 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_OP).
+    Conflict between rule 57 and token LESS_OP resolved as reduce (%left LESS_OP).
+    Conflict between rule 57 and token LESS_EQUAL_OP resolved as shift (LESS_OP < LESS_EQUAL_OP).
+    Conflict between rule 57 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_OP).
+    Conflict between rule 57 and token '-' resolved as shift (LESS_OP < '-').
+    Conflict between rule 57 and token '+' resolved as shift (LESS_OP < '+').
+    Conflict between rule 57 and token '*' resolved as shift (LESS_OP < '*').
+    Conflict between rule 57 and token '/' resolved as shift (LESS_OP < '/').
+    Conflict between rule 57 and token '%' resolved as shift (LESS_OP < '%').
 
 
 State 88
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   48     | expr '*' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   58     | expr LESS_EQUAL_OP expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 48 (expr)
+    '-'  shift, and go to state 68
+    '+'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
 
-    Conflict between rule 48 and token KW_AND resolved as reduce (KW_AND < '*').
-    Conflict between rule 48 and token KW_OR resolved as reduce (KW_OR < '*').
-    Conflict between rule 48 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '*').
-    Conflict between rule 48 and token LESS_OP resolved as reduce (LESS_OP < '*').
-    Conflict between rule 48 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '*').
-    Conflict between rule 48 and token EQUAL_OP resolved as reduce (EQUAL_OP < '*').
-    Conflict between rule 48 and token '-' resolved as reduce ('-' < '*').
-    Conflict between rule 48 and token '+' resolved as reduce ('+' < '*').
-    Conflict between rule 48 and token '*' resolved as reduce (%left '*').
-    Conflict between rule 48 and token '/' resolved as reduce (%left '/').
-    Conflict between rule 48 and token '%' resolved as reduce (%left '%').
+    $default  reduce using rule 58 (expr)
+
+    Conflict between rule 58 and token KW_AND resolved as reduce (KW_AND < LESS_EQUAL_OP).
+    Conflict between rule 58 and token KW_OR resolved as reduce (KW_OR < LESS_EQUAL_OP).
+    Conflict between rule 58 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 58 and token LESS_OP resolved as reduce (LESS_OP < LESS_EQUAL_OP).
+    Conflict between rule 58 and token LESS_EQUAL_OP resolved as reduce (%left LESS_EQUAL_OP).
+    Conflict between rule 58 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 58 and token '-' resolved as shift (LESS_EQUAL_OP < '-').
+    Conflict between rule 58 and token '+' resolved as shift (LESS_EQUAL_OP < '+').
+    Conflict between rule 58 and token '*' resolved as shift (LESS_EQUAL_OP < '*').
+    Conflict between rule 58 and token '/' resolved as shift (LESS_EQUAL_OP < '/').
+    Conflict between rule 58 and token '%' resolved as shift (LESS_EQUAL_OP < '%').
 
 
 State 89
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   49     | expr '/' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   55     | expr EQUAL_OP expr .  [KW_AND, KW_OR, EQUAL_OP, ')', ':', ';', ']', ',']
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 49 (expr)
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    Conflict between rule 49 and token KW_AND resolved as reduce (KW_AND < '/').
-    Conflict between rule 49 and token KW_OR resolved as reduce (KW_OR < '/').
-    Conflict between rule 49 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '/').
-    Conflict between rule 49 and token LESS_OP resolved as reduce (LESS_OP < '/').
-    Conflict between rule 49 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '/').
-    Conflict between rule 49 and token EQUAL_OP resolved as reduce (EQUAL_OP < '/').
-    Conflict between rule 49 and token '-' resolved as reduce ('-' < '/').
-    Conflict between rule 49 and token '+' resolved as reduce ('+' < '/').
-    Conflict between rule 49 and token '*' resolved as reduce (%left '*').
-    Conflict between rule 49 and token '/' resolved as reduce (%left '/').
-    Conflict between rule 49 and token '%' resolved as reduce (%left '%').
+    $default  reduce using rule 55 (expr)
+
+    Conflict between rule 55 and token KW_AND resolved as reduce (KW_AND < EQUAL_OP).
+    Conflict between rule 55 and token KW_OR resolved as reduce (KW_OR < EQUAL_OP).
+    Conflict between rule 55 and token NOT_EQUAL_OP resolved as shift (EQUAL_OP < NOT_EQUAL_OP).
+    Conflict between rule 55 and token LESS_OP resolved as shift (EQUAL_OP < LESS_OP).
+    Conflict between rule 55 and token LESS_EQUAL_OP resolved as shift (EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 55 and token EQUAL_OP resolved as reduce (%left EQUAL_OP).
+    Conflict between rule 55 and token '-' resolved as shift (EQUAL_OP < '-').
+    Conflict between rule 55 and token '+' resolved as shift (EQUAL_OP < '+').
+    Conflict between rule 55 and token '*' resolved as shift (EQUAL_OP < '*').
+    Conflict between rule 55 and token '/' resolved as shift (EQUAL_OP < '/').
+    Conflict between rule 55 and token '%' resolved as shift (EQUAL_OP < '%').
 
 
 State 90
 
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   50     | expr '%' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   51     | expr '-' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 50 (expr)
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
 
-    Conflict between rule 50 and token KW_AND resolved as reduce (KW_AND < '%').
-    Conflict between rule 50 and token KW_OR resolved as reduce (KW_OR < '%').
-    Conflict between rule 50 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '%').
-    Conflict between rule 50 and token LESS_OP resolved as reduce (LESS_OP < '%').
-    Conflict between rule 50 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '%').
-    Conflict between rule 50 and token EQUAL_OP resolved as reduce (EQUAL_OP < '%').
-    Conflict between rule 50 and token '-' resolved as reduce ('-' < '%').
-    Conflict between rule 50 and token '+' resolved as reduce ('+' < '%').
-    Conflict between rule 50 and token '*' resolved as reduce (%left '*').
-    Conflict between rule 50 and token '/' resolved as reduce (%left '/').
-    Conflict between rule 50 and token '%' resolved as reduce (%left '%').
+    $default  reduce using rule 51 (expr)
+
+    Conflict between rule 51 and token KW_AND resolved as reduce (KW_AND < '-').
+    Conflict between rule 51 and token KW_OR resolved as reduce (KW_OR < '-').
+    Conflict between rule 51 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
+    Conflict between rule 51 and token LESS_OP resolved as reduce (LESS_OP < '-').
+    Conflict between rule 51 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
+    Conflict between rule 51 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
+    Conflict between rule 51 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 51 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 51 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 51 and token '/' resolved as shift ('-' < '/').
+    Conflict between rule 51 and token '%' resolved as shift ('-' < '%').
 
 
 State 91
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' . ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+   50 expr: expr . '+' expr
+   50     | expr '+' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    ')'  shift, and go to state 98
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+
+    $default  reduce using rule 50 (expr)
+
+    Conflict between rule 50 and token KW_AND resolved as reduce (KW_AND < '+').
+    Conflict between rule 50 and token KW_OR resolved as reduce (KW_OR < '+').
+    Conflict between rule 50 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
+    Conflict between rule 50 and token LESS_OP resolved as reduce (LESS_OP < '+').
+    Conflict between rule 50 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
+    Conflict between rule 50 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
+    Conflict between rule 50 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 50 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 50 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 50 and token '/' resolved as shift ('+' < '/').
+    Conflict between rule 50 and token '%' resolved as shift ('+' < '%').
 
 
 State 92
 
-   18 decl_form_c: decl_form_c ',' ident_form_part ASSIGN expr .  [':', ',']
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   52     | expr '*' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
+    $default  reduce using rule 52 (expr)
 
-    $default  reduce using rule 18 (decl_form_c)
+    Conflict between rule 52 and token KW_AND resolved as reduce (KW_AND < '*').
+    Conflict between rule 52 and token KW_OR resolved as reduce (KW_OR < '*').
+    Conflict between rule 52 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '*').
+    Conflict between rule 52 and token LESS_OP resolved as reduce (LESS_OP < '*').
+    Conflict between rule 52 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '*').
+    Conflict between rule 52 and token EQUAL_OP resolved as reduce (EQUAL_OP < '*').
+    Conflict between rule 52 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 52 and token '+' resolved as reduce ('+' < '*').
+    Conflict between rule 52 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 52 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 52 and token '%' resolved as reduce (%left '%').
 
 
 State 93
 
-   30 func_parameters_decl: ident_form_part ':' . data_type
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   53     | expr '/' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
+    $default  reduce using rule 53 (expr)
 
-    data_type  go to state 99
+    Conflict between rule 53 and token KW_AND resolved as reduce (KW_AND < '/').
+    Conflict between rule 53 and token KW_OR resolved as reduce (KW_OR < '/').
+    Conflict between rule 53 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '/').
+    Conflict between rule 53 and token LESS_OP resolved as reduce (LESS_OP < '/').
+    Conflict between rule 53 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '/').
+    Conflict between rule 53 and token EQUAL_OP resolved as reduce (EQUAL_OP < '/').
+    Conflict between rule 53 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 53 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 53 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 53 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 53 and token '%' resolved as reduce (%left '%').
 
 
 State 94
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type ';'
-   13          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   54     | expr '%' expr .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    ':'  shift, and go to state 100
+    $default  reduce using rule 54 (expr)
+
+    Conflict between rule 54 and token KW_AND resolved as reduce (KW_AND < '%').
+    Conflict between rule 54 and token KW_OR resolved as reduce (KW_OR < '%').
+    Conflict between rule 54 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '%').
+    Conflict between rule 54 and token LESS_OP resolved as reduce (LESS_OP < '%').
+    Conflict between rule 54 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '%').
+    Conflict between rule 54 and token EQUAL_OP resolved as reduce (EQUAL_OP < '%').
+    Conflict between rule 54 and token '-' resolved as reduce ('-' < '%').
+    Conflict between rule 54 and token '+' resolved as reduce ('+' < '%').
+    Conflict between rule 54 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 54 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 54 and token '%' resolved as reduce (%left '%').
 
 
 State 95
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   31 func_parameters_decl: func_parameters_decl ',' . ident_form_part ':' data_type
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' . ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    IDENTIFIER  shift, and go to state 3
-
-    ident_form_part  go to state 101
+    ')'  shift, and go to state 102
 
 
 State 96
 
-   36 function_call: IDENTIFIER '(' func_parameters ')' .
+   22 decl_form_c: decl_form_c ',' ident_form_part ASSIGN expr .  [':', ',']
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    $default  reduce using rule 36 (function_call)
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
+
+    $default  reduce using rule 22 (decl_form_c)
 
 
 State 97
 
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   28 func_parameters: func_parameters ',' . expr
-   36 function_call: . IDENTIFIER '(' func_parameters ')'
-   38 expr: . function_call
-   39     | . ident_form_part
-   40     | . '+' expr
-   41     | . '-' expr
-   42     | . KW_NOT expr
-   43     | . POSINT
-   44     | . REAL
-   45     | . '(' expr ')'
-   46     | . expr '+' expr
-   47     | . expr '-' expr
-   48     | . expr '*' expr
-   49     | . expr '/' expr
-   50     | . expr '%' expr
-   51     | . expr EQUAL_OP expr
-   52     | . expr NOT_EQUAL_OP expr
-   53     | . expr LESS_OP expr
-   54     | . expr LESS_EQUAL_OP expr
-   55     | . expr KW_AND expr
-   56     | . expr KW_OR expr
+   34 func_parameters_decl: ident_form_part ':' . data_type
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    KW_NOT      shift, and go to state 29
-    IDENTIFIER  shift, and go to state 30
-    POSINT      shift, and go to state 31
-    REAL        shift, and go to state 32
-    '-'         shift, and go to state 33
-    '+'         shift, and go to state 34
-    '('         shift, and go to state 35
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
 
-    ident_form_part  go to state 37
-    function_call    go to state 38
-    expr             go to state 102
+    data_type  go to state 103
 
 
 State 98
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' . ':' KW_INT FUNC_START_ARROW '{' body '}'
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type ';'
+   17          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type FUNC_START_ARROW '{' body '}'
 
-    ':'  shift, and go to state 103
+    ':'  shift, and go to state 104
 
 
 State 99
 
-   30 func_parameters_decl: ident_form_part ':' data_type .
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   35 func_parameters_decl: func_parameters_decl ',' . ident_form_part ':' data_type
 
-    $default  reduce using rule 30 (func_parameters_decl)
+    IDENTIFIER  shift, and go to state 3
+
+    ident_form_part  go to state 105
 
 
 State 100
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type ';'
-   13          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . '[' ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . '[' ']' data_type FUNC_START_ARROW '{' body '}'
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   40 function_call: IDENTIFIER '(' func_parameters ')' .
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
-    '['        shift, and go to state 104
-
-    data_type  go to state 105
+    $default  reduce using rule 40 (function_call)
 
 
 State 101
 
-   31 func_parameters_decl: func_parameters_decl ',' ident_form_part . ':' data_type
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   32 func_parameters: func_parameters ',' . expr
+   40 function_call: . IDENTIFIER '(' func_parameters ')'
+   42 expr: . function_call
+   43     | . ident_form_part
+   44     | . '+' expr
+   45     | . '-' expr
+   46     | . KW_NOT expr
+   47     | . POSINT
+   48     | . REAL
+   49     | . '(' expr ')'
+   50     | . expr '+' expr
+   51     | . expr '-' expr
+   52     | . expr '*' expr
+   53     | . expr '/' expr
+   54     | . expr '%' expr
+   55     | . expr EQUAL_OP expr
+   56     | . expr NOT_EQUAL_OP expr
+   57     | . expr LESS_OP expr
+   58     | . expr LESS_EQUAL_OP expr
+   59     | . expr KW_AND expr
+   60     | . expr KW_OR expr
 
-    ':'  shift, and go to state 106
+    KW_NOT      shift, and go to state 33
+    IDENTIFIER  shift, and go to state 34
+    POSINT      shift, and go to state 35
+    REAL        shift, and go to state 36
+    '-'         shift, and go to state 37
+    '+'         shift, and go to state 38
+    '('         shift, and go to state 39
+
+    ident_form_part  go to state 41
+    function_call    go to state 42
+    expr             go to state 106
 
 
 State 102
 
-   28 func_parameters: func_parameters ',' expr .  [')', ',']
-   46 expr: expr . '+' expr
-   47     | expr . '-' expr
-   48     | expr . '*' expr
-   49     | expr . '/' expr
-   50     | expr . '%' expr
-   51     | expr . EQUAL_OP expr
-   52     | expr . NOT_EQUAL_OP expr
-   53     | expr . LESS_OP expr
-   54     | expr . LESS_EQUAL_OP expr
-   55     | expr . KW_AND expr
-   56     | expr . KW_OR expr
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' . ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    KW_AND         shift, and go to state 58
-    KW_OR          shift, and go to state 59
-    NOT_EQUAL_OP   shift, and go to state 60
-    LESS_OP        shift, and go to state 61
-    LESS_EQUAL_OP  shift, and go to state 62
-    EQUAL_OP       shift, and go to state 63
-    '-'            shift, and go to state 64
-    '+'            shift, and go to state 65
-    '*'            shift, and go to state 66
-    '/'            shift, and go to state 67
-    '%'            shift, and go to state 68
-
-    $default  reduce using rule 28 (func_parameters)
+    ':'  shift, and go to state 107
 
 
 State 103
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' . KW_INT FUNC_START_ARROW '{' body '}'
+   34 func_parameters_decl: ident_form_part ':' data_type .
 
-    KW_INT  shift, and go to state 107
+    $default  reduce using rule 34 (func_parameters_decl)
 
 
 State 104
 
-   13 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type FUNC_START_ARROW '{' body '}'
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type ';'
+   17          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . '[' ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . '[' ']' data_type FUNC_START_ARROW '{' body '}'
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    ']'  shift, and go to state 108
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
+    '['        shift, and go to state 108
+
+    data_type  go to state 109
 
 
 State 105
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . FUNC_START_ARROW '{' body '}'
-   12          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . ';'
+   35 func_parameters_decl: func_parameters_decl ',' ident_form_part . ':' data_type
 
-    FUNC_START_ARROW  shift, and go to state 109
-    ';'               shift, and go to state 110
+    ':'  shift, and go to state 110
 
 
 State 106
 
-   31 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' . data_type
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   32 func_parameters: func_parameters ',' expr .  [')', ',']
+   50 expr: expr . '+' expr
+   51     | expr . '-' expr
+   52     | expr . '*' expr
+   53     | expr . '/' expr
+   54     | expr . '%' expr
+   55     | expr . EQUAL_OP expr
+   56     | expr . NOT_EQUAL_OP expr
+   57     | expr . LESS_OP expr
+   58     | expr . LESS_EQUAL_OP expr
+   59     | expr . KW_AND expr
+   60     | expr . KW_OR expr
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
+    KW_AND         shift, and go to state 62
+    KW_OR          shift, and go to state 63
+    NOT_EQUAL_OP   shift, and go to state 64
+    LESS_OP        shift, and go to state 65
+    LESS_EQUAL_OP  shift, and go to state 66
+    EQUAL_OP       shift, and go to state 67
+    '-'            shift, and go to state 68
+    '+'            shift, and go to state 69
+    '*'            shift, and go to state 70
+    '/'            shift, and go to state 71
+    '%'            shift, and go to state 72
 
-    data_type  go to state 111
+    $default  reduce using rule 32 (func_parameters)
 
 
 State 107
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT . FUNC_START_ARROW '{' body '}'
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' . KW_INT FUNC_START_ARROW '{' body '}'
 
-    FUNC_START_ARROW  shift, and go to state 112
+    KW_INT  shift, and go to state 111
 
 
 State 108
 
-   13 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type FUNC_START_ARROW '{' body '}'
-   32 data_type: . KW_INT
-   33          | . KW_BOOL
-   34          | . KW_REAL
-   35          | . KW_STRING
+   17 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type FUNC_START_ARROW '{' body '}'
 
-    KW_INT     shift, and go to state 42
-    KW_REAL    shift, and go to state 43
-    KW_BOOL    shift, and go to state 44
-    KW_STRING  shift, and go to state 45
-
-    data_type  go to state 113
+    ']'  shift, and go to state 112
 
 
 State 109
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW . '{' body '}'
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . FUNC_START_ARROW '{' body '}'
+   16          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . ';'
 
-    '{'  shift, and go to state 114
+    FUNC_START_ARROW  shift, and go to state 113
+    ';'               shift, and go to state 114
 
 
 State 110
 
-   12 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';' .
+   35 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' . data_type
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    $default  reduce using rule 12 (func_decl)
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
+
+    data_type  go to state 115
 
 
 State 111
 
-   31 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' data_type .
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT . FUNC_START_ARROW '{' body '}'
 
-    $default  reduce using rule 31 (func_parameters_decl)
+    FUNC_START_ARROW  shift, and go to state 116
 
 
 State 112
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW . '{' body '}'
+   17 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type FUNC_START_ARROW '{' body '}'
+   36 data_type: . KW_INT
+   37          | . KW_BOOL
+   38          | . KW_REAL
+   39          | . KW_STRING
 
-    '{'  shift, and go to state 115
+    KW_INT     shift, and go to state 46
+    KW_REAL    shift, and go to state 47
+    KW_BOOL    shift, and go to state 48
+    KW_STRING  shift, and go to state 49
+
+    data_type  go to state 117
 
 
 State 113
 
-   13 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . ';'
-   14          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . FUNC_START_ARROW '{' body '}'
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW . '{' body '}'
 
-    FUNC_START_ARROW  shift, and go to state 116
-    ';'               shift, and go to state 117
+    '{'  shift, and go to state 118
 
 
 State 114
 
-    2 body: . %empty  ['}']
-    3     | . decl_list
-    4 decl_list: . cmd_line
-    5          | . decl
-    6          | . decl_list decl
-    7          | . decl_list cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' . body '}'
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+   16 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';' .
 
-    KW_CONST    shift, and go to state 1
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
-
-    $default  reduce using rule 2 (body)
-
-    body             go to state 118
-    decl_list        go to state 119
-    decl             go to state 6
-    ident_form_part  go to state 7
-    cmd_line         go to state 8
+    $default  reduce using rule 16 (func_decl)
 
 
 State 115
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' . body '}'
-    2 body: . %empty  ['}']
-    3     | . decl_list
-    4 decl_list: . cmd_line
-    5          | . decl
-    6          | . decl_list decl
-    7          | . decl_list cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+   35 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' data_type .
 
-    KW_CONST    shift, and go to state 1
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
-
-    $default  reduce using rule 2 (body)
-
-    body             go to state 120
-    decl_list        go to state 119
-    decl             go to state 6
-    ident_form_part  go to state 7
-    cmd_line         go to state 8
+    $default  reduce using rule 35 (func_parameters_decl)
 
 
 State 116
 
-   14 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW . '{' body '}'
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW . '{' body '}'
 
-    '{'  shift, and go to state 121
+    '{'  shift, and go to state 119
 
 
 State 117
 
-   13 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';' .
+   17 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . ';'
+   18          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . FUNC_START_ARROW '{' body '}'
 
-    $default  reduce using rule 13 (func_decl)
+    FUNC_START_ARROW  shift, and go to state 120
+    ';'               shift, and go to state 121
 
 
 State 118
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body . '}'
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    4 body: . %empty  ['}']
+    5     | . decl_list
+    6 decl_list: . cmd_line
+    7          | . comment
+    8          | . decl
+    9          | . decl_list decl
+   10          | . decl_list cmd_line
+   11          | . decl_list comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' . body '}'
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
 
-    '}'  shift, and go to state 122
+    KW_CONST       shift, and go to state 1
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
+
+    $default  reduce using rule 4 (body)
+
+    comment          go to state 7
+    body             go to state 122
+    decl_list        go to state 123
+    decl             go to state 9
+    ident_form_part  go to state 10
+    cmd_line         go to state 11
 
 
 State 119
 
-    3 body: decl_list .  ['}']
-    6 decl_list: decl_list . decl
-    7          | decl_list . cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' . body '}'
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    4 body: . %empty  ['}']
+    5     | . decl_list
+    6 decl_list: . cmd_line
+    7          | . comment
+    8          | . decl
+    9          | . decl_list decl
+   10          | . decl_list cmd_line
+   11          | . decl_list comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
 
-    KW_CONST    shift, and go to state 1
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
+    KW_CONST       shift, and go to state 1
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
 
-    $default  reduce using rule 3 (body)
+    $default  reduce using rule 4 (body)
 
-    decl             go to state 20
-    ident_form_part  go to state 7
-    cmd_line         go to state 21
+    comment          go to state 7
+    body             go to state 124
+    decl_list        go to state 123
+    decl             go to state 9
+    ident_form_part  go to state 10
+    cmd_line         go to state 11
 
 
 State 120
 
-    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body . '}'
+   18 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW . '{' body '}'
 
-    '}'  shift, and go to state 123
+    '{'  shift, and go to state 125
 
 
 State 121
 
-    2 body: . %empty  ['}']
-    3     | . decl_list
-    4 decl_list: . cmd_line
-    5          | . decl
-    6          | . decl_list decl
-    7          | . decl_list cmd_line
-    8 decl: . KW_LET decl_body_part
-    9     | . KW_CONST decl_body_part_c
-   10     | . KW_CONST func_decl
-   14 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' . body '}'
-   23 ident_form_part: . IDENTIFIER
-   24                | . IDENTIFIER '[' ']'
-   25                | . IDENTIFIER '[' expr ']'
-   37 cmd_line: . ident_form_part ASSIGN expr ';'
+   17 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';' .
 
-    KW_CONST    shift, and go to state 1
-    KW_LET      shift, and go to state 2
-    IDENTIFIER  shift, and go to state 3
-
-    $default  reduce using rule 2 (body)
-
-    body             go to state 124
-    decl_list        go to state 119
-    decl             go to state 6
-    ident_form_part  go to state 7
-    cmd_line         go to state 8
+    $default  reduce using rule 17 (func_decl)
 
 
 State 122
 
-   11 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' .
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body . '}'
 
-    $default  reduce using rule 11 (func_decl)
+    '}'  shift, and go to state 126
 
 
 State 123
+
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    5 body: decl_list .  ['}']
+    9 decl_list: decl_list . decl
+   10          | decl_list . cmd_line
+   11          | decl_list . comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
+
+    KW_CONST       shift, and go to state 1
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
+
+    $default  reduce using rule 5 (body)
+
+    comment          go to state 23
+    decl             go to state 24
+    ident_form_part  go to state 10
+    cmd_line         go to state 25
+
+
+State 124
+
+    1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body . '}'
+
+    '}'  shift, and go to state 127
+
+
+State 125
+
+    2 comment: . LINE_COMMENT
+    3        | . MLINE_COMMENT
+    4 body: . %empty  ['}']
+    5     | . decl_list
+    6 decl_list: . cmd_line
+    7          | . comment
+    8          | . decl
+    9          | . decl_list decl
+   10          | . decl_list cmd_line
+   11          | . decl_list comment
+   12 decl: . KW_LET decl_body_part
+   13     | . KW_CONST decl_body_part_c
+   14     | . KW_CONST func_decl
+   18 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' . body '}'
+   27 ident_form_part: . IDENTIFIER
+   28                | . IDENTIFIER '[' ']'
+   29                | . IDENTIFIER '[' expr ']'
+   41 cmd_line: . ident_form_part ASSIGN expr ';'
+
+    KW_CONST       shift, and go to state 1
+    KW_LET         shift, and go to state 2
+    IDENTIFIER     shift, and go to state 3
+    LINE_COMMENT   shift, and go to state 4
+    MLINE_COMMENT  shift, and go to state 5
+
+    $default  reduce using rule 4 (body)
+
+    comment          go to state 7
+    body             go to state 128
+    decl_list        go to state 123
+    decl             go to state 9
+    ident_form_part  go to state 10
+    cmd_line         go to state 11
+
+
+State 126
+
+   15 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' .
+
+    $default  reduce using rule 15 (func_decl)
+
+
+State 127
 
     1 input: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' .
 
     $default  reduce using rule 1 (input)
 
 
-State 124
+State 128
 
-   14 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body . '}'
+   18 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body . '}'
 
-    '}'  shift, and go to state 125
+    '}'  shift, and go to state 129
 
 
-State 125
+State 129
 
-   14 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' .
+   18 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' .
 
-    $default  reduce using rule 14 (func_decl)
+    $default  reduce using rule 18 (func_decl)

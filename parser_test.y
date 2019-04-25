@@ -49,7 +49,8 @@
 %token <str> REAL
 
 %token <str> ASSIGN
-
+%token <str> LINE_COMMENT
+%token <str> MLINE_COMMENT
 
 
 
@@ -59,7 +60,7 @@
 %start input
 
 %type <str> data_type func_decl cmd_line func_parameters function_call
-%type <str> func_parameters_decl decl_body_part_c decl_form_c
+%type <str> func_parameters_decl decl_body_part_c decl_form_c string comment
 %type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
 
 %left KW_AND
@@ -75,16 +76,24 @@
 
 %%
 
-input:  
+input:
 decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 //|input func_decl1 main 
 { 
   if (yyerror_count == 0) {
     printf("\n\n");//puts(c_prologue);
+    //printf("%s",$1);
     printf("Expression evaluates to: \n\n%s\n\nint main(){\n%s\n}\n",$1,$11); 
   }  
 }
 ;
+comment:
+LINE_COMMENT    {$$ = template("\\\\%s",$1);}
+|MLINE_COMMENT  {$$ = template("/*%s*/",$1);}
+;
+
+string:
+STRING  {$$ = template("%s",$1);};
 
 body:
 %empty	 { $$="";}
@@ -95,9 +104,11 @@ body:
 
 decl_list:
 cmd_line
+|comment
 |decl		 		{ $$ = template("%s",$1); }		
 |decl_list decl 		{ $$ = template("%s\n%s", $1, $2); }
 |decl_list cmd_line		{ $$ = template("%s\n%s", $1, $2); }
+|decl_list comment		{ $$ = template("%s\n%s", $1, $2); }
 ;
 
 decl:
