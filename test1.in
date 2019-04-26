@@ -1,18 +1,18 @@
-(*eimai e\n ligo***
-malakas*)
---akolouthei sobaro prama
 const x<-():[]int=>{ let x<-5*10:int; }
 let x:int;
---kala pame
 const start<-():int=>
 {
-let x<-cube(a):int;
-let y:string;
-y<-readString();
-y<-readReal();
+
+if (5<=10) then
+	x<-5;
+
+else if (5<=10) then
+	x<-5;	
+else
+	x<-5;
+fi;
 let x[80]<-"labiz":string;
-writeString("eimai \nmpoglas!");
 writeInt(cube(2+4));
-x<- (a+1)/cube(b+3);
+
 }
 

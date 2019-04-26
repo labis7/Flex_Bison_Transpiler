@@ -60,11 +60,13 @@
 %token <str> WRITEREAL_FUNC
 
 
-
+//%right KW_THEN KW_ELSE
+%nonassoc KW_THEN
+%nonassoc KW_ELSE
 
 %start input
 
-%type <str> data_type func_decl cmd_line func_parameters function_call decl_list1
+%type <str> data_type func_decl cmd_line func_parameters function_call decl_list1 if_stmt
 %type <str> func_parameters_decl decl_body_part_c decl_form_c string comment more printf_func
 %type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
 
@@ -93,6 +95,22 @@ decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body 
 }
 ;
 
+if_stmt:
+/*
+KW_IF expr KW_THEN body KW_ELSE body    	 { $$ = template("if %s\n\n   {%s}\nelse\n {%s}",$2, $4, $6); }
+|KW_IF expr KW_THEN body  			 { $$ = template("if %s\n\n   {%s}\n",$2, $4); }
+|KW_FI';'
+*/
+
+
+
+KW_IF expr KW_THEN body 		                {$$ = template("if %s\n{\n  %s",$2,$4);}
+|KW_FI ';'						{$$ = template("\n}");}
+//|KW_ELSE 						{$$ = template("else");}
+|KW_ELSE body 						{if(($2[0]=='i')&&($2[1]=='f'))  $$ = template("}\nelse   %s\n",$2); 
+							else $$ = template("}\nelse   \n{\n  %s",$2);}//$[2] && != every char/num 
+;
+
 
 body:
 %empty	 { $$="";}
@@ -100,8 +118,10 @@ body:
 ;
 
 more:
-decl_list1
+if_stmt
+|decl_list1
 |printf_func
+|more if_stmt	 		{ $$ = template("%s\n%s", $1, $2); }
 |more decl_list1 		{ $$ = template("%s\n%s", $1, $2); }
 |more printf_func		{ $$ = template("%s\n%s", $1, $2); }
 
@@ -208,6 +228,7 @@ IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
 ;
 cmd_line:
 ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
+|KW_RETURN expr ';'   ///NOT TESTED!!!!
 ;
 
 comment:
