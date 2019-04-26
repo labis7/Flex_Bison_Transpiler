@@ -52,15 +52,20 @@
 %token <str> LINE_COMMENT
 %token <str> MLINE_COMMENT
 
-
+%token <str> READSTRING_FUNC
+%token <str> READINT_FUNC
+%token <str> READREAL_FUNC
+%token <str> WRITESTRING_FUNC
+%token <str> WRITEINT_FUNC
+%token <str> WRITEREAL_FUNC
 
 
 
 
 %start input
 
-%type <str> data_type func_decl cmd_line func_parameters function_call
-%type <str> func_parameters_decl decl_body_part_c decl_form_c string comment
+%type <str> data_type func_decl cmd_line func_parameters function_call decl_list1
+%type <str> func_parameters_decl decl_body_part_c decl_form_c string comment more printf_func
 %type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
 
 %left KW_AND
@@ -87,20 +92,26 @@ decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body 
   }  
 }
 ;
-comment:
-LINE_COMMENT    {$$ = template("\\\\%s",$1);}
-|MLINE_COMMENT  {$$ = template("/*%s*/",$1);}
-;
 
-string:
-STRING  {$$ = template("%s",$1);};
 
 body:
 %empty	 { $$="";}
-|decl_list {$$=template("%s",$1);}
+|more {$$=template("%s",$1);}
 ;
 
+more:
+decl_list1
+|printf_func
+|more decl_list1 		{ $$ = template("%s\n%s", $1, $2); }
+|more printf_func		{ $$ = template("%s\n%s", $1, $2); }
 
+;
+
+decl_list1:
+cmd_line
+|comment
+|decl
+;
 
 decl_list:
 cmd_line
@@ -114,7 +125,7 @@ cmd_line
 decl:
 KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
 |KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...95% completed(x,y<-10 format is not supported: #TODO)
-|KW_CONST func_decl							{ $$ = template("const %s", $2); }//const func
+|KW_CONST func_decl							{ $$ = template("%s", $2); }//'const' func
 ;
 
 func_decl:
@@ -183,15 +194,33 @@ data_type:
 |KW_STRING   						 {$$ = template("char");}
 ;
 
+printf_func:
+WRITESTRING_FUNC'(' string ')' ';'	{$$ = template("%s(%s);",$1,$3);} //..simple, it can be used as an expression too..
+|WRITEINT_FUNC'('expr')' 	';'	{$$ = template("%s(%s);",$1,$3);}
+|WRITEREAL_FUNC'('expr')'	';' 	{$$ = template("%s(%s);",$1,$3);}
+;
+
 function_call:
 IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
+|READSTRING_FUNC '('')'              {$$ = template("%s()",$1);}
+|READINT_FUNC '('')'              {$$ = template("%s()",$1);}
+|READREAL_FUNC '('')'              {$$ = template("%s()",$1);}
 ;
 cmd_line:
 ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
-//| ident_form_part ASSIGN function_call;(Coming Soon. . .)
 ;
+
+comment:
+LINE_COMMENT   			 {$$ = template("\\\\%s",$1);}
+|MLINE_COMMENT  		 {$$ = template("/*%s*/",$1);}
+;
+
+string:
+STRING  {$$ = template("%s",$1);};
+
 expr:
-function_call
+string
+|function_call
 | ident_form_part
 | '+' expr		 { $$ = template("+%s", $2); }
 | '-' expr		 { $$ = template("-%s", $2); }

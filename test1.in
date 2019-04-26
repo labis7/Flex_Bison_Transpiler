@@ -6,6 +6,13 @@ let x:int;
 --kala pame
 const start<-():int=>
 {
-
+let x<-cube(a):int;
+let y:string;
+y<-readString();
+y<-readReal();
+let x[80]<-"labiz":string;
+writeString("eimai \nmpoglas!");
+writeInt(cube(2+4));
 x<- (a+1)/cube(b+3);
 }
+

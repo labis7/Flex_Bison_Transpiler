@@ -60,6 +60,15 @@ start			return KW_START;
 
 
 
+			/*///////////////// Function IDs ///////////////////*/
+
+readString		{yylval.str = strdup(yytext); return READSTRING_FUNC;}
+readInt			{yylval.str = strdup(yytext); return READINT_FUNC;}	
+readReal		{yylval.str = strdup(yytext); return READREAL_FUNC;}
+writeString		{yylval.str = strdup(yytext); return WRITESTRING_FUNC;}
+writeInt		{yylval.str = strdup(yytext); return WRITEINT_FUNC;}
+writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
+
 			/*///////////////// OPERATORS ///////////////////*/
 "+"         		return '+';
 "-"         		return '-';

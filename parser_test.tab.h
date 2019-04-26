@@ -76,7 +76,13 @@ extern int yydebug;
     ASSIGN = 286,
     LINE_COMMENT = 287,
     MLINE_COMMENT = 288,
-    EQUAL_OP = 289
+    READSTRING_FUNC = 289,
+    READINT_FUNC = 290,
+    READREAL_FUNC = 291,
+    WRITESTRING_FUNC = 292,
+    WRITEINT_FUNC = 293,
+    WRITEREAL_FUNC = 294,
+    EQUAL_OP = 295
   };
 #endif
 
@@ -90,7 +96,7 @@ union YYSTYPE
   char* str;
   int num;
 
-#line 94 "parser_test.tab.h" /* yacc.c:1909  */
+#line 100 "parser_test.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
