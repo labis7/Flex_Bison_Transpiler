@@ -47,8 +47,8 @@ else			{ yylval.str = strdup(yytext); return KW_ELSE; }
 if			{ yylval.str = strdup(yytext); return KW_IF; }
 fi			return KW_FI; 
 while			{ yylval.str = strdup(yytext); return KW_WHILE; }
-loop			return KW_LOOP; 
-pool			return KW_POOL;
+loop			{ yylval.str = strdup(yytext); return KW_LOOP; }
+pool			{ yylval.str = strdup(yytext); return KW_POOL; }
 const			return KW_CONST; 
 let			return KW_LET; 		
 then			{ yylval.str = strdup(yytext); return KW_THEN; }		

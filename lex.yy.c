@@ -936,12 +936,12 @@ YY_RULE_SETUP
 case 13:
 YY_RULE_SETUP
 #line 51 "lexertest.l"
-return KW_LOOP; 
+{ yylval.str = strdup(yytext); return KW_LOOP; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 52 "lexertest.l"
-return KW_POOL;
+{ yylval.str = strdup(yytext); return KW_POOL; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
