@@ -70,6 +70,7 @@
 %type <str> func_parameters_decl decl_body_part_c decl_form_c string comment more printf_func
 %type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
 
+
 %left KW_AND
 %left KW_OR
 %left EQUAL_OP
@@ -182,19 +183,28 @@ IDENTIFIER 				{$$ = template("%s",$1);}				// x
 
 //////////////////////////////// IF STMTs & WHILE LOOPs  //////////////////////////////////////////
 if_stmt:
+
+KW_IF expr KW_THEN body KW_ELSE body KW_FI ';'    	 {
+if(($6[0]=='i')&&($6[1]=='f'))
+  {$$ = template("if %s\n{\n%s\n}\nelse %s\n",$2, $4, $6); }
+else
+  {$$ = template("if %s\n{\n%s\n}\nelse\n {\n%s\n}",$2, $4, $6); } 
+
+
+
+  }
+|KW_IF expr KW_THEN body KW_FI ';' 			 { $$ = template("if %s\n{\n%s\n}",$2, $4); }
+//|KW_FI';'
+
+
+//&&($6[2]<48) 'safety'
 /*
-KW_IF expr KW_THEN body KW_ELSE body    	 { $$ = template("if %s\n\n   {%s}\nelse\n {%s}",$2, $4, $6); }
-|KW_IF expr KW_THEN body  			 { $$ = template("if %s\n\n   {%s}\n",$2, $4); }
-|KW_FI';'
-*/
-
-
-
 KW_IF expr KW_THEN body 		                {$$ = template("if %s\n{\n%s",$2,$4);}
 |KW_FI ';'						{$$ = template("\n}");}
 //|KW_ELSE 						{$$ = template("else");}
 |KW_ELSE body 						{if(($2[0]=='i')&&($2[1]=='f'))  $$ = template("}\nelse %s\n",$2); 
 							else $$ = template("}\nelse   \n{\n%s",$2);}//$[2] && != every char/num 
+*/
 ;
 
 
@@ -222,7 +232,7 @@ func_parameters_decl:
 
 data_type:
  KW_INT     						 {$$ = template("%s", $1);}
-|KW_BOOL   						 {$$ = template("%s", $1);}
+|KW_BOOL   						 {$$ = template("int", $1);}
 |KW_REAL   						 {$$ = template("float");}
 |KW_STRING   						 {$$ = template("char");}
 ;
@@ -241,7 +251,7 @@ IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
 ;
 cmd_line:
 ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
-|KW_RETURN expr ';'   ///NOT TESTED!!!!
+|KW_RETURN expr ';'   		{$$ = template("return %s;",$2);}
 ;
 
 comment:
