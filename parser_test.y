@@ -56,7 +56,7 @@
 %token <str> READINT_FUNC
 %token <str> READREAL_FUNC
 %token <str> WRITESTRING_FUNC
-%token <str> WRITEINT_FUNC
+%token <str> WRITEINT_FUNC"teaclib.h"
 %token <str> WRITEREAL_FUNC
 
 
@@ -91,7 +91,7 @@ decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body 
   if (yyerror_count == 0) {
     printf("\n\n");//puts(c_prologue);
     //printf("%s",$1);
-    printf("Expression evaluates to: \n\n%s\n\nint main(){\n%s\n}\n",$1,$11); 
+    printf("Expression evaluates to:\n#include <stdio.h>\n#include \"teaclib.h\" \n\n%s\n\nint main(){\n%s\n}\n",$1,$11); 
   }  
 }
 ;
@@ -189,12 +189,10 @@ if(($6[0]=='i')&&($6[1]=='f'))
   {$$ = template("if %s\n{\n%s\n}\nelse %s\n",$2, $4, $6); }
 else
   {$$ = template("if %s\n{\n%s\n}\nelse\n {\n%s\n}",$2, $4, $6); } 
+ }
 
-
-
-  }
 |KW_IF expr KW_THEN body KW_FI ';' 			 { $$ = template("if %s\n{\n%s\n}",$2, $4); }
-//|KW_FI';'
+
 
 
 //&&($6[2]<48) 'safety'
@@ -250,8 +248,9 @@ IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
 |READREAL_FUNC '('')'              {$$ = template("%s()",$1);}
 ;
 cmd_line:
-ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
-|KW_RETURN expr ';'   		{$$ = template("return %s;",$2);}
+function_call ';'		 {$$ = template("%s;",$1);}
+|ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
+|KW_RETURN expr ';'   		 {$$ = template("return %s;",$2);}
 ;
 
 comment:

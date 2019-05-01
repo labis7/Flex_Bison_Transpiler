@@ -1,25 +1,6 @@
 const x<-():[]int=>{
  let x<-5*10:int;
-if(x<0) then
-  x<-0;
-  else if(x<0) then
- 	x<-0;
-	else if (x<0) then 
-	     	 x<-0;
-       	      else if(x<0) then
-	     	       x<-0;
- 		   	while (x<0) loop
-				if(x<0) then 
-				  x<-0;
-				  return 1+x;
-				fi;
-				x<-x+1;
-			pool;	
-		   fi;
-      	      fi;
-	fi;
-  fi;
-let x[80]<-"labiz":string;
+ let x[80]<-"labiz":string;
  }
 let x:bool;
 const start<-():int=>
@@ -27,29 +8,21 @@ const start<-():int=>
 
   if(x<0) then
 	x<-0;
+	x<-10;
   fi;
 
   if(x<0) then
-  x<-0;
+  	x<-0;
+	x<-10;
   else if(x<0) then
  	x<-0;
-	else if (x<0) then 
-	     	 x<-0;
-       	      else if(x<0) then
-	     	       x<-0;
- 		   	while (x<0) loop
-				if(x<0) then 
-				  x<-0;
-				fi;
-				x<-x+1;
-			pool;	
-		   fi;
-      	      fi;
+	x<-10;
 	fi;
   fi;
 let x[80]<-"labiz":string;
-writeInt(cube(2+4));
-
+writeInt(cube(2+4)); --test
+a<-add(a + b); --test
+--test
 }
 
 
