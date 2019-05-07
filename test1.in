@@ -1,7 +1,7 @@
 const x<-():[]int=>{
  let x<-5*10:int;
  let x[80]<-"labiz":string;
- }
+ };
 let x:bool;
 const start<-():int=>
 {

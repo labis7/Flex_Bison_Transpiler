@@ -68,7 +68,7 @@
 
 %type <str> data_type func_decl cmd_line func_parameters function_call decl_list1 if_stmt while_loop
 %type <str> func_parameters_decl decl_body_part_c decl_form_c string comment more printf_func
-%type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body 
+%type <str> expr decl_assign decl_form ident_form_part decl_list decl decl_body_part body final_form
 
 
 %left KW_AND
@@ -85,22 +85,25 @@
 %%
 
 input:
-decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+final_form
 //|input func_decl1 main 
 { 
   if (yyerror_count == 0) {
-    printf("\n\n");//puts(c_prologue);
-    //printf("%s",$1);
-    printf("Expression evaluates to:\n#include <stdio.h>\n#include \"teaclib.h\" \n\n%s\n\nint main(){\n%s\n}\n",$1,$11); 
+    printf("\n\n");
+    printf("Expression evaluates to:%s",$1); 
   }  
 }
 ;
 
+final_form:
+KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' {$$ = template("\n#include <stdio.h>\n#include \"teaclib.h\" \n\nint main(){\n%s\n}\n",$10);}
+|decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'{$$ = template("\n#include <stdio.h>\n#include \"teaclib.h\" \n\n%s\n\nint main(){\n%s\n}\n",$1,$11);}
+;
 
 
 body:
-%empty	 { $$="";}
-|more {$$=template("%s",$1);}
+%empty		 { $$="";}
+|more 		 { $$=template("%s",$1);}
 ;
 
 more:
@@ -137,7 +140,7 @@ KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
 ;
 
 func_decl:
-ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARROW '{'body'}'  {$$ = template("%s %s(%s)\n{\n%s\n}\n",$7,$1,$4,$10);
+ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARROW '{'body'}'';'  {$$ = template("%s %s(%s)\n{\n%s\n}\n",$7,$1,$4,$10);
 											int res=check($1[0],$1[strlen($1)-1]);
 											if(res) return -1;}
 |ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type';'  {$$ = template("%s %s(%s);",$7,$1,$4);
@@ -146,7 +149,7 @@ ident_form_part  ASSIGN '(' func_parameters_decl')' ':' data_type FUNC_START_ARR
 |ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type';'  {$$ = template("%s *%s(%s);",$9,$1,$4);
 									int res=check($1[0],$1[strlen($1)-1]);
 									if(res) return -1;}//decl,returns pointer
-|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type FUNC_START_ARROW '{'body'}'  {$$ = template("%s *%s(%s)\n{\n%s\n}\n",$9,$1,$4,$12);
+|ident_form_part  ASSIGN '(' func_parameters_decl')' ':' '['']'data_type FUNC_START_ARROW '{'body'}' ';' {$$ = template("%s *%s(%s)\n{\n%s\n}\n",$9,$1,$4,$12);
 												int res=check($1[0],$1[strlen($1)-1]);
 												 if(res) return -1;}//returns pointer
 ;
@@ -177,7 +180,7 @@ ident_form_part   			{$$ = template ("%s",$1);}//x or x[]
 ident_form_part:
 IDENTIFIER 				{$$ = template("%s",$1);}				// x	
 |IDENTIFIER '['']'             		{$$ = template ("*%s",$1);}  //i[10]
-|IDENTIFIER '[' expr']'               {$$ = template ("%s[%s]",$1,$3);} 
+|IDENTIFIER '[' expr']'                 {$$ = template ("%s[%s]",$1,$3);} 
 ;
 
 
@@ -193,16 +196,6 @@ else
 
 |KW_IF expr KW_THEN body KW_FI ';' 			 { $$ = template("if %s\n{\n%s\n}",$2, $4); }
 
-
-
-//&&($6[2]<48) 'safety'
-/*
-KW_IF expr KW_THEN body 		                {$$ = template("if %s\n{\n%s",$2,$4);}
-|KW_FI ';'						{$$ = template("\n}");}
-//|KW_ELSE 						{$$ = template("else");}
-|KW_ELSE body 						{if(($2[0]=='i')&&($2[1]=='f'))  $$ = template("}\nelse %s\n",$2); 
-							else $$ = template("}\nelse   \n{\n%s",$2);}//$[2] && != every char/num 
-*/
 ;
 
 
@@ -210,8 +203,6 @@ while_loop:
 KW_WHILE expr KW_LOOP body KW_POOL ';' 		{$$ = template("while %s\n{\n%s\n}\n",$2,$4);}
 
 ;
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////
 
