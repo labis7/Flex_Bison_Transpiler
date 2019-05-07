@@ -75,7 +75,7 @@ writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
 "*"         		return '*';
 "/"         		return '/';
 "%"			return '%';
-"="			return '=';
+"="			{ yylval.str = strdup(yytext); return EQUAL_OP; }
 "!="			{ yylval.str = strdup(yytext); return NOT_EQUAL_OP; }
 "<"			{ yylval.str = strdup(yytext); return LESS_OP; }
 "<="			{ yylval.str = strdup(yytext); return LESS_EQUAL_OP; }

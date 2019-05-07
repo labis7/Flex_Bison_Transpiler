@@ -261,6 +261,8 @@ string
 | KW_NOT expr 		 { $$ = template("!%s", $2); }
 | POSINT
 | REAL
+| KW_TRUE
+|KW_FALSE
 | '(' expr ')'  	 { $$ = template("(%s)", $2); }
 | expr '+' expr 	 { $$ = template("%s + %s", $1, $3); }
 | expr '-' expr  	 { $$ = template("%s - %s", $1, $3); }

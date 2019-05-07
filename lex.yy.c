@@ -1043,7 +1043,7 @@ return '%';
 case 34:
 YY_RULE_SETUP
 #line 79 "lexertest.l"
-return '=';
+{ yylval.str = strdup(yytext); return EQUAL_OP; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP

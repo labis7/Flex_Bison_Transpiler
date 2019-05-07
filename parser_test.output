@@ -1,9 +1,3 @@
-Terminals unused in grammar
-
-   KW_TRUE
-   KW_FALSE
-
-
 Grammar
 
     0 $accept: input $end
@@ -106,31 +100,33 @@ Grammar
    72     | KW_NOT expr
    73     | POSINT
    74     | REAL
-   75     | '(' expr ')'
-   76     | expr '+' expr
-   77     | expr '-' expr
-   78     | expr '*' expr
-   79     | expr '/' expr
-   80     | expr '%' expr
-   81     | expr EQUAL_OP expr
-   82     | expr NOT_EQUAL_OP expr
-   83     | expr LESS_OP expr
-   84     | expr LESS_EQUAL_OP expr
-   85     | expr KW_AND expr
-   86     | expr KW_OR expr
+   75     | KW_TRUE
+   76     | KW_FALSE
+   77     | '(' expr ')'
+   78     | expr '+' expr
+   79     | expr '-' expr
+   80     | expr '*' expr
+   81     | expr '/' expr
+   82     | expr '%' expr
+   83     | expr EQUAL_OP expr
+   84     | expr NOT_EQUAL_OP expr
+   85     | expr LESS_OP expr
+   86     | expr LESS_EQUAL_OP expr
+   87     | expr KW_AND expr
+   88     | expr KW_OR expr
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'%' (37) 80
-'(' (40) 2 3 26 27 28 29 54 55 56 57 58 59 60 75
-')' (41) 2 3 26 27 28 29 54 55 56 57 58 59 60 75
-'*' (42) 78
-'+' (43) 70 76
+'%' (37) 82
+'(' (40) 2 3 26 27 28 29 54 55 56 57 58 59 60 77
+')' (41) 2 3 26 27 28 29 54 55 56 57 58 59 60 77
+'*' (42) 80
+'+' (43) 70 78
 ',' (44) 33 35 46 49
-'-' (45) 71 77
-'/' (47) 79
+'-' (45) 71 79
+'/' (47) 81
 ':' (58) 2 3 26 27 28 29 30 31 48 49
 ';' (59) 26 27 28 29 30 31 41 42 43 54 55 56 61 62 63
 '[' (91) 28 29 39 40
@@ -138,8 +134,8 @@ $end (0) 0
 '{' (123) 2 3 26 29
 '}' (125) 2 3 26 29
 error (256)
-KW_TRUE (258)
-KW_FALSE (259)
+KW_TRUE (258) 75
+KW_FALSE (259) 76
 KW_INT (260) 2 3 50
 KW_REAL (261) 52
 KW_BOOL (262) 51
@@ -155,11 +151,11 @@ KW_CONST (271) 2 3 24 25
 KW_LET (272) 23
 KW_RETURN (273) 63
 KW_NOT (274) 72
-KW_AND (275) 85
-KW_OR (276) 86
-NOT_EQUAL_OP (277) 82
-LESS_OP (278) 83
-LESS_EQUAL_OP (279) 84
+KW_AND (275) 87
+KW_OR (276) 88
+NOT_EQUAL_OP (277) 84
+LESS_OP (278) 85
+LESS_EQUAL_OP (279) 86
 FUNC_START_ARROW (280) 2 3 26 29
 KW_START (281) 2 3
 IDENTIFIER (282) 38 39 40 57
@@ -175,7 +171,7 @@ READREAL_FUNC (291) 60
 WRITESTRING_FUNC (292) 54
 "teaclib.h" (293) 55
 WRITEREAL_FUNC (294) 56
-EQUAL_OP (295) 81
+EQUAL_OP (295) 83
 
 
 Nonterminals, with rules where they appear
@@ -232,8 +228,8 @@ string (79)
     on left: 66, on right: 54 67
 expr (80)
     on left: 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84
-    85 86, on right: 32 33 37 40 41 42 43 45 46 55 56 62 63 70 71 72
-    75 76 77 78 79 80 81 82 83 84 85 86
+    85 86 87 88, on right: 32 33 37 40 41 42 43 45 46 55 56 62 63 70
+    71 72 77 78 79 80 81 82 83 84 85 86 87 88
 
 
 State 0
@@ -348,35 +344,39 @@ State 3
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 38
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 40
 
 
 State 4
@@ -386,8 +386,8 @@ State 4
    40                | IDENTIFIER . '[' expr ']'
    57 function_call: IDENTIFIER . '(' func_parameters ')'
 
-    '('  shift, and go to state 39
-    '['  shift, and go to state 40
+    '('  shift, and go to state 41
+    '['  shift, and go to state 42
 
     $default  reduce using rule 38 (ident_form_part)
 
@@ -410,28 +410,28 @@ State 7
 
    58 function_call: READSTRING_FUNC . '(' ')'
 
-    '('  shift, and go to state 41
+    '('  shift, and go to state 43
 
 
 State 8
 
    59 function_call: READINT_FUNC . '(' ')'
 
-    '('  shift, and go to state 42
+    '('  shift, and go to state 44
 
 
 State 9
 
    60 function_call: READREAL_FUNC . '(' ')'
 
-    '('  shift, and go to state 43
+    '('  shift, and go to state 45
 
 
 State 10
 
     0 $accept: input . $end
 
-    $end  shift, and go to state 44
+    $end  shift, and go to state 46
 
 
 State 11
@@ -463,7 +463,7 @@ State 12
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_CONST         shift, and go to state 45
+    KW_CONST         shift, and go to state 47
     KW_LET           shift, and go to state 2
     KW_RETURN        shift, and go to state 3
     IDENTIFIER       shift, and go to state 4
@@ -473,11 +473,11 @@ State 12
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
 
-    decl             go to state 46
+    decl             go to state 48
     ident_form_part  go to state 14
     function_call    go to state 15
-    cmd_line         go to state 47
-    comment          go to state 48
+    cmd_line         go to state 49
+    comment          go to state 50
 
 
 State 13
@@ -491,14 +491,14 @@ State 14
 
    62 cmd_line: ident_form_part . ASSIGN expr ';'
 
-    ASSIGN  shift, and go to state 49
+    ASSIGN  shift, and go to state 51
 
 
 State 15
 
    61 cmd_line: function_call . ';'
 
-    ';'  shift, and go to state 50
+    ';'  shift, and go to state 52
 
 
 State 16
@@ -519,7 +519,7 @@ State 18
 
     2 final_form: KW_CONST KW_START . ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    ASSIGN  shift, and go to state 51
+    ASSIGN  shift, and go to state 53
 
 
 State 19
@@ -528,7 +528,7 @@ State 19
    39                | IDENTIFIER . '[' ']'
    40                | IDENTIFIER . '[' expr ']'
 
-    '['  shift, and go to state 40
+    '['  shift, and go to state 42
 
     $default  reduce using rule 38 (ident_form_part)
 
@@ -552,8 +552,8 @@ State 22
    31 decl_body_part_c: decl_form_c . ':' data_type ';'
    33 decl_form_c: decl_form_c . ',' ident_form_part ASSIGN expr
 
-    ':'  shift, and go to state 52
-    ','  shift, and go to state 53
+    ':'  shift, and go to state 54
+    ','  shift, and go to state 55
 
 
 State 23
@@ -564,7 +564,7 @@ State 23
    29          | ident_form_part . ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' ';'
    32 decl_form_c: ident_form_part . ASSIGN expr
 
-    ASSIGN  shift, and go to state 54
+    ASSIGN  shift, and go to state 56
 
 
 State 24
@@ -579,8 +579,8 @@ State 25
    30 decl_body_part: decl_form . ':' data_type ';'
    35 decl_form: decl_form . ',' decl_assign
 
-    ':'  shift, and go to state 55
-    ','  shift, and go to state 56
+    ':'  shift, and go to state 57
+    ','  shift, and go to state 58
 
 
 State 26
@@ -595,12 +595,26 @@ State 27
    36 decl_assign: ident_form_part .  [':', ',']
    37            | ident_form_part . ASSIGN expr
 
-    ASSIGN  shift, and go to state 57
+    ASSIGN  shift, and go to state 59
 
     $default  reduce using rule 36 (decl_assign)
 
 
 State 28
+
+   75 expr: KW_TRUE .
+
+    $default  reduce using rule 75 (expr)
+
+
+State 29
+
+   76 expr: KW_FALSE .
+
+    $default  reduce using rule 76 (expr)
+
+
+State 30
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -619,59 +633,63 @@ State 28
    72     | KW_NOT . expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 58
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 60
 
 
-State 29
+State 31
 
    73 expr: POSINT .
 
     $default  reduce using rule 73 (expr)
 
 
-State 30
+State 32
 
    66 string: STRING .
 
     $default  reduce using rule 66 (string)
 
 
-State 31
+State 33
 
    74 expr: REAL .
 
     $default  reduce using rule 74 (expr)
 
 
-State 32
+State 34
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -690,38 +708,42 @@ State 32
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 59
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 61
 
 
-State 33
+State 35
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -740,38 +762,42 @@ State 33
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 60
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 62
 
 
-State 34
+State 36
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -789,89 +815,93 @@ State 34
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   75     | '(' . expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   77     | '(' . expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 61
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 63
 
 
-State 35
+State 37
 
    69 expr: ident_form_part .
 
     $default  reduce using rule 69 (expr)
 
 
-State 36
+State 38
 
    68 expr: function_call .
 
     $default  reduce using rule 68 (expr)
 
 
-State 37
+State 39
 
    67 expr: string .
 
     $default  reduce using rule 67 (expr)
 
 
-State 38
+State 40
 
    63 cmd_line: KW_RETURN expr . ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ';'            shift, and go to state 73
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ';'            shift, and go to state 75
 
 
-State 39
+State 41
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -893,41 +923,45 @@ State 39
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
     $default  reduce using rule 44 (func_parameters)
 
-    ident_form_part  go to state 35
-    func_parameters  go to state 74
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 75
+    ident_form_part  go to state 37
+    func_parameters  go to state 76
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 77
 
 
-State 40
+State 42
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -947,67 +981,71 @@ State 40
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
-    ']'              shift, and go to state 76
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
+    ']'              shift, and go to state 78
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 77
-
-
-State 41
-
-   58 function_call: READSTRING_FUNC '(' . ')'
-
-    ')'  shift, and go to state 78
-
-
-State 42
-
-   59 function_call: READINT_FUNC '(' . ')'
-
-    ')'  shift, and go to state 79
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 79
 
 
 State 43
 
-   60 function_call: READREAL_FUNC '(' . ')'
+   58 function_call: READSTRING_FUNC '(' . ')'
 
     ')'  shift, and go to state 80
 
 
 State 44
 
+   59 function_call: READINT_FUNC '(' . ')'
+
+    ')'  shift, and go to state 81
+
+
+State 45
+
+   60 function_call: READREAL_FUNC '(' . ')'
+
+    ')'  shift, and go to state 82
+
+
+State 46
+
     0 $accept: input $end .
 
     $default  accept
 
 
-State 45
+State 47
 
     3 final_form: decl_list KW_CONST . KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
    24 decl: KW_CONST . decl_body_part_c
@@ -1023,7 +1061,7 @@ State 45
    39                | . IDENTIFIER '[' ']'
    40                | . IDENTIFIER '[' expr ']'
 
-    KW_START    shift, and go to state 81
+    KW_START    shift, and go to state 83
     IDENTIFIER  shift, and go to state 19
 
     func_decl         go to state 20
@@ -1032,28 +1070,28 @@ State 45
     ident_form_part   go to state 23
 
 
-State 46
+State 48
 
    20 decl_list: decl_list decl .
 
     $default  reduce using rule 20 (decl_list)
 
 
-State 47
+State 49
 
    21 decl_list: decl_list cmd_line .
 
     $default  reduce using rule 21 (decl_list)
 
 
-State 48
+State 50
 
    22 decl_list: decl_list comment .
 
     $default  reduce using rule 22 (decl_list)
 
 
-State 49
+State 51
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -1072,52 +1110,56 @@ State 49
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 82
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 84
 
 
-State 50
+State 52
 
    61 cmd_line: function_call ';' .
 
     $default  reduce using rule 61 (cmd_line)
 
 
-State 51
+State 53
 
     2 final_form: KW_CONST KW_START ASSIGN . '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    '('  shift, and go to state 83
+    '('  shift, and go to state 85
 
 
-State 52
+State 54
 
    31 decl_body_part_c: decl_form_c ':' . data_type ';'
    50 data_type: . KW_INT
@@ -1125,15 +1167,15 @@ State 52
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
 
-    data_type  go to state 88
+    data_type  go to state 90
 
 
-State 53
+State 55
 
    33 decl_form_c: decl_form_c ',' . ident_form_part ASSIGN expr
    38 ident_form_part: . IDENTIFIER
@@ -1142,10 +1184,10 @@ State 53
 
     IDENTIFIER  shift, and go to state 19
 
-    ident_form_part  go to state 89
+    ident_form_part  go to state 91
 
 
-State 54
+State 56
 
    26 func_decl: ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' ';'
    27          | ident_form_part ASSIGN . '(' func_parameters_decl ')' ':' data_type ';'
@@ -1168,38 +1210,42 @@ State 54
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 90
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 92
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 91
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 93
 
 
-State 55
+State 57
 
    30 decl_body_part: decl_form ':' . data_type ';'
    50 data_type: . KW_INT
@@ -1207,15 +1253,15 @@ State 55
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
 
-    data_type  go to state 92
+    data_type  go to state 94
 
 
-State 56
+State 58
 
    35 decl_form: decl_form ',' . decl_assign
    36 decl_assign: . ident_form_part
@@ -1226,11 +1272,11 @@ State 56
 
     IDENTIFIER  shift, and go to state 19
 
-    decl_assign      go to state 93
+    decl_assign      go to state 95
     ident_form_part  go to state 27
 
 
-State 57
+State 59
 
    37 decl_assign: ident_form_part ASSIGN . expr
    38 ident_form_part: . IDENTIFIER
@@ -1249,51 +1295,55 @@ State 57
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 94
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 96
 
 
-State 58
+State 60
 
    72 expr: KW_NOT expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   76     | expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78     | expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
     $default  reduce using rule 72 (expr)
 
@@ -1310,24 +1360,24 @@ State 58
     Conflict between rule 72 and token '%' resolved as reduce ('%' < KW_NOT).
 
 
-State 59
+State 61
 
    71 expr: '-' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   76     | expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78     | expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    '*'  shift, and go to state 70
-    '/'  shift, and go to state 71
-    '%'  shift, and go to state 72
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '%'  shift, and go to state 74
 
     $default  reduce using rule 71 (expr)
 
@@ -1344,24 +1394,24 @@ State 59
     Conflict between rule 71 and token '%' resolved as shift ('-' < '%').
 
 
-State 60
+State 62
 
    70 expr: '+' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   76     | expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78     | expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    '*'  shift, and go to state 70
-    '/'  shift, and go to state 71
-    '%'  shift, and go to state 72
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '%'  shift, and go to state 74
 
     $default  reduce using rule 70 (expr)
 
@@ -1378,133 +1428,33 @@ State 60
     Conflict between rule 70 and token '%' resolved as shift ('+' < '%').
 
 
-State 61
-
-   75 expr: '(' expr . ')'
-   76     | expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ')'            shift, and go to state 95
-
-
-State 62
-
-   38 ident_form_part: . IDENTIFIER
-   39                | . IDENTIFIER '[' ']'
-   40                | . IDENTIFIER '[' expr ']'
-   57 function_call: . IDENTIFIER '(' func_parameters ')'
-   58              | . READSTRING_FUNC '(' ')'
-   59              | . READINT_FUNC '(' ')'
-   60              | . READREAL_FUNC '(' ')'
-   66 string: . STRING
-   67 expr: . string
-   68     | . function_call
-   69     | . ident_form_part
-   70     | . '+' expr
-   71     | . '-' expr
-   72     | . KW_NOT expr
-   73     | . POSINT
-   74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   85     | expr KW_AND . expr
-   86     | . expr KW_OR expr
-
-    KW_NOT           shift, and go to state 28
-    IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
-    READSTRING_FUNC  shift, and go to state 7
-    READINT_FUNC     shift, and go to state 8
-    READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
-
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 96
-
-
 State 63
 
-   38 ident_form_part: . IDENTIFIER
-   39                | . IDENTIFIER '[' ']'
-   40                | . IDENTIFIER '[' expr ']'
-   57 function_call: . IDENTIFIER '(' func_parameters ')'
-   58              | . READSTRING_FUNC '(' ')'
-   59              | . READINT_FUNC '(' ')'
-   60              | . READREAL_FUNC '(' ')'
-   66 string: . STRING
-   67 expr: . string
-   68     | . function_call
-   69     | . ident_form_part
-   70     | . '+' expr
-   71     | . '-' expr
-   72     | . KW_NOT expr
-   73     | . POSINT
-   74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
-   86     | expr KW_OR . expr
+   77 expr: '(' expr . ')'
+   78     | expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_NOT           shift, and go to state 28
-    IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
-    READSTRING_FUNC  shift, and go to state 7
-    READINT_FUNC     shift, and go to state 8
-    READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
-
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 97
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ')'            shift, and go to state 97
 
 
 State 64
@@ -1525,35 +1475,39 @@ State 64
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   82     | expr NOT_EQUAL_OP . expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   87     | expr KW_AND . expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 98
 
 
@@ -1575,35 +1529,39 @@ State 65
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   83     | expr LESS_OP . expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
+   88     | expr KW_OR . expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 99
 
 
@@ -1625,35 +1583,39 @@ State 66
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   84     | expr LESS_EQUAL_OP . expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   84     | expr NOT_EQUAL_OP . expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 100
 
 
@@ -1675,35 +1637,39 @@ State 67
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   81     | expr EQUAL_OP . expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   85     | expr LESS_OP . expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 101
 
 
@@ -1725,35 +1691,39 @@ State 68
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   77     | expr '-' . expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   86     | expr LESS_EQUAL_OP . expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 102
 
 
@@ -1775,35 +1745,39 @@ State 69
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   76     | expr '+' . expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   83     | expr EQUAL_OP . expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 103
 
 
@@ -1825,35 +1799,39 @@ State 70
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   78     | expr '*' . expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   79     | expr '-' . expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 104
 
 
@@ -1875,35 +1853,39 @@ State 71
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   79     | expr '/' . expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   78     | expr '+' . expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 105
 
 
@@ -1925,227 +1907,339 @@ State 72
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   80     | expr '%' . expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   80     | expr '*' . expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
     expr             go to state 106
 
 
 State 73
+
+   38 ident_form_part: . IDENTIFIER
+   39                | . IDENTIFIER '[' ']'
+   40                | . IDENTIFIER '[' expr ']'
+   57 function_call: . IDENTIFIER '(' func_parameters ')'
+   58              | . READSTRING_FUNC '(' ')'
+   59              | . READINT_FUNC '(' ')'
+   60              | . READREAL_FUNC '(' ')'
+   66 string: . STRING
+   67 expr: . string
+   68     | . function_call
+   69     | . ident_form_part
+   70     | . '+' expr
+   71     | . '-' expr
+   72     | . KW_NOT expr
+   73     | . POSINT
+   74     | . REAL
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   81     | expr '/' . expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
+
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
+    IDENTIFIER       shift, and go to state 4
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
+    READSTRING_FUNC  shift, and go to state 7
+    READINT_FUNC     shift, and go to state 8
+    READREAL_FUNC    shift, and go to state 9
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
+
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 107
+
+
+State 74
+
+   38 ident_form_part: . IDENTIFIER
+   39                | . IDENTIFIER '[' ']'
+   40                | . IDENTIFIER '[' expr ']'
+   57 function_call: . IDENTIFIER '(' func_parameters ')'
+   58              | . READSTRING_FUNC '(' ')'
+   59              | . READINT_FUNC '(' ')'
+   60              | . READREAL_FUNC '(' ')'
+   66 string: . STRING
+   67 expr: . string
+   68     | . function_call
+   69     | . ident_form_part
+   70     | . '+' expr
+   71     | . '-' expr
+   72     | . KW_NOT expr
+   73     | . POSINT
+   74     | . REAL
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   82     | expr '%' . expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
+
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
+    IDENTIFIER       shift, and go to state 4
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
+    READSTRING_FUNC  shift, and go to state 7
+    READINT_FUNC     shift, and go to state 8
+    READREAL_FUNC    shift, and go to state 9
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
+
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 108
+
+
+State 75
 
    63 cmd_line: KW_RETURN expr ';' .
 
     $default  reduce using rule 63 (cmd_line)
 
 
-State 74
+State 76
 
    46 func_parameters: func_parameters . ',' expr
    57 function_call: IDENTIFIER '(' func_parameters . ')'
 
-    ')'  shift, and go to state 107
-    ','  shift, and go to state 108
+    ')'  shift, and go to state 109
+    ','  shift, and go to state 110
 
 
-State 75
+State 77
 
    45 func_parameters: expr .  [')', ',']
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 45 (func_parameters)
 
 
-State 76
+State 78
 
    39 ident_form_part: IDENTIFIER '[' ']' .
 
     $default  reduce using rule 39 (ident_form_part)
 
 
-State 77
+State 79
 
    40 ident_form_part: IDENTIFIER '[' expr . ']'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ']'            shift, and go to state 109
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ']'            shift, and go to state 111
 
 
-State 78
+State 80
 
    58 function_call: READSTRING_FUNC '(' ')' .
 
     $default  reduce using rule 58 (function_call)
 
 
-State 79
+State 81
 
    59 function_call: READINT_FUNC '(' ')' .
 
     $default  reduce using rule 59 (function_call)
 
 
-State 80
+State 82
 
    60 function_call: READREAL_FUNC '(' ')' .
 
     $default  reduce using rule 60 (function_call)
 
 
-State 81
+State 83
 
     3 final_form: decl_list KW_CONST KW_START . ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    ASSIGN  shift, and go to state 110
-
-
-State 82
-
-   62 cmd_line: ident_form_part ASSIGN expr . ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ';'            shift, and go to state 111
-
-
-State 83
-
-    2 final_form: KW_CONST KW_START ASSIGN '(' . ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
-
-    ')'  shift, and go to state 112
+    ASSIGN  shift, and go to state 112
 
 
 State 84
+
+   62 cmd_line: ident_form_part ASSIGN expr . ';'
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ';'            shift, and go to state 113
+
+
+State 85
+
+    2 final_form: KW_CONST KW_START ASSIGN '(' . ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
+
+    ')'  shift, and go to state 114
+
+
+State 86
 
    50 data_type: KW_INT .
 
     $default  reduce using rule 50 (data_type)
 
 
-State 85
+State 87
 
    52 data_type: KW_REAL .
 
     $default  reduce using rule 52 (data_type)
 
 
-State 86
+State 88
 
    51 data_type: KW_BOOL .
 
     $default  reduce using rule 51 (data_type)
 
 
-State 87
+State 89
 
    53 data_type: KW_STRING .
 
     $default  reduce using rule 53 (data_type)
 
 
-State 88
+State 90
 
    31 decl_body_part_c: decl_form_c ':' data_type . ';'
 
-    ';'  shift, and go to state 113
+    ';'  shift, and go to state 115
 
 
-State 89
+State 91
 
    33 decl_form_c: decl_form_c ',' ident_form_part . ASSIGN expr
 
-    ASSIGN  shift, and go to state 114
+    ASSIGN  shift, and go to state 116
 
 
-State 90
+State 92
 
    26 func_decl: ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' ';'
    27          | ident_form_part ASSIGN '(' . func_parameters_decl ')' ':' data_type ';'
@@ -2170,506 +2264,450 @@ State 90
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   75     | '(' . expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   77     | '(' . expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
     $default  reduce using rule 47 (func_parameters_decl)
 
-    ident_form_part       go to state 115
-    func_parameters_decl  go to state 116
-    function_call         go to state 36
-    string                go to state 37
-    expr                  go to state 61
+    ident_form_part       go to state 117
+    func_parameters_decl  go to state 118
+    function_call         go to state 38
+    string                go to state 39
+    expr                  go to state 63
 
 
-State 91
+State 93
 
    32 decl_form_c: ident_form_part ASSIGN expr .  [':', ',']
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 32 (decl_form_c)
 
 
-State 92
+State 94
 
    30 decl_body_part: decl_form ':' data_type . ';'
 
-    ';'  shift, and go to state 117
+    ';'  shift, and go to state 119
 
 
-State 93
+State 95
 
    35 decl_form: decl_form ',' decl_assign .
 
     $default  reduce using rule 35 (decl_form)
 
 
-State 94
+State 96
 
    37 decl_assign: ident_form_part ASSIGN expr .  [':', ',']
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 37 (decl_assign)
 
 
-State 95
-
-   75 expr: '(' expr ')' .
-
-    $default  reduce using rule 75 (expr)
-
-
-State 96
-
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   85     | expr KW_AND expr .  [KW_THEN, KW_LOOP, KW_AND, ')', ':', ';', ']', ',']
-   86     | expr . KW_OR expr
-
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-
-    $default  reduce using rule 85 (expr)
-
-    Conflict between rule 85 and token KW_AND resolved as reduce (%left KW_AND).
-    Conflict between rule 85 and token KW_OR resolved as shift (KW_AND < KW_OR).
-    Conflict between rule 85 and token NOT_EQUAL_OP resolved as shift (KW_AND < NOT_EQUAL_OP).
-    Conflict between rule 85 and token LESS_OP resolved as shift (KW_AND < LESS_OP).
-    Conflict between rule 85 and token LESS_EQUAL_OP resolved as shift (KW_AND < LESS_EQUAL_OP).
-    Conflict between rule 85 and token EQUAL_OP resolved as shift (KW_AND < EQUAL_OP).
-    Conflict between rule 85 and token '-' resolved as shift (KW_AND < '-').
-    Conflict between rule 85 and token '+' resolved as shift (KW_AND < '+').
-    Conflict between rule 85 and token '*' resolved as shift (KW_AND < '*').
-    Conflict between rule 85 and token '/' resolved as shift (KW_AND < '/').
-    Conflict between rule 85 and token '%' resolved as shift (KW_AND < '%').
-
-
 State 97
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-   86     | expr KW_OR expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, ')', ':', ';', ']', ',']
+   77 expr: '(' expr ')' .
 
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-
-    $default  reduce using rule 86 (expr)
-
-    Conflict between rule 86 and token KW_AND resolved as reduce (KW_AND < KW_OR).
-    Conflict between rule 86 and token KW_OR resolved as reduce (%left KW_OR).
-    Conflict between rule 86 and token NOT_EQUAL_OP resolved as shift (KW_OR < NOT_EQUAL_OP).
-    Conflict between rule 86 and token LESS_OP resolved as shift (KW_OR < LESS_OP).
-    Conflict between rule 86 and token LESS_EQUAL_OP resolved as shift (KW_OR < LESS_EQUAL_OP).
-    Conflict between rule 86 and token EQUAL_OP resolved as shift (KW_OR < EQUAL_OP).
-    Conflict between rule 86 and token '-' resolved as shift (KW_OR < '-').
-    Conflict between rule 86 and token '+' resolved as shift (KW_OR < '+').
-    Conflict between rule 86 and token '*' resolved as shift (KW_OR < '*').
-    Conflict between rule 86 and token '/' resolved as shift (KW_OR < '/').
-    Conflict between rule 86 and token '%' resolved as shift (KW_OR < '%').
+    $default  reduce using rule 77 (expr)
 
 
 State 98
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   82     | expr NOT_EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   87     | expr KW_AND expr .  [KW_THEN, KW_LOOP, KW_AND, ')', ':', ';', ']', ',']
+   88     | expr . KW_OR expr
 
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
-    $default  reduce using rule 82 (expr)
+    $default  reduce using rule 87 (expr)
 
-    Conflict between rule 82 and token KW_AND resolved as reduce (KW_AND < NOT_EQUAL_OP).
-    Conflict between rule 82 and token KW_OR resolved as reduce (KW_OR < NOT_EQUAL_OP).
-    Conflict between rule 82 and token NOT_EQUAL_OP resolved as reduce (%left NOT_EQUAL_OP).
-    Conflict between rule 82 and token LESS_OP resolved as shift (NOT_EQUAL_OP < LESS_OP).
-    Conflict between rule 82 and token LESS_EQUAL_OP resolved as shift (NOT_EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 82 and token EQUAL_OP resolved as reduce (EQUAL_OP < NOT_EQUAL_OP).
-    Conflict between rule 82 and token '-' resolved as shift (NOT_EQUAL_OP < '-').
-    Conflict between rule 82 and token '+' resolved as shift (NOT_EQUAL_OP < '+').
-    Conflict between rule 82 and token '*' resolved as shift (NOT_EQUAL_OP < '*').
-    Conflict between rule 82 and token '/' resolved as shift (NOT_EQUAL_OP < '/').
-    Conflict between rule 82 and token '%' resolved as shift (NOT_EQUAL_OP < '%').
+    Conflict between rule 87 and token KW_AND resolved as reduce (%left KW_AND).
+    Conflict between rule 87 and token KW_OR resolved as shift (KW_AND < KW_OR).
+    Conflict between rule 87 and token NOT_EQUAL_OP resolved as shift (KW_AND < NOT_EQUAL_OP).
+    Conflict between rule 87 and token LESS_OP resolved as shift (KW_AND < LESS_OP).
+    Conflict between rule 87 and token LESS_EQUAL_OP resolved as shift (KW_AND < LESS_EQUAL_OP).
+    Conflict between rule 87 and token EQUAL_OP resolved as shift (KW_AND < EQUAL_OP).
+    Conflict between rule 87 and token '-' resolved as shift (KW_AND < '-').
+    Conflict between rule 87 and token '+' resolved as shift (KW_AND < '+').
+    Conflict between rule 87 and token '*' resolved as shift (KW_AND < '*').
+    Conflict between rule 87 and token '/' resolved as shift (KW_AND < '/').
+    Conflict between rule 87 and token '%' resolved as shift (KW_AND < '%').
 
 
 State 99
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   83     | expr LESS_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+   88     | expr KW_OR expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, ')', ':', ';', ']', ',']
 
-    LESS_EQUAL_OP  shift, and go to state 66
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
-    $default  reduce using rule 83 (expr)
+    $default  reduce using rule 88 (expr)
 
-    Conflict between rule 83 and token KW_AND resolved as reduce (KW_AND < LESS_OP).
-    Conflict between rule 83 and token KW_OR resolved as reduce (KW_OR < LESS_OP).
-    Conflict between rule 83 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_OP).
-    Conflict between rule 83 and token LESS_OP resolved as reduce (%left LESS_OP).
-    Conflict between rule 83 and token LESS_EQUAL_OP resolved as shift (LESS_OP < LESS_EQUAL_OP).
-    Conflict between rule 83 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_OP).
-    Conflict between rule 83 and token '-' resolved as shift (LESS_OP < '-').
-    Conflict between rule 83 and token '+' resolved as shift (LESS_OP < '+').
-    Conflict between rule 83 and token '*' resolved as shift (LESS_OP < '*').
-    Conflict between rule 83 and token '/' resolved as shift (LESS_OP < '/').
-    Conflict between rule 83 and token '%' resolved as shift (LESS_OP < '%').
+    Conflict between rule 88 and token KW_AND resolved as reduce (KW_AND < KW_OR).
+    Conflict between rule 88 and token KW_OR resolved as reduce (%left KW_OR).
+    Conflict between rule 88 and token NOT_EQUAL_OP resolved as shift (KW_OR < NOT_EQUAL_OP).
+    Conflict between rule 88 and token LESS_OP resolved as shift (KW_OR < LESS_OP).
+    Conflict between rule 88 and token LESS_EQUAL_OP resolved as shift (KW_OR < LESS_EQUAL_OP).
+    Conflict between rule 88 and token EQUAL_OP resolved as shift (KW_OR < EQUAL_OP).
+    Conflict between rule 88 and token '-' resolved as shift (KW_OR < '-').
+    Conflict between rule 88 and token '+' resolved as shift (KW_OR < '+').
+    Conflict between rule 88 and token '*' resolved as shift (KW_OR < '*').
+    Conflict between rule 88 and token '/' resolved as shift (KW_OR < '/').
+    Conflict between rule 88 and token '%' resolved as shift (KW_OR < '%').
 
 
 State 100
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   84     | expr LESS_EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   84     | expr NOT_EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    '-'  shift, and go to state 68
-    '+'  shift, and go to state 69
-    '*'  shift, and go to state 70
-    '/'  shift, and go to state 71
-    '%'  shift, and go to state 72
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 84 (expr)
 
-    Conflict between rule 84 and token KW_AND resolved as reduce (KW_AND < LESS_EQUAL_OP).
-    Conflict between rule 84 and token KW_OR resolved as reduce (KW_OR < LESS_EQUAL_OP).
-    Conflict between rule 84 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 84 and token LESS_OP resolved as reduce (LESS_OP < LESS_EQUAL_OP).
-    Conflict between rule 84 and token LESS_EQUAL_OP resolved as reduce (%left LESS_EQUAL_OP).
-    Conflict between rule 84 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 84 and token '-' resolved as shift (LESS_EQUAL_OP < '-').
-    Conflict between rule 84 and token '+' resolved as shift (LESS_EQUAL_OP < '+').
-    Conflict between rule 84 and token '*' resolved as shift (LESS_EQUAL_OP < '*').
-    Conflict between rule 84 and token '/' resolved as shift (LESS_EQUAL_OP < '/').
-    Conflict between rule 84 and token '%' resolved as shift (LESS_EQUAL_OP < '%').
+    Conflict between rule 84 and token KW_AND resolved as reduce (KW_AND < NOT_EQUAL_OP).
+    Conflict between rule 84 and token KW_OR resolved as reduce (KW_OR < NOT_EQUAL_OP).
+    Conflict between rule 84 and token NOT_EQUAL_OP resolved as reduce (%left NOT_EQUAL_OP).
+    Conflict between rule 84 and token LESS_OP resolved as shift (NOT_EQUAL_OP < LESS_OP).
+    Conflict between rule 84 and token LESS_EQUAL_OP resolved as shift (NOT_EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 84 and token EQUAL_OP resolved as reduce (EQUAL_OP < NOT_EQUAL_OP).
+    Conflict between rule 84 and token '-' resolved as shift (NOT_EQUAL_OP < '-').
+    Conflict between rule 84 and token '+' resolved as shift (NOT_EQUAL_OP < '+').
+    Conflict between rule 84 and token '*' resolved as shift (NOT_EQUAL_OP < '*').
+    Conflict between rule 84 and token '/' resolved as shift (NOT_EQUAL_OP < '/').
+    Conflict between rule 84 and token '%' resolved as shift (NOT_EQUAL_OP < '%').
 
 
 State 101
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   81     | expr EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, EQUAL_OP, ')', ':', ';', ']', ',']
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   85     | expr LESS_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    LESS_EQUAL_OP  shift, and go to state 68
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
-    $default  reduce using rule 81 (expr)
+    $default  reduce using rule 85 (expr)
 
-    Conflict between rule 81 and token KW_AND resolved as reduce (KW_AND < EQUAL_OP).
-    Conflict between rule 81 and token KW_OR resolved as reduce (KW_OR < EQUAL_OP).
-    Conflict between rule 81 and token NOT_EQUAL_OP resolved as shift (EQUAL_OP < NOT_EQUAL_OP).
-    Conflict between rule 81 and token LESS_OP resolved as shift (EQUAL_OP < LESS_OP).
-    Conflict between rule 81 and token LESS_EQUAL_OP resolved as shift (EQUAL_OP < LESS_EQUAL_OP).
-    Conflict between rule 81 and token EQUAL_OP resolved as reduce (%left EQUAL_OP).
-    Conflict between rule 81 and token '-' resolved as shift (EQUAL_OP < '-').
-    Conflict between rule 81 and token '+' resolved as shift (EQUAL_OP < '+').
-    Conflict between rule 81 and token '*' resolved as shift (EQUAL_OP < '*').
-    Conflict between rule 81 and token '/' resolved as shift (EQUAL_OP < '/').
-    Conflict between rule 81 and token '%' resolved as shift (EQUAL_OP < '%').
+    Conflict between rule 85 and token KW_AND resolved as reduce (KW_AND < LESS_OP).
+    Conflict between rule 85 and token KW_OR resolved as reduce (KW_OR < LESS_OP).
+    Conflict between rule 85 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_OP).
+    Conflict between rule 85 and token LESS_OP resolved as reduce (%left LESS_OP).
+    Conflict between rule 85 and token LESS_EQUAL_OP resolved as shift (LESS_OP < LESS_EQUAL_OP).
+    Conflict between rule 85 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_OP).
+    Conflict between rule 85 and token '-' resolved as shift (LESS_OP < '-').
+    Conflict between rule 85 and token '+' resolved as shift (LESS_OP < '+').
+    Conflict between rule 85 and token '*' resolved as shift (LESS_OP < '*').
+    Conflict between rule 85 and token '/' resolved as shift (LESS_OP < '/').
+    Conflict between rule 85 and token '%' resolved as shift (LESS_OP < '%').
 
 
 State 102
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   77     | expr '-' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   86     | expr LESS_EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, ')', ':', ';', ']', ',']
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    '*'  shift, and go to state 70
-    '/'  shift, and go to state 71
-    '%'  shift, and go to state 72
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '%'  shift, and go to state 74
 
-    $default  reduce using rule 77 (expr)
+    $default  reduce using rule 86 (expr)
 
-    Conflict between rule 77 and token KW_AND resolved as reduce (KW_AND < '-').
-    Conflict between rule 77 and token KW_OR resolved as reduce (KW_OR < '-').
-    Conflict between rule 77 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
-    Conflict between rule 77 and token LESS_OP resolved as reduce (LESS_OP < '-').
-    Conflict between rule 77 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
-    Conflict between rule 77 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
-    Conflict between rule 77 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 77 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 77 and token '*' resolved as shift ('-' < '*').
-    Conflict between rule 77 and token '/' resolved as shift ('-' < '/').
-    Conflict between rule 77 and token '%' resolved as shift ('-' < '%').
+    Conflict between rule 86 and token KW_AND resolved as reduce (KW_AND < LESS_EQUAL_OP).
+    Conflict between rule 86 and token KW_OR resolved as reduce (KW_OR < LESS_EQUAL_OP).
+    Conflict between rule 86 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 86 and token LESS_OP resolved as reduce (LESS_OP < LESS_EQUAL_OP).
+    Conflict between rule 86 and token LESS_EQUAL_OP resolved as reduce (%left LESS_EQUAL_OP).
+    Conflict between rule 86 and token EQUAL_OP resolved as reduce (EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 86 and token '-' resolved as shift (LESS_EQUAL_OP < '-').
+    Conflict between rule 86 and token '+' resolved as shift (LESS_EQUAL_OP < '+').
+    Conflict between rule 86 and token '*' resolved as shift (LESS_EQUAL_OP < '*').
+    Conflict between rule 86 and token '/' resolved as shift (LESS_EQUAL_OP < '/').
+    Conflict between rule 86 and token '%' resolved as shift (LESS_EQUAL_OP < '%').
 
 
 State 103
 
-   76 expr: expr . '+' expr
-   76     | expr '+' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   83     | expr EQUAL_OP expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, EQUAL_OP, ')', ':', ';', ']', ',']
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    '*'  shift, and go to state 70
-    '/'  shift, and go to state 71
-    '%'  shift, and go to state 72
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
-    $default  reduce using rule 76 (expr)
+    $default  reduce using rule 83 (expr)
 
-    Conflict between rule 76 and token KW_AND resolved as reduce (KW_AND < '+').
-    Conflict between rule 76 and token KW_OR resolved as reduce (KW_OR < '+').
-    Conflict between rule 76 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
-    Conflict between rule 76 and token LESS_OP resolved as reduce (LESS_OP < '+').
-    Conflict between rule 76 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
-    Conflict between rule 76 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
-    Conflict between rule 76 and token '-' resolved as reduce (%left '-').
-    Conflict between rule 76 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 76 and token '*' resolved as shift ('+' < '*').
-    Conflict between rule 76 and token '/' resolved as shift ('+' < '/').
-    Conflict between rule 76 and token '%' resolved as shift ('+' < '%').
+    Conflict between rule 83 and token KW_AND resolved as reduce (KW_AND < EQUAL_OP).
+    Conflict between rule 83 and token KW_OR resolved as reduce (KW_OR < EQUAL_OP).
+    Conflict between rule 83 and token NOT_EQUAL_OP resolved as shift (EQUAL_OP < NOT_EQUAL_OP).
+    Conflict between rule 83 and token LESS_OP resolved as shift (EQUAL_OP < LESS_OP).
+    Conflict between rule 83 and token LESS_EQUAL_OP resolved as shift (EQUAL_OP < LESS_EQUAL_OP).
+    Conflict between rule 83 and token EQUAL_OP resolved as reduce (%left EQUAL_OP).
+    Conflict between rule 83 and token '-' resolved as shift (EQUAL_OP < '-').
+    Conflict between rule 83 and token '+' resolved as shift (EQUAL_OP < '+').
+    Conflict between rule 83 and token '*' resolved as shift (EQUAL_OP < '*').
+    Conflict between rule 83 and token '/' resolved as shift (EQUAL_OP < '/').
+    Conflict between rule 83 and token '%' resolved as shift (EQUAL_OP < '%').
 
 
 State 104
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   78     | expr '*' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   79     | expr '-' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    $default  reduce using rule 78 (expr)
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '%'  shift, and go to state 74
 
-    Conflict between rule 78 and token KW_AND resolved as reduce (KW_AND < '*').
-    Conflict between rule 78 and token KW_OR resolved as reduce (KW_OR < '*').
-    Conflict between rule 78 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '*').
-    Conflict between rule 78 and token LESS_OP resolved as reduce (LESS_OP < '*').
-    Conflict between rule 78 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '*').
-    Conflict between rule 78 and token EQUAL_OP resolved as reduce (EQUAL_OP < '*').
-    Conflict between rule 78 and token '-' resolved as reduce ('-' < '*').
-    Conflict between rule 78 and token '+' resolved as reduce ('+' < '*').
-    Conflict between rule 78 and token '*' resolved as reduce (%left '*').
-    Conflict between rule 78 and token '/' resolved as reduce (%left '/').
-    Conflict between rule 78 and token '%' resolved as reduce (%left '%').
+    $default  reduce using rule 79 (expr)
+
+    Conflict between rule 79 and token KW_AND resolved as reduce (KW_AND < '-').
+    Conflict between rule 79 and token KW_OR resolved as reduce (KW_OR < '-').
+    Conflict between rule 79 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '-').
+    Conflict between rule 79 and token LESS_OP resolved as reduce (LESS_OP < '-').
+    Conflict between rule 79 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '-').
+    Conflict between rule 79 and token EQUAL_OP resolved as reduce (EQUAL_OP < '-').
+    Conflict between rule 79 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 79 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 79 and token '*' resolved as shift ('-' < '*').
+    Conflict between rule 79 and token '/' resolved as shift ('-' < '/').
+    Conflict between rule 79 and token '%' resolved as shift ('-' < '%').
 
 
 State 105
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   79     | expr '/' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   78     | expr '+' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', ')', ':', ';', ']', ',']
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    $default  reduce using rule 79 (expr)
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '%'  shift, and go to state 74
 
-    Conflict between rule 79 and token KW_AND resolved as reduce (KW_AND < '/').
-    Conflict between rule 79 and token KW_OR resolved as reduce (KW_OR < '/').
-    Conflict between rule 79 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '/').
-    Conflict between rule 79 and token LESS_OP resolved as reduce (LESS_OP < '/').
-    Conflict between rule 79 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '/').
-    Conflict between rule 79 and token EQUAL_OP resolved as reduce (EQUAL_OP < '/').
-    Conflict between rule 79 and token '-' resolved as reduce ('-' < '/').
-    Conflict between rule 79 and token '+' resolved as reduce ('+' < '/').
-    Conflict between rule 79 and token '*' resolved as reduce (%left '*').
-    Conflict between rule 79 and token '/' resolved as reduce (%left '/').
-    Conflict between rule 79 and token '%' resolved as reduce (%left '%').
+    $default  reduce using rule 78 (expr)
+
+    Conflict between rule 78 and token KW_AND resolved as reduce (KW_AND < '+').
+    Conflict between rule 78 and token KW_OR resolved as reduce (KW_OR < '+').
+    Conflict between rule 78 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '+').
+    Conflict between rule 78 and token LESS_OP resolved as reduce (LESS_OP < '+').
+    Conflict between rule 78 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '+').
+    Conflict between rule 78 and token EQUAL_OP resolved as reduce (EQUAL_OP < '+').
+    Conflict between rule 78 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 78 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 78 and token '*' resolved as shift ('+' < '*').
+    Conflict between rule 78 and token '/' resolved as shift ('+' < '/').
+    Conflict between rule 78 and token '%' resolved as shift ('+' < '%').
 
 
 State 106
 
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   80     | expr '%' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   80     | expr '*' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
     $default  reduce using rule 80 (expr)
 
-    Conflict between rule 80 and token KW_AND resolved as reduce (KW_AND < '%').
-    Conflict between rule 80 and token KW_OR resolved as reduce (KW_OR < '%').
-    Conflict between rule 80 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '%').
-    Conflict between rule 80 and token LESS_OP resolved as reduce (LESS_OP < '%').
-    Conflict between rule 80 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '%').
-    Conflict between rule 80 and token EQUAL_OP resolved as reduce (EQUAL_OP < '%').
-    Conflict between rule 80 and token '-' resolved as reduce ('-' < '%').
-    Conflict between rule 80 and token '+' resolved as reduce ('+' < '%').
+    Conflict between rule 80 and token KW_AND resolved as reduce (KW_AND < '*').
+    Conflict between rule 80 and token KW_OR resolved as reduce (KW_OR < '*').
+    Conflict between rule 80 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '*').
+    Conflict between rule 80 and token LESS_OP resolved as reduce (LESS_OP < '*').
+    Conflict between rule 80 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '*').
+    Conflict between rule 80 and token EQUAL_OP resolved as reduce (EQUAL_OP < '*').
+    Conflict between rule 80 and token '-' resolved as reduce ('-' < '*').
+    Conflict between rule 80 and token '+' resolved as reduce ('+' < '*').
     Conflict between rule 80 and token '*' resolved as reduce (%left '*').
     Conflict between rule 80 and token '/' resolved as reduce (%left '/').
     Conflict between rule 80 and token '%' resolved as reduce (%left '%').
@@ -2677,12 +2715,72 @@ State 106
 
 State 107
 
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   81     | expr '/' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    $default  reduce using rule 81 (expr)
+
+    Conflict between rule 81 and token KW_AND resolved as reduce (KW_AND < '/').
+    Conflict between rule 81 and token KW_OR resolved as reduce (KW_OR < '/').
+    Conflict between rule 81 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '/').
+    Conflict between rule 81 and token LESS_OP resolved as reduce (LESS_OP < '/').
+    Conflict between rule 81 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '/').
+    Conflict between rule 81 and token EQUAL_OP resolved as reduce (EQUAL_OP < '/').
+    Conflict between rule 81 and token '-' resolved as reduce ('-' < '/').
+    Conflict between rule 81 and token '+' resolved as reduce ('+' < '/').
+    Conflict between rule 81 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 81 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 81 and token '%' resolved as reduce (%left '%').
+
+
+State 108
+
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   82     | expr '%' expr .  [KW_THEN, KW_LOOP, KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')', ':', ';', ']', ',']
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    $default  reduce using rule 82 (expr)
+
+    Conflict between rule 82 and token KW_AND resolved as reduce (KW_AND < '%').
+    Conflict between rule 82 and token KW_OR resolved as reduce (KW_OR < '%').
+    Conflict between rule 82 and token NOT_EQUAL_OP resolved as reduce (NOT_EQUAL_OP < '%').
+    Conflict between rule 82 and token LESS_OP resolved as reduce (LESS_OP < '%').
+    Conflict between rule 82 and token LESS_EQUAL_OP resolved as reduce (LESS_EQUAL_OP < '%').
+    Conflict between rule 82 and token EQUAL_OP resolved as reduce (EQUAL_OP < '%').
+    Conflict between rule 82 and token '-' resolved as reduce ('-' < '%').
+    Conflict between rule 82 and token '+' resolved as reduce ('+' < '%').
+    Conflict between rule 82 and token '*' resolved as reduce (%left '*').
+    Conflict between rule 82 and token '/' resolved as reduce (%left '/').
+    Conflict between rule 82 and token '%' resolved as reduce (%left '%').
+
+
+State 109
+
    57 function_call: IDENTIFIER '(' func_parameters ')' .
 
     $default  reduce using rule 57 (function_call)
 
 
-State 108
+State 110
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -2701,73 +2799,77 @@ State 108
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 118
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 120
 
 
-State 109
+State 111
 
    40 ident_form_part: IDENTIFIER '[' expr ']' .
 
     $default  reduce using rule 40 (ident_form_part)
 
 
-State 110
+State 112
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN . '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    '('  shift, and go to state 119
+    '('  shift, and go to state 121
 
 
-State 111
+State 113
 
    62 cmd_line: ident_form_part ASSIGN expr ';' .
 
     $default  reduce using rule 62 (cmd_line)
 
 
-State 112
+State 114
 
     2 final_form: KW_CONST KW_START ASSIGN '(' ')' . ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    ':'  shift, and go to state 120
+    ':'  shift, and go to state 122
 
 
-State 113
+State 115
 
    31 decl_body_part_c: decl_form_c ':' data_type ';' .
 
     $default  reduce using rule 31 (decl_body_part_c)
 
 
-State 114
+State 116
 
    33 decl_form_c: decl_form_c ',' ident_form_part ASSIGN . expr
    38 ident_form_part: . IDENTIFIER
@@ -2786,48 +2888,52 @@ State 114
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 121
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 123
 
 
-State 115
+State 117
 
    48 func_parameters_decl: ident_form_part . ':' data_type
    69 expr: ident_form_part .  [KW_AND, KW_OR, NOT_EQUAL_OP, LESS_OP, LESS_EQUAL_OP, EQUAL_OP, '-', '+', '*', '/', '%', ')']
 
-    ':'  shift, and go to state 122
+    ':'  shift, and go to state 124
 
     $default  reduce using rule 69 (expr)
 
 
-State 116
+State 118
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type FUNC_START_ARROW '{' body '}' ';'
    27          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' data_type ';'
@@ -2835,92 +2941,92 @@ State 116
    29          | ident_form_part ASSIGN '(' func_parameters_decl . ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' ';'
    49 func_parameters_decl: func_parameters_decl . ',' ident_form_part ':' data_type
 
-    ')'  shift, and go to state 123
-    ','  shift, and go to state 124
+    ')'  shift, and go to state 125
+    ','  shift, and go to state 126
 
 
-State 117
+State 119
 
    30 decl_body_part: decl_form ':' data_type ';' .
 
     $default  reduce using rule 30 (decl_body_part)
 
 
-State 118
+State 120
 
    46 func_parameters: func_parameters ',' expr .  [')', ',']
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 46 (func_parameters)
 
 
-State 119
+State 121
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' . ')' ':' KW_INT FUNC_START_ARROW '{' body '}'
 
-    ')'  shift, and go to state 125
+    ')'  shift, and go to state 127
 
 
-State 120
+State 122
 
     2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' . KW_INT FUNC_START_ARROW '{' body '}'
 
-    KW_INT  shift, and go to state 126
+    KW_INT  shift, and go to state 128
 
 
-State 121
+State 123
 
    33 decl_form_c: decl_form_c ',' ident_form_part ASSIGN expr .  [':', ',']
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
     $default  reduce using rule 33 (decl_form_c)
 
 
-State 122
+State 124
 
    48 func_parameters_decl: ident_form_part ':' . data_type
    50 data_type: . KW_INT
@@ -2928,25 +3034,25 @@ State 122
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
 
-    data_type  go to state 127
+    data_type  go to state 129
 
 
-State 123
+State 125
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type FUNC_START_ARROW '{' body '}' ';'
    27          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' data_type ';'
    28          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type ';'
    29          | ident_form_part ASSIGN '(' func_parameters_decl ')' . ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' ';'
 
-    ':'  shift, and go to state 128
+    ':'  shift, and go to state 130
 
 
-State 124
+State 126
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -2955,31 +3061,31 @@ State 124
 
     IDENTIFIER  shift, and go to state 19
 
-    ident_form_part  go to state 129
-
-
-State 125
-
-    3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' . ':' KW_INT FUNC_START_ARROW '{' body '}'
-
-    ':'  shift, and go to state 130
-
-
-State 126
-
-    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT . FUNC_START_ARROW '{' body '}'
-
-    FUNC_START_ARROW  shift, and go to state 131
+    ident_form_part  go to state 131
 
 
 State 127
+
+    3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' . ':' KW_INT FUNC_START_ARROW '{' body '}'
+
+    ':'  shift, and go to state 132
+
+
+State 128
+
+    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT . FUNC_START_ARROW '{' body '}'
+
+    FUNC_START_ARROW  shift, and go to state 133
+
+
+State 129
 
    48 func_parameters_decl: ident_form_part ':' data_type .
 
     $default  reduce using rule 48 (func_parameters_decl)
 
 
-State 128
+State 130
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type FUNC_START_ARROW '{' body '}' ';'
    27          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' . data_type ';'
@@ -2990,54 +3096,54 @@ State 128
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
-    '['        shift, and go to state 132
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
+    '['        shift, and go to state 134
 
-    data_type  go to state 133
-
-
-State 129
-
-   49 func_parameters_decl: func_parameters_decl ',' ident_form_part . ':' data_type
-
-    ':'  shift, and go to state 134
-
-
-State 130
-
-    3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' . KW_INT FUNC_START_ARROW '{' body '}'
-
-    KW_INT  shift, and go to state 135
+    data_type  go to state 135
 
 
 State 131
 
-    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW . '{' body '}'
+   49 func_parameters_decl: func_parameters_decl ',' ident_form_part . ':' data_type
 
-    '{'  shift, and go to state 136
+    ':'  shift, and go to state 136
 
 
 State 132
 
-   28 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type ';'
-   29          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type FUNC_START_ARROW '{' body '}' ';'
+    3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' . KW_INT FUNC_START_ARROW '{' body '}'
 
-    ']'  shift, and go to state 137
+    KW_INT  shift, and go to state 137
 
 
 State 133
 
-   26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . FUNC_START_ARROW '{' body '}' ';'
-   27          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . ';'
+    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW . '{' body '}'
 
-    FUNC_START_ARROW  shift, and go to state 138
-    ';'               shift, and go to state 139
+    '{'  shift, and go to state 138
 
 
 State 134
+
+   28 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type ';'
+   29          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' . ']' data_type FUNC_START_ARROW '{' body '}' ';'
+
+    ']'  shift, and go to state 139
+
+
+State 135
+
+   26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . FUNC_START_ARROW '{' body '}' ';'
+   27          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type . ';'
+
+    FUNC_START_ARROW  shift, and go to state 140
+    ';'               shift, and go to state 141
+
+
+State 136
 
    49 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' . data_type
    50 data_type: . KW_INT
@@ -3045,22 +3151,22 @@ State 134
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
 
-    data_type  go to state 140
+    data_type  go to state 142
 
 
-State 135
+State 137
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT . FUNC_START_ARROW '{' body '}'
 
-    FUNC_START_ARROW  shift, and go to state 141
+    FUNC_START_ARROW  shift, and go to state 143
 
 
-State 136
+State 138
 
     2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' . body '}'
     4 body: . %empty  ['}']
@@ -3098,9 +3204,9 @@ State 136
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3109,26 +3215,26 @@ State 136
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 148
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 150
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
-State 137
+State 139
 
    28 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type ';'
    29          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' . data_type FUNC_START_ARROW '{' body '}' ';'
@@ -3137,43 +3243,43 @@ State 137
    52          | . KW_REAL
    53          | . KW_STRING
 
-    KW_INT     shift, and go to state 84
-    KW_REAL    shift, and go to state 85
-    KW_BOOL    shift, and go to state 86
-    KW_STRING  shift, and go to state 87
+    KW_INT     shift, and go to state 86
+    KW_REAL    shift, and go to state 87
+    KW_BOOL    shift, and go to state 88
+    KW_STRING  shift, and go to state 89
 
-    data_type  go to state 157
+    data_type  go to state 159
 
 
-State 138
+State 140
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW . '{' body '}' ';'
 
-    '{'  shift, and go to state 158
+    '{'  shift, and go to state 160
 
 
-State 139
+State 141
 
    27 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type ';' .
 
     $default  reduce using rule 27 (func_decl)
 
 
-State 140
+State 142
 
    49 func_parameters_decl: func_parameters_decl ',' ident_form_part ':' data_type .
 
     $default  reduce using rule 49 (func_parameters_decl)
 
 
-State 141
+State 143
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW . '{' body '}'
 
-    '{'  shift, and go to state 159
+    '{'  shift, and go to state 161
 
 
-State 142
+State 144
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -3193,38 +3299,42 @@ State 142
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 160
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 162
 
 
-State 143
+State 145
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -3243,38 +3353,42 @@ State 143
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 161
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 163
 
 
-State 144
+State 146
 
    24 decl: KW_CONST . decl_body_part_c
    25     | KW_CONST . func_decl
@@ -3297,35 +3411,35 @@ State 144
     ident_form_part   go to state 23
 
 
-State 145
-
-   54 printf_func: WRITESTRING_FUNC . '(' string ')' ';'
-
-    '('  shift, and go to state 162
-
-
-State 146
-
-   55 printf_func: "teaclib.h" . '(' expr ')' ';'
-
-    '('  shift, and go to state 163
-
-
 State 147
 
-   56 printf_func: WRITEREAL_FUNC . '(' expr ')' ';'
+   54 printf_func: WRITESTRING_FUNC . '(' string ')' ';'
 
     '('  shift, and go to state 164
 
 
 State 148
 
-    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body . '}'
+   55 printf_func: "teaclib.h" . '(' expr ')' ';'
 
-    '}'  shift, and go to state 165
+    '('  shift, and go to state 165
 
 
 State 149
+
+   56 printf_func: WRITEREAL_FUNC . '(' expr ')' ';'
+
+    '('  shift, and go to state 166
+
+
+State 150
+
+    2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body . '}'
+
+    '}'  shift, and go to state 167
+
+
+State 151
 
     5 body: more .  [KW_ELSE, KW_FI, KW_POOL, '}']
    10 more: more . while_loop
@@ -3357,9 +3471,9 @@ State 149
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3368,82 +3482,82 @@ State 149
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 5 (body)
 
-    decl_list1       go to state 166
-    decl             go to state 151
+    decl_list1       go to state 168
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 167
-    while_loop       go to state 168
-    printf_func      go to state 169
+    if_stmt          go to state 169
+    while_loop       go to state 170
+    printf_func      go to state 171
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
-State 150
+State 152
 
     8 more: decl_list1 .
 
     $default  reduce using rule 8 (more)
 
 
-State 151
+State 153
 
    16 decl_list1: decl .
 
     $default  reduce using rule 16 (decl_list1)
 
 
-State 152
+State 154
 
     7 more: if_stmt .
 
     $default  reduce using rule 7 (more)
 
 
-State 153
+State 155
 
     6 more: while_loop .
 
     $default  reduce using rule 6 (more)
 
 
-State 154
+State 156
 
     9 more: printf_func .
 
     $default  reduce using rule 9 (more)
 
 
-State 155
+State 157
 
    14 decl_list1: cmd_line .
 
     $default  reduce using rule 14 (decl_list1)
 
 
-State 156
+State 158
 
    15 decl_list1: comment .
 
     $default  reduce using rule 15 (decl_list1)
 
 
-State 157
+State 159
 
    28 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . ';'
    29          | ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type . FUNC_START_ARROW '{' body '}' ';'
 
-    FUNC_START_ARROW  shift, and go to state 170
-    ';'               shift, and go to state 171
+    FUNC_START_ARROW  shift, and go to state 172
+    ';'               shift, and go to state 173
 
 
-State 158
+State 160
 
     4 body: . %empty  ['}']
     5     | . more
@@ -3481,9 +3595,9 @@ State 158
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3492,26 +3606,26 @@ State 158
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 172
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 174
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
-State 159
+State 161
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' . body '}'
     4 body: . %empty  ['}']
@@ -3549,9 +3663,9 @@ State 159
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3560,95 +3674,95 @@ State 159
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 173
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 175
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
-
-
-State 160
-
-   41 if_stmt: KW_IF expr . KW_THEN body KW_ELSE body KW_FI ';'
-   42        | KW_IF expr . KW_THEN body KW_FI ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-
-    KW_THEN        shift, and go to state 174
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-
-
-State 161
-
-   43 while_loop: KW_WHILE expr . KW_LOOP body KW_POOL ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-
-    KW_LOOP        shift, and go to state 175
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
 State 162
 
-   54 printf_func: WRITESTRING_FUNC '(' . string ')' ';'
-   66 string: . STRING
+   41 if_stmt: KW_IF expr . KW_THEN body KW_ELSE body KW_FI ';'
+   42        | KW_IF expr . KW_THEN body KW_FI ';'
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
 
-    STRING  shift, and go to state 30
-
-    string  go to state 176
+    KW_THEN        shift, and go to state 176
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
 
 
 State 163
+
+   43 while_loop: KW_WHILE expr . KW_LOOP body KW_POOL ';'
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    KW_LOOP        shift, and go to state 177
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+
+
+State 164
+
+   54 printf_func: WRITESTRING_FUNC '(' . string ')' ';'
+   66 string: . STRING
+
+    STRING  shift, and go to state 32
+
+    string  go to state 178
+
+
+State 165
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -3667,38 +3781,42 @@ State 163
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 177
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 179
 
 
-State 164
+State 166
 
    38 ident_form_part: . IDENTIFIER
    39                | . IDENTIFIER '[' ']'
@@ -3717,101 +3835,105 @@ State 164
    72     | . KW_NOT expr
    73     | . POSINT
    74     | . REAL
-   75     | . '(' expr ')'
-   76     | . expr '+' expr
-   77     | . expr '-' expr
-   78     | . expr '*' expr
-   79     | . expr '/' expr
-   80     | . expr '%' expr
-   81     | . expr EQUAL_OP expr
-   82     | . expr NOT_EQUAL_OP expr
-   83     | . expr LESS_OP expr
-   84     | . expr LESS_EQUAL_OP expr
-   85     | . expr KW_AND expr
-   86     | . expr KW_OR expr
+   75     | . KW_TRUE
+   76     | . KW_FALSE
+   77     | . '(' expr ')'
+   78     | . expr '+' expr
+   79     | . expr '-' expr
+   80     | . expr '*' expr
+   81     | . expr '/' expr
+   82     | . expr '%' expr
+   83     | . expr EQUAL_OP expr
+   84     | . expr NOT_EQUAL_OP expr
+   85     | . expr LESS_OP expr
+   86     | . expr LESS_EQUAL_OP expr
+   87     | . expr KW_AND expr
+   88     | . expr KW_OR expr
 
-    KW_NOT           shift, and go to state 28
+    KW_TRUE          shift, and go to state 28
+    KW_FALSE         shift, and go to state 29
+    KW_NOT           shift, and go to state 30
     IDENTIFIER       shift, and go to state 4
-    POSINT           shift, and go to state 29
-    STRING           shift, and go to state 30
-    REAL             shift, and go to state 31
+    POSINT           shift, and go to state 31
+    STRING           shift, and go to state 32
+    REAL             shift, and go to state 33
     READSTRING_FUNC  shift, and go to state 7
     READINT_FUNC     shift, and go to state 8
     READREAL_FUNC    shift, and go to state 9
-    '-'              shift, and go to state 32
-    '+'              shift, and go to state 33
-    '('              shift, and go to state 34
+    '-'              shift, and go to state 34
+    '+'              shift, and go to state 35
+    '('              shift, and go to state 36
 
-    ident_form_part  go to state 35
-    function_call    go to state 36
-    string           go to state 37
-    expr             go to state 178
+    ident_form_part  go to state 37
+    function_call    go to state 38
+    string           go to state 39
+    expr             go to state 180
 
 
-State 165
+State 167
 
     2 final_form: KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' .
 
     $default  reduce using rule 2 (final_form)
 
 
-State 166
+State 168
 
    12 more: more decl_list1 .
 
     $default  reduce using rule 12 (more)
 
 
-State 167
+State 169
 
    11 more: more if_stmt .
 
     $default  reduce using rule 11 (more)
 
 
-State 168
+State 170
 
    10 more: more while_loop .
 
     $default  reduce using rule 10 (more)
 
 
-State 169
+State 171
 
    13 more: more printf_func .
 
     $default  reduce using rule 13 (more)
 
 
-State 170
+State 172
 
    29 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW . '{' body '}' ';'
 
-    '{'  shift, and go to state 179
+    '{'  shift, and go to state 181
 
 
-State 171
+State 173
 
    28 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type ';' .
 
     $default  reduce using rule 28 (func_decl)
 
 
-State 172
+State 174
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body . '}' ';'
 
-    '}'  shift, and go to state 180
+    '}'  shift, and go to state 182
 
 
-State 173
+State 175
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body . '}'
 
-    '}'  shift, and go to state 181
+    '}'  shift, and go to state 183
 
 
-State 174
+State 176
 
     4 body: . %empty  [KW_ELSE, KW_FI]
     5     | . more
@@ -3850,9 +3972,9 @@ State 174
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3861,26 +3983,26 @@ State 174
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 182
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 184
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
-State 175
+State 177
 
     4 body: . %empty  [KW_POOL]
     5     | . more
@@ -3918,9 +4040,9 @@ State 175
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -3929,91 +4051,91 @@ State 175
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 183
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 185
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
-
-
-State 176
-
-   54 printf_func: WRITESTRING_FUNC '(' string . ')' ';'
-
-    ')'  shift, and go to state 184
-
-
-State 177
-
-   55 printf_func: "teaclib.h" '(' expr . ')' ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
-
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ')'            shift, and go to state 185
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
 State 178
 
-   56 printf_func: WRITEREAL_FUNC '(' expr . ')' ';'
-   76 expr: expr . '+' expr
-   77     | expr . '-' expr
-   78     | expr . '*' expr
-   79     | expr . '/' expr
-   80     | expr . '%' expr
-   81     | expr . EQUAL_OP expr
-   82     | expr . NOT_EQUAL_OP expr
-   83     | expr . LESS_OP expr
-   84     | expr . LESS_EQUAL_OP expr
-   85     | expr . KW_AND expr
-   86     | expr . KW_OR expr
+   54 printf_func: WRITESTRING_FUNC '(' string . ')' ';'
 
-    KW_AND         shift, and go to state 62
-    KW_OR          shift, and go to state 63
-    NOT_EQUAL_OP   shift, and go to state 64
-    LESS_OP        shift, and go to state 65
-    LESS_EQUAL_OP  shift, and go to state 66
-    EQUAL_OP       shift, and go to state 67
-    '-'            shift, and go to state 68
-    '+'            shift, and go to state 69
-    '*'            shift, and go to state 70
-    '/'            shift, and go to state 71
-    '%'            shift, and go to state 72
-    ')'            shift, and go to state 186
+    ')'  shift, and go to state 186
 
 
 State 179
+
+   55 printf_func: "teaclib.h" '(' expr . ')' ';'
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ')'            shift, and go to state 187
+
+
+State 180
+
+   56 printf_func: WRITEREAL_FUNC '(' expr . ')' ';'
+   78 expr: expr . '+' expr
+   79     | expr . '-' expr
+   80     | expr . '*' expr
+   81     | expr . '/' expr
+   82     | expr . '%' expr
+   83     | expr . EQUAL_OP expr
+   84     | expr . NOT_EQUAL_OP expr
+   85     | expr . LESS_OP expr
+   86     | expr . LESS_EQUAL_OP expr
+   87     | expr . KW_AND expr
+   88     | expr . KW_OR expr
+
+    KW_AND         shift, and go to state 64
+    KW_OR          shift, and go to state 65
+    NOT_EQUAL_OP   shift, and go to state 66
+    LESS_OP        shift, and go to state 67
+    LESS_EQUAL_OP  shift, and go to state 68
+    EQUAL_OP       shift, and go to state 69
+    '-'            shift, and go to state 70
+    '+'            shift, and go to state 71
+    '*'            shift, and go to state 72
+    '/'            shift, and go to state 73
+    '%'            shift, and go to state 74
+    ')'            shift, and go to state 188
+
+
+State 181
 
     4 body: . %empty  ['}']
     5     | . more
@@ -4051,9 +4173,9 @@ State 179
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -4062,91 +4184,91 @@ State 179
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 187
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 189
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
-State 180
+State 182
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' . ';'
 
-    ';'  shift, and go to state 188
+    ';'  shift, and go to state 190
 
 
-State 181
+State 183
 
     3 final_form: decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' .
 
     $default  reduce using rule 3 (final_form)
 
 
-State 182
+State 184
 
    41 if_stmt: KW_IF expr KW_THEN body . KW_ELSE body KW_FI ';'
    42        | KW_IF expr KW_THEN body . KW_FI ';'
 
-    KW_ELSE  shift, and go to state 189
-    KW_FI    shift, and go to state 190
-
-
-State 183
-
-   43 while_loop: KW_WHILE expr KW_LOOP body . KW_POOL ';'
-
-    KW_POOL  shift, and go to state 191
-
-
-State 184
-
-   54 printf_func: WRITESTRING_FUNC '(' string ')' . ';'
-
-    ';'  shift, and go to state 192
+    KW_ELSE  shift, and go to state 191
+    KW_FI    shift, and go to state 192
 
 
 State 185
 
-   55 printf_func: "teaclib.h" '(' expr ')' . ';'
+   43 while_loop: KW_WHILE expr KW_LOOP body . KW_POOL ';'
 
-    ';'  shift, and go to state 193
+    KW_POOL  shift, and go to state 193
 
 
 State 186
 
-   56 printf_func: WRITEREAL_FUNC '(' expr ')' . ';'
+   54 printf_func: WRITESTRING_FUNC '(' string ')' . ';'
 
     ';'  shift, and go to state 194
 
 
 State 187
 
-   29 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body . '}' ';'
+   55 printf_func: "teaclib.h" '(' expr ')' . ';'
 
-    '}'  shift, and go to state 195
+    ';'  shift, and go to state 195
 
 
 State 188
+
+   56 printf_func: WRITEREAL_FUNC '(' expr ')' . ';'
+
+    ';'  shift, and go to state 196
+
+
+State 189
+
+   29 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body . '}' ';'
+
+    '}'  shift, and go to state 197
+
+
+State 190
 
    26 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' data_type FUNC_START_ARROW '{' body '}' ';' .
 
     $default  reduce using rule 26 (func_decl)
 
 
-State 189
+State 191
 
     4 body: . %empty  [KW_FI]
     5     | . more
@@ -4184,9 +4306,9 @@ State 189
    64 comment: . LINE_COMMENT
    65        | . MLINE_COMMENT
 
-    KW_IF             shift, and go to state 142
-    KW_WHILE          shift, and go to state 143
-    KW_CONST          shift, and go to state 144
+    KW_IF             shift, and go to state 144
+    KW_WHILE          shift, and go to state 145
+    KW_CONST          shift, and go to state 146
     KW_LET            shift, and go to state 2
     KW_RETURN         shift, and go to state 3
     IDENTIFIER        shift, and go to state 4
@@ -4195,103 +4317,103 @@ State 189
     READSTRING_FUNC   shift, and go to state 7
     READINT_FUNC      shift, and go to state 8
     READREAL_FUNC     shift, and go to state 9
-    WRITESTRING_FUNC  shift, and go to state 145
-    "teaclib.h"       shift, and go to state 146
-    WRITEREAL_FUNC    shift, and go to state 147
+    WRITESTRING_FUNC  shift, and go to state 147
+    "teaclib.h"       shift, and go to state 148
+    WRITEREAL_FUNC    shift, and go to state 149
 
     $default  reduce using rule 4 (body)
 
-    body             go to state 196
-    more             go to state 149
-    decl_list1       go to state 150
-    decl             go to state 151
+    body             go to state 198
+    more             go to state 151
+    decl_list1       go to state 152
+    decl             go to state 153
     ident_form_part  go to state 14
-    if_stmt          go to state 152
-    while_loop       go to state 153
-    printf_func      go to state 154
+    if_stmt          go to state 154
+    while_loop       go to state 155
+    printf_func      go to state 156
     function_call    go to state 15
-    cmd_line         go to state 155
-    comment          go to state 156
-
-
-State 190
-
-   42 if_stmt: KW_IF expr KW_THEN body KW_FI . ';'
-
-    ';'  shift, and go to state 197
-
-
-State 191
-
-   43 while_loop: KW_WHILE expr KW_LOOP body KW_POOL . ';'
-
-    ';'  shift, and go to state 198
+    cmd_line         go to state 157
+    comment          go to state 158
 
 
 State 192
+
+   42 if_stmt: KW_IF expr KW_THEN body KW_FI . ';'
+
+    ';'  shift, and go to state 199
+
+
+State 193
+
+   43 while_loop: KW_WHILE expr KW_LOOP body KW_POOL . ';'
+
+    ';'  shift, and go to state 200
+
+
+State 194
 
    54 printf_func: WRITESTRING_FUNC '(' string ')' ';' .
 
     $default  reduce using rule 54 (printf_func)
 
 
-State 193
+State 195
 
    55 printf_func: "teaclib.h" '(' expr ')' ';' .
 
     $default  reduce using rule 55 (printf_func)
 
 
-State 194
+State 196
 
    56 printf_func: WRITEREAL_FUNC '(' expr ')' ';' .
 
     $default  reduce using rule 56 (printf_func)
 
 
-State 195
+State 197
 
    29 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' . ';'
 
-    ';'  shift, and go to state 199
+    ';'  shift, and go to state 201
 
 
-State 196
+State 198
 
    41 if_stmt: KW_IF expr KW_THEN body KW_ELSE body . KW_FI ';'
 
-    KW_FI  shift, and go to state 200
+    KW_FI  shift, and go to state 202
 
 
-State 197
+State 199
 
    42 if_stmt: KW_IF expr KW_THEN body KW_FI ';' .
 
     $default  reduce using rule 42 (if_stmt)
 
 
-State 198
+State 200
 
    43 while_loop: KW_WHILE expr KW_LOOP body KW_POOL ';' .
 
     $default  reduce using rule 43 (while_loop)
 
 
-State 199
+State 201
 
    29 func_decl: ident_form_part ASSIGN '(' func_parameters_decl ')' ':' '[' ']' data_type FUNC_START_ARROW '{' body '}' ';' .
 
     $default  reduce using rule 29 (func_decl)
 
 
-State 200
+State 202
 
    41 if_stmt: KW_IF expr KW_THEN body KW_ELSE body KW_FI . ';'
 
-    ';'  shift, and go to state 201
+    ';'  shift, and go to state 203
 
 
-State 201
+State 203
 
    41 if_stmt: KW_IF expr KW_THEN body KW_ELSE body KW_FI ';' .
 
