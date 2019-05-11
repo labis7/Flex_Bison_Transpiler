@@ -18,7 +18,7 @@ INT_CON      ("0")|([1-9]([0-9])*)
 REAL	     ({INT_CON})(".")("0")*({INT_CON}) 	   
 REAL_CON     ({REAL})([Ee](("+")|("-"))?({INT_CON}))?
 ID           [a-zA-Z][0-9a-zA-Z_]*
-STRING_L       (\")[^\n]((\\[ntr\\\'\"]|[^\"\n]))*[^\n](\")
+STRING_L       ((\')(\\[ntr\\\'\"]|[^\n])*(\'))|((\")((\\[ntr\\\'\"]|[^\"\n]))*(\"))
 
 
 
@@ -74,7 +74,7 @@ writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
 "-"         		return '-';
 "*"         		return '*';
 "/"         		return '/';
-"%"			return '%';
+"%"			return '%'; //{ yylval.str = strdup(yytext); return PERC_OP; }
 "="			{ yylval.str = strdup(yytext); return EQUAL_OP; }
 "!="			{ yylval.str = strdup(yytext); return NOT_EQUAL_OP; }
 "<"			{ yylval.str = strdup(yytext); return LESS_OP; }

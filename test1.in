@@ -3,27 +3,21 @@ const x<-():[]int=>{
  let x[80]<-"labiz":string;
  };
 let x:bool;
+let x,y:int;
+let x<-5,y<-10:int;
+let x,y<-5:int;
+
 const start<-():int=>
 {
+x<-5%5;
 
-  if(x<0) then
-	x<-0;
-	x<-10;
-  fi;
-  result <- true;
-  if(x<0) then
-  	x<-0;
-	x<-10;
-  else if(x=0) then
- 	x<-0;
-	x<-10;
-	fi;
-  fi;
-let x[80]<-"labiz":string;
-writeInt(cube(2+4)); --test
+let x[1]:string;
+x[0]<- '\"';
+let x[80]<-"\tLabiZ\n":string;
+writeInt(cube(writeInt(a/5))); --test
 a<-add(a + b); --test
 --test
 }
 
 
-
+	

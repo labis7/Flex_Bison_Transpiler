@@ -97,7 +97,7 @@ final_form
 
 final_form:
 KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' {$$ = template("\n#include <stdio.h>\n#include \"teaclib.h\" \n\nint main(){\n%s\n}\n",$10);}
-|decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'{$$ = template("\n#include <stdio.h>\n#include \"teaclib.h\" \n\n%s\n\nint main(){\n%s\n}\n",$1,$11);}
+|decl_list KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}'{$$ = template("\n#include <stdio.h>\n#include \"teaclib.h\"\n#include <stdbool.h> \n\n%s\n\nint main(){\n%s\n}\n",$1,$11);}
 ;
 
 
@@ -189,18 +189,18 @@ if_stmt:
 
 KW_IF expr KW_THEN body KW_ELSE body KW_FI ';'    	 {
 if(($6[0]=='i')&&($6[1]=='f'))
-  {$$ = template("if %s\n{\n%s\n}\nelse %s\n",$2, $4, $6); }
+  {$$ = template("if (%s)\n{\n%s\n}\nelse %s\n",$2, $4, $6); }
 else
-  {$$ = template("if %s\n{\n%s\n}\nelse\n {\n%s\n}",$2, $4, $6); } 
+  {$$ = template("if (%s)\n{\n%s\n}\nelse\n {\n%s\n}",$2, $4, $6); } 
  }
 
-|KW_IF expr KW_THEN body KW_FI ';' 			 { $$ = template("if %s\n{\n%s\n}",$2, $4); }
+|KW_IF expr KW_THEN body KW_FI ';' 			 { $$ = template("if (%s)\n{\n%s\n}",$2, $4); }
 
 ;
 
 
 while_loop:
-KW_WHILE expr KW_LOOP body KW_POOL ';' 		{$$ = template("while %s\n{\n%s\n}\n",$2,$4);}
+KW_WHILE expr KW_LOOP body KW_POOL ';' 		{$$ = template("while (%s)\n{\n%s\n}\n",$2,$4);}
 
 ;
 
@@ -227,9 +227,9 @@ data_type:
 ;
 
 printf_func:
-WRITESTRING_FUNC'(' string ')' ';'	{$$ = template("%s(%s);",$1,$3);} //..simple, it can be used as an expression too..
-|WRITEINT_FUNC'('expr')' 	';'	{$$ = template("%s(%s);",$1,$3);}
-|WRITEREAL_FUNC'('expr')'	';' 	{$$ = template("%s(%s);",$1,$3);}
+WRITESTRING_FUNC'(' string ')' 		{$$ = template("%s(%s)",$1,$3);} //..simple, it can be used as an expression too..
+|WRITEINT_FUNC'('expr')' 		{$$ = template("%s(%s)",$1,$3);}
+|WRITEREAL_FUNC'('expr')'	 	{$$ = template("%s(%s)",$1,$3);}
 ;
 
 function_call:
@@ -240,12 +240,14 @@ IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
 ;
 cmd_line:
 function_call ';'		 {$$ = template("%s;",$1);}
+|printf_func ';'		 {$$ = template("%s;",$1);}
 |ident_form_part ASSIGN expr ';' {$$ = template("%s = %s;",$1,$3);}
 |KW_RETURN expr ';'   		 {$$ = template("return %s;",$2);}
+|KW_RETURN ';'   		 {$$ = template("return ;");}
 ;
 
 comment:
-LINE_COMMENT   			 {$$ = template("\\\\%s",$1);}
+LINE_COMMENT   			 {$$ = template("//%s",$1);}
 |MLINE_COMMENT  		 {$$ = template("/*%s*/",$1);}
 ;
 
@@ -254,6 +256,7 @@ STRING  {$$ = template("%s",$1);};
 
 expr:
 string
+|printf_func
 |function_call
 | ident_form_part
 | '+' expr		 { $$ = template("+%s", $2); }
@@ -268,8 +271,8 @@ string
 | expr '-' expr  	 { $$ = template("%s - %s", $1, $3); }
 | expr '*' expr 	 { $$ = template("%s * %s", $1, $3); }
 | expr '/' expr 	 { $$ = template("%s / %s", $1, $3); }
-| expr '%' expr          { $$ = template("%s % %s", $1, $3); }
-| expr EQUAL_OP expr     { $$ = template("%s = %s", $1, $3); }
+| expr '%' expr      { $$ = template("%s %% %s", $1, $3); }
+| expr EQUAL_OP expr     { $$ = template("%s == %s", $1, $3); }
 | expr NOT_EQUAL_OP expr { $$ = template("%s != %s", $1, $3); }
 | expr LESS_OP expr      { $$ = template("%s < %s", $1, $3); }
 | expr LESS_EQUAL_OP expr{ $$ = template("%s <= %s", $1, $3); }
