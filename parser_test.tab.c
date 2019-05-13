@@ -475,16 +475,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    88,    88,    99,   100,   105,   106,   110,   111,   112,
-     113,   114,   115,   116,   117,   122,   123,   124,   128,   129,
-     130,   131,   132,   133,   137,   138,   139,   143,   146,   149,
-     152,   158,   162,   166,   167,   171,   172,   176,   177,   181,
-     182,   183,   190,   197,   203,   210,   211,   212,   216,   217,
-     218,   223,   224,   225,   226,   230,   231,   232,   236,   237,
-     238,   239,   242,   243,   244,   245,   246,   250,   251,   255,
-     258,   259,   260,   261,   262,   263,   264,   265,   266,   267,
-     268,   269,   270,   271,   272,   273,   274,   275,   276,   277,
-     278,   279,   280
+       0,    88,    88,    98,    99,   104,   105,   109,   110,   111,
+     112,   113,   114,   115,   116,   121,   122,   123,   127,   128,
+     129,   130,   131,   132,   136,   137,   138,   142,   145,   148,
+     151,   157,   161,   165,   166,   170,   171,   175,   176,   180,
+     181,   182,   189,   196,   202,   209,   210,   211,   215,   216,
+     217,   222,   223,   224,   225,   229,   230,   231,   235,   236,
+     237,   238,   241,   242,   243,   244,   245,   249,   250,   254,
+     257,   258,   259,   260,   261,   262,   263,   264,   265,   266,
+     267,   268,   269,   270,   271,   272,   273,   274,   275,   276,
+     277,   278,   279
 };
 #endif
 
@@ -1446,466 +1446,465 @@ yyreduce:
 #line 90 "parser_test.y" /* yacc.c:1646  */
     { 
   if (yyerror_count == 0) {
-    printf("\n\n");
-    printf("Expression evaluates to:%s",(yyvsp[0].str)); 
+    printf("//Expression evaluates to:\n\n%s",(yyvsp[0].str)); 
   }  
 }
-#line 1454 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1453 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 99 "parser_test.y" /* yacc.c:1646  */
+#line 98 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("\n#include <stdio.h>\n#include \"teaclib.h\" \n\nint main(){\n%s\n}\n",(yyvsp[-1].str));}
-#line 1460 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1459 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 100 "parser_test.y" /* yacc.c:1646  */
+#line 99 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("\n#include <stdio.h>\n#include \"teaclib.h\"\n#include <stdbool.h> \n\n%s\n\nint main(){\n%s\n}\n",(yyvsp[-11].str),(yyvsp[-1].str));}
-#line 1466 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1465 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 105 "parser_test.y" /* yacc.c:1646  */
+#line 104 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str)="";}
-#line 1472 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1471 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 106 "parser_test.y" /* yacc.c:1646  */
+#line 105 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str)=template("%s",(yyvsp[0].str));}
-#line 1478 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1477 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 114 "parser_test.y" /* yacc.c:1646  */
+#line 113 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1484 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1483 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 115 "parser_test.y" /* yacc.c:1646  */
+#line 114 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1490 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1489 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 116 "parser_test.y" /* yacc.c:1646  */
+#line 115 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1496 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1495 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 117 "parser_test.y" /* yacc.c:1646  */
+#line 116 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1502 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1501 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 130 "parser_test.y" /* yacc.c:1646  */
+#line 129 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s",(yyvsp[0].str)); }
-#line 1508 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1507 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 131 "parser_test.y" /* yacc.c:1646  */
+#line 130 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1514 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1513 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 132 "parser_test.y" /* yacc.c:1646  */
+#line 131 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1520 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1519 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 133 "parser_test.y" /* yacc.c:1646  */
+#line 132 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s\n%s", (yyvsp[-1].str), (yyvsp[0].str)); }
-#line 1526 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1525 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 137 "parser_test.y" /* yacc.c:1646  */
+#line 136 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s", (yyvsp[0].str)); }
-#line 1532 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1531 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 138 "parser_test.y" /* yacc.c:1646  */
+#line 137 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("const %s", (yyvsp[0].str)); }
-#line 1538 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1537 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 139 "parser_test.y" /* yacc.c:1646  */
+#line 138 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s", (yyvsp[0].str)); }
-#line 1544 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1543 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 143 "parser_test.y" /* yacc.c:1646  */
+#line 142 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s %s(%s)\n{\n%s\n}\n",(yyvsp[-5].str),(yyvsp[-11].str),(yyvsp[-8].str),(yyvsp[-2].str));
 											int res=check((yyvsp[-11].str)[0],(yyvsp[-11].str)[strlen((yyvsp[-11].str))-1]);
 											if(res) return -1;}
-#line 1552 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1551 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 146 "parser_test.y" /* yacc.c:1646  */
+#line 145 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s %s(%s);",(yyvsp[-1].str),(yyvsp[-7].str),(yyvsp[-4].str));
 									int res=check((yyvsp[-7].str)[0],(yyvsp[-7].str)[strlen((yyvsp[-7].str))-1]);
 									if(res) return -1;}
-#line 1560 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1559 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 149 "parser_test.y" /* yacc.c:1646  */
+#line 148 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s *%s(%s);",(yyvsp[-1].str),(yyvsp[-9].str),(yyvsp[-6].str));
 									int res=check((yyvsp[-9].str)[0],(yyvsp[-9].str)[strlen((yyvsp[-9].str))-1]);
 									if(res) return -1;}
-#line 1568 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1567 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 152 "parser_test.y" /* yacc.c:1646  */
+#line 151 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s *%s(%s)\n{\n%s\n}\n",(yyvsp[-5].str),(yyvsp[-13].str),(yyvsp[-10].str),(yyvsp[-2].str));
 												int res=check((yyvsp[-13].str)[0],(yyvsp[-13].str)[strlen((yyvsp[-13].str))-1]);
 												 if(res) return -1;}
-#line 1576 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1575 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 158 "parser_test.y" /* yacc.c:1646  */
+#line 157 "parser_test.y" /* yacc.c:1646  */
     {  (yyval.str) = template("%s %s;", (yyvsp[-1].str), (yyvsp[-3].str)); }
-#line 1582 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1581 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 162 "parser_test.y" /* yacc.c:1646  */
+#line 161 "parser_test.y" /* yacc.c:1646  */
     {  (yyval.str) = template("%s %s;", (yyvsp[-1].str), (yyvsp[-3].str)); }
-#line 1588 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1587 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 166 "parser_test.y" /* yacc.c:1646  */
+#line 165 "parser_test.y" /* yacc.c:1646  */
     {  (yyval.str) = template("%s = %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1594 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1593 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 167 "parser_test.y" /* yacc.c:1646  */
+#line 166 "parser_test.y" /* yacc.c:1646  */
     {  (yyval.str) = template("%s , %s = %s", (yyvsp[-4].str), (yyvsp[-2].str),(yyvsp[0].str)); }
-#line 1600 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1599 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 171 "parser_test.y" /* yacc.c:1646  */
+#line 170 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("%s",(yyvsp[0].str));}
-#line 1606 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1605 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 172 "parser_test.y" /* yacc.c:1646  */
+#line 171 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("%s , %s",(yyvsp[-2].str),(yyvsp[0].str));}
-#line 1612 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1611 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 176 "parser_test.y" /* yacc.c:1646  */
+#line 175 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("%s",(yyvsp[0].str));}
-#line 1618 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1617 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 177 "parser_test.y" /* yacc.c:1646  */
+#line 176 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("%s = %s",(yyvsp[-2].str),(yyvsp[0].str));}
-#line 1624 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1623 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 181 "parser_test.y" /* yacc.c:1646  */
+#line 180 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s",(yyvsp[0].str));}
-#line 1630 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1629 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 182 "parser_test.y" /* yacc.c:1646  */
+#line 181 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("*%s",(yyvsp[-2].str));}
-#line 1636 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1635 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 183 "parser_test.y" /* yacc.c:1646  */
+#line 182 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template ("%s[%s]",(yyvsp[-3].str),(yyvsp[-1].str));}
-#line 1642 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1641 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 190 "parser_test.y" /* yacc.c:1646  */
+#line 189 "parser_test.y" /* yacc.c:1646  */
     {
 if(((yyvsp[-2].str)[0]=='i')&&((yyvsp[-2].str)[1]=='f'))
   {(yyval.str) = template("if (%s)\n{\n%s\n}\nelse %s\n",(yyvsp[-6].str), (yyvsp[-4].str), (yyvsp[-2].str)); }
 else
   {(yyval.str) = template("if (%s)\n{\n%s\n}\nelse\n {\n%s\n}",(yyvsp[-6].str), (yyvsp[-4].str), (yyvsp[-2].str)); } 
  }
-#line 1653 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1652 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 197 "parser_test.y" /* yacc.c:1646  */
+#line 196 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("if (%s)\n{\n%s\n}",(yyvsp[-4].str), (yyvsp[-2].str)); }
-#line 1659 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1658 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 203 "parser_test.y" /* yacc.c:1646  */
+#line 202 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("while (%s)\n{\n%s\n}\n",(yyvsp[-4].str),(yyvsp[-2].str));}
-#line 1665 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1664 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 210 "parser_test.y" /* yacc.c:1646  */
+#line 209 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = "";}
-#line 1671 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1670 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 211 "parser_test.y" /* yacc.c:1646  */
+#line 210 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s",(yyvsp[0].str));}
-#line 1677 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1676 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 212 "parser_test.y" /* yacc.c:1646  */
+#line 211 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s , %s",(yyvsp[-2].str), (yyvsp[0].str));}
-#line 1683 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1682 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 216 "parser_test.y" /* yacc.c:1646  */
+#line 215 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str)="";}
-#line 1689 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1688 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 217 "parser_test.y" /* yacc.c:1646  */
+#line 216 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s %s",(yyvsp[0].str),(yyvsp[-2].str));}
-#line 1695 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1694 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 218 "parser_test.y" /* yacc.c:1646  */
+#line 217 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s ,%s %s",(yyvsp[-4].str),(yyvsp[0].str),(yyvsp[-2].str));}
-#line 1701 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1700 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 223 "parser_test.y" /* yacc.c:1646  */
+#line 222 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s", (yyvsp[0].str));}
-#line 1707 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1706 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 224 "parser_test.y" /* yacc.c:1646  */
+#line 223 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("int", (yyvsp[0].str));}
-#line 1713 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1712 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 225 "parser_test.y" /* yacc.c:1646  */
+#line 224 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("float");}
-#line 1719 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1718 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 226 "parser_test.y" /* yacc.c:1646  */
+#line 225 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("char");}
-#line 1725 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1724 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 230 "parser_test.y" /* yacc.c:1646  */
+#line 229 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s(%s)",(yyvsp[-3].str),(yyvsp[-1].str));}
-#line 1731 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1730 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 231 "parser_test.y" /* yacc.c:1646  */
+#line 230 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s(%s)",(yyvsp[-3].str),(yyvsp[-1].str));}
-#line 1737 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1736 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 232 "parser_test.y" /* yacc.c:1646  */
+#line 231 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s(%s)",(yyvsp[-3].str),(yyvsp[-1].str));}
-#line 1743 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1742 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 236 "parser_test.y" /* yacc.c:1646  */
+#line 235 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s(%s)",(yyvsp[-3].str), (yyvsp[-1].str));}
-#line 1749 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1748 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 237 "parser_test.y" /* yacc.c:1646  */
+#line 236 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s()",(yyvsp[-2].str));}
-#line 1755 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1754 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 238 "parser_test.y" /* yacc.c:1646  */
+#line 237 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s()",(yyvsp[-2].str));}
-#line 1761 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1760 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 239 "parser_test.y" /* yacc.c:1646  */
+#line 238 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s()",(yyvsp[-2].str));}
-#line 1767 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1766 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 242 "parser_test.y" /* yacc.c:1646  */
+#line 241 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s;",(yyvsp[-1].str));}
-#line 1773 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1772 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 243 "parser_test.y" /* yacc.c:1646  */
+#line 242 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s;",(yyvsp[-1].str));}
-#line 1779 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1778 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 244 "parser_test.y" /* yacc.c:1646  */
+#line 243 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s = %s;",(yyvsp[-3].str),(yyvsp[-1].str));}
-#line 1785 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1784 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 245 "parser_test.y" /* yacc.c:1646  */
+#line 244 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("return %s;",(yyvsp[-1].str));}
-#line 1791 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1790 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 246 "parser_test.y" /* yacc.c:1646  */
+#line 245 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("return ;");}
-#line 1797 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1796 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 250 "parser_test.y" /* yacc.c:1646  */
+#line 249 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("//%s",(yyvsp[0].str));}
-#line 1803 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1802 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 251 "parser_test.y" /* yacc.c:1646  */
+#line 250 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("/*%s*/",(yyvsp[0].str));}
-#line 1809 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1808 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 255 "parser_test.y" /* yacc.c:1646  */
+#line 254 "parser_test.y" /* yacc.c:1646  */
     {(yyval.str) = template("%s",(yyvsp[0].str));}
-#line 1815 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1814 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 262 "parser_test.y" /* yacc.c:1646  */
+#line 261 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("+%s", (yyvsp[0].str)); }
-#line 1821 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1820 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 263 "parser_test.y" /* yacc.c:1646  */
+#line 262 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("-%s", (yyvsp[0].str)); }
-#line 1827 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1826 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 264 "parser_test.y" /* yacc.c:1646  */
+#line 263 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("!%s", (yyvsp[0].str)); }
-#line 1833 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1832 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 269 "parser_test.y" /* yacc.c:1646  */
+#line 268 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("(%s)", (yyvsp[-1].str)); }
-#line 1839 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1838 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 270 "parser_test.y" /* yacc.c:1646  */
+#line 269 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s + %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1845 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1844 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 271 "parser_test.y" /* yacc.c:1646  */
+#line 270 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s - %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1851 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1850 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 272 "parser_test.y" /* yacc.c:1646  */
+#line 271 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s * %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1857 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1856 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 273 "parser_test.y" /* yacc.c:1646  */
+#line 272 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s / %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1863 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1862 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 274 "parser_test.y" /* yacc.c:1646  */
+#line 273 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s %% %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1869 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1868 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 275 "parser_test.y" /* yacc.c:1646  */
+#line 274 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s == %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1875 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1874 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 276 "parser_test.y" /* yacc.c:1646  */
+#line 275 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s != %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1881 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1880 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 277 "parser_test.y" /* yacc.c:1646  */
+#line 276 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s < %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1887 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1886 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 278 "parser_test.y" /* yacc.c:1646  */
+#line 277 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s <= %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1893 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1892 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 279 "parser_test.y" /* yacc.c:1646  */
+#line 278 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s && %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1899 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1898 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 280 "parser_test.y" /* yacc.c:1646  */
+#line 279 "parser_test.y" /* yacc.c:1646  */
     { (yyval.str) = template("%s || %s", (yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1905 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1904 "parser_test.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1909 "parser_test.tab.c" /* yacc.c:1646  */
+#line 1908 "parser_test.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2133,13 +2132,13 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 283 "parser_test.y" /* yacc.c:1906  */
+#line 282 "parser_test.y" /* yacc.c:1906  */
 
 int main () {
   if ( yyparse() == 0 )
-    printf("Accepted!\n");
+    printf("\n//Accepted!\n");
   else
-    printf("Rejected!\n");
+    printf("\n//Rejected!\n");
 }
 
 

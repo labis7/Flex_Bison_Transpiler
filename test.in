@@ -1,51 +1,26 @@
--- File: prime.tc
-let limit, number, counter: int;
-  
+const x<-():[]int=>{
+ let x<-5*10:int;
+ let x[80]<-"labiz":string;
+ };
+let x:bool;
+let x,y:int;
+let x<-5,y<-10:int;
+let x,y<-5:int;
 
-const prime <- (n: int): bool => {
+const start<-():int=>
+{
 
-  let i: int; 
-  let result, isPrime: bool;
+let x[1]:string;
+x[0]<- '\"';
 
+let x[80]<-"\tLabiZ\n":string;
 
-  if n < 0 then
-    result <- prime(-n);
-  else if n < 2 then
-    result <- false;
-  else if n = 2 then
-    result <- true;
-  else if n % 2 = 0 then
-    result <- false;
-  else 
-    i <- 3;
-    isPrime := true;
-    while isPrime and (i < n / 2) loop
-      isPrime <- n % i != 0;
-      i <- i + 2;
-    pool;
-    result <- isPrime;
-  fi;
-  
-  return result;
-};
+writeInt(cube(writeInt(a/5))); --test
 
-const start <- ():int => {
+a<-add(a + b); --test
+--test
 
-  limit <- readInt();
-  counter <- 0;
-  number <- 2;
-
-  while number <= limit loop 
-    if prime(number) then 
-      counter <- counter + 1;
-      writeInt(number);
-      writeString(" ");
-    fi;
-    number <- number + 1;
-  pool;
-  
-  writeString("\n");
-  writeInt(counter);
-	
-  return 0;
 }
+
+
+	

@@ -89,8 +89,7 @@ final_form
 //|input func_decl1 main 
 { 
   if (yyerror_count == 0) {
-    printf("\n\n");
-    printf("Expression evaluates to:%s",$1); 
+    printf("//Expression evaluates to:\n\n%s",$1); 
   }  
 }
 ;
@@ -135,7 +134,7 @@ cmd_line
 
 decl:
 KW_LET decl_body_part 							{ $$ = template("%s", $2); }   //let x,y....
-|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const x,y...95% completed(x,y<-10 format is not supported: #TODO)
+|KW_CONST  decl_body_part_c						{ $$ = template("const %s", $2); }//const
 |KW_CONST func_decl							{ $$ = template("%s", $2); }//'const' func
 ;
 
@@ -283,9 +282,9 @@ string
 %%
 int main () {
   if ( yyparse() == 0 )
-    printf("Accepted!\n");
+    printf("\n//Accepted!\n");
   else
-    printf("Rejected!\n");
+    printf("\n//Rejected!\n");
 }
 
 
