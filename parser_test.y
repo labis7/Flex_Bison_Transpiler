@@ -56,7 +56,7 @@
 %token <str> READINT_FUNC
 %token <str> READREAL_FUNC
 %token <str> WRITESTRING_FUNC
-%token <str> WRITEINT_FUNC"teaclib.h"
+%token <str> WRITEINT_FUNC
 %token <str> WRITEREAL_FUNC
 
 
@@ -284,7 +284,10 @@ int main () {
   if ( yyparse() == 0 )
     printf("\n//Accepted!\n");
   else
+  {
+    fprintf(stderr," : %s\n",buff);
     printf("\n//Rejected!\n");
+  }
 }
 
 

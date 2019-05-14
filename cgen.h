@@ -16,6 +16,7 @@ void ssopen(sstream* S);
 char* ssvalue(sstream* S);
 void ssclose(sstream* S);
 
+char buff[255];
 
 /*
  	This function takes the same arguments as printf,

@@ -500,7 +500,7 @@ static const char *const yytname[] =
   "LESS_EQUAL_OP", "FUNC_START_ARROW", "KW_START", "IDENTIFIER", "POSINT",
   "STRING", "REAL", "ASSIGN", "LINE_COMMENT", "MLINE_COMMENT",
   "READSTRING_FUNC", "READINT_FUNC", "READREAL_FUNC", "WRITESTRING_FUNC",
-  "\"teaclib.h\"", "WRITEREAL_FUNC", "EQUAL_OP", "'-'", "'+'", "'*'",
+  "WRITEINT_FUNC", "WRITEREAL_FUNC", "EQUAL_OP", "'-'", "'+'", "'*'",
   "'/'", "'%'", "'('", "')'", "':'", "'{'", "'}'", "';'", "'['", "']'",
   "','", "$accept", "input", "final_form", "body", "more", "decl_list1",
   "decl_list", "decl", "func_decl", "decl_body_part", "decl_body_part_c",
@@ -2138,7 +2138,10 @@ int main () {
   if ( yyparse() == 0 )
     printf("\n//Accepted!\n");
   else
+  {
+    fprintf(stderr," : %s\n",buff);
     printf("\n//Rejected!\n");
+  }
 }
 
 

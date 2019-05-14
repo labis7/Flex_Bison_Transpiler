@@ -3,10 +3,12 @@
    #include <string.h>  
   #include "cgen.h"
   #include  "parser_test.tab.h"
-
+void add(char *ytext);
+void cleanup();
  int line_num = 1;
- char comm[255];
- int comm_pointer,old_p;
+ 
+ int old_p=0;
+int b_pointer=0;
 %}
 %x string 
 %x comment
@@ -32,95 +34,98 @@ INT_CON_ERROR	  ((("0")+(({INT_CON})|({REAL_CON})))|(("0")*({REAL})[Ee](("+")|("
 
 
  
-{INT_CON}  	        { yylval.str = strdup(yytext); return POSINT; }
-{REAL_CON}   		{ yylval.str = strdup(yytext); return REAL; }
+{INT_CON}  	        { yylval.str = strdup(yytext);strcat(buff,yytext); return POSINT; }
+{REAL_CON}   		{ yylval.str = strdup(yytext);strcat(buff,yytext); return REAL; }
  
   			/*///////////////// KEYWORDS ///////////////////*/
 
-true 			{ yylval.str = strdup(yytext); return KW_TRUE; }
-false 			{ yylval.str = strdup(yytext); return KW_FALSE; }
-int           		{ yylval.str = strdup(yytext); return KW_INT; }
-real			{ yylval.str = strdup(yytext); return KW_REAL; }
-bool			{ yylval.str = strdup(yytext); return KW_BOOL; }
-string			{ yylval.str = strdup(yytext); return KW_STRING; }
-else			{ yylval.str = strdup(yytext); return KW_ELSE; }
-if			{ yylval.str = strdup(yytext); return KW_IF; }
-fi			return KW_FI; 
-while			{ yylval.str = strdup(yytext); return KW_WHILE; }
-loop			{ yylval.str = strdup(yytext); return KW_LOOP; }
-pool			{ yylval.str = strdup(yytext); return KW_POOL; }
-const			return KW_CONST; 
-let			return KW_LET; 		
-then			{ yylval.str = strdup(yytext); return KW_THEN; }		
-return			{ yylval.str = strdup(yytext); return KW_RETURN; }	
-not			{ yylval.str = strdup(yytext); return KW_NOT; }	
-and			{ yylval.str = strdup(yytext); return KW_AND; }
-or			{ yylval.str = strdup(yytext); return KW_OR; }
-start			return KW_START;
+true 			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_TRUE; }
+false 			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_FALSE; }
+int           		{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_INT; }
+real			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_REAL; }
+bool			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_BOOL; }
+string			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_STRING; }
+else			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_ELSE; }
+if			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_IF; }
+fi			{strcat(buff,yytext); return KW_FI;} 
+while			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_WHILE; }
+loop			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_LOOP; }
+pool			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_POOL; }
+const			{strcat(buff,yytext); return KW_CONST; }
+let			{strcat(buff,yytext); return KW_LET;} 		
+then			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_THEN; }		
+return			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_RETURN; }	
+not			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_NOT; }	
+and			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_AND; }
+or			{ yylval.str = strdup(yytext);strcat(buff,yytext); return KW_OR; }
+start			{strcat(buff,yytext); return KW_START;}
 
 
 
 			/*///////////////// Function IDs ///////////////////*/
 
-readString		{yylval.str = strdup(yytext); return READSTRING_FUNC;}
-readInt			{yylval.str = strdup(yytext); return READINT_FUNC;}	
-readReal		{yylval.str = strdup(yytext); return READREAL_FUNC;}
-writeString		{yylval.str = strdup(yytext); return WRITESTRING_FUNC;}
-writeInt		{yylval.str = strdup(yytext); return WRITEINT_FUNC;}
-writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
+readString		{yylval.str = strdup(yytext);strcat(buff,yytext); return READSTRING_FUNC;}
+readInt			{yylval.str = strdup(yytext);strcat(buff,yytext); return READINT_FUNC;}	
+readReal		{yylval.str = strdup(yytext);strcat(buff,yytext); return READREAL_FUNC;}
+writeString		{yylval.str = strdup(yytext);strcat(buff,yytext); return WRITESTRING_FUNC;}
+writeInt		{yylval.str = strdup(yytext);strcat(buff,yytext); return WRITEINT_FUNC;}
+writeReal		{yylval.str = strdup(yytext);strcat(buff,yytext); return WRITEREAL_FUNC;}
 
 			/*///////////////// OPERATORS ///////////////////*/
-"+"         		return '+';
-"-"         		return '-';
-"*"         		return '*';
-"/"         		return '/';
-"%"			return '%'; //{ yylval.str = strdup(yytext); return PERC_OP; }
-"="			{ yylval.str = strdup(yytext); return EQUAL_OP; }
-"!="			{ yylval.str = strdup(yytext); return NOT_EQUAL_OP; }
-"<"			{ yylval.str = strdup(yytext); return LESS_OP; }
-"<="			{ yylval.str = strdup(yytext); return LESS_EQUAL_OP; }
-"<-"                    return ASSIGN;
+"+"         		{strcat(buff,yytext);return '+';}
+"-"         		{strcat(buff,yytext);return '-';}
+"*"         		{strcat(buff,yytext);return '*';}
+"/"         		{strcat(buff,yytext);return '/';}
+"%"			{strcat(buff,yytext);return '%';} 
+"="			{ yylval.str = strdup(yytext);strcat(buff,yytext); return EQUAL_OP; }
+"!="			{ yylval.str = strdup(yytext);strcat(buff,yytext); return NOT_EQUAL_OP; }
+"<"			{ yylval.str = strdup(yytext);strcat(buff,yytext); return LESS_OP; }
+"<="			{ yylval.str = strdup(yytext);strcat(buff,yytext); return LESS_EQUAL_OP; }
+"<-"                    {strcat(buff,yytext); return ASSIGN;}
 
 
 			/*///////////////// DELIMITERS ///////////////////*/
-"("			return '(';
-")"			return ')';
-"["			return '[';
-"]"			return ']';
-"{"			return '{';
-"}"			return '}';
-":"			return ':';
-";"			return ';';
-","			return ',';
+"("			{strcat(buff,yytext);return '(';}
+")"			{strcat(buff,yytext);return ')';}
+"["			{strcat(buff,yytext);return '[';}
+"]"			{strcat(buff,yytext);return ']';}
+"{"			{strcat(buff,yytext);return '{';}
+"}"			{strcat(buff,yytext);return '}';}
+":"			{strcat(buff,yytext);return ':';}
+";"			{strcat(buff,yytext);return ';';}
+","			{strcat(buff,yytext); return ',';}
 
-"=>" 			return FUNC_START_ARROW;
-
-
+"=>" 			{strcat(buff,yytext); return FUNC_START_ARROW;}
 
 
 
-{ID}       		{ yylval.str = strdup(yytext); return IDENTIFIER; }
+
+
+{ID}       		{ yylval.str = strdup(yytext);strcat(buff,yytext); return IDENTIFIER; }
 
 
 
 	/*/////////// Strings & Comments //////////*/
 	
-{STRING_L}  		{yylval.str = strdup(yytext); return STRING;}
+{STRING_L}  		{yylval.str = strdup(yytext);strcat(buff,yytext); return STRING;}
 	
 
 
-"--"[^\n]*  		{yylval.str = strdup(yytext+2); return LINE_COMMENT;}  /* Line Commend  */ /* Returns only the usefull content  */
+"--"[^\n]*  		{yylval.str = strdup(yytext+2);strcat(buff,yytext); return LINE_COMMENT;}  /* Line Commend  */ /* Returns only the usefull content  */
+					
+					/* Multiline Comment */
 
-"(*"                    {BEGIN(comment); comm_pointer = 0;old_p=0;} 		/* Multiline Commend */
+"(*"                    {BEGIN(comment); cleanup();}//cleaning up buff for the new multiline comment 	
+					
 
-<comment>(("*"+[^*)])|([^*]))*    {comm_pointer = 0;  while (yytext[comm_pointer] != '\0') {
-    			 comm[old_p + comm_pointer] = yytext[comm_pointer];
-   			 comm_pointer++;}old_p=comm_pointer;}	
-<comment>"*"		{comm[old_p]='*';comm_pointer++;old_p+=1;}
-<comment>"*"+")"        { BEGIN(INITIAL);comm_pointer=0;		while(comm_pointer<=strlen(comm))
-									{if(comm[comm_pointer] == '\n') 										line_num++;
-									  comm_pointer++;  
-									} yylval.str = strdup(comm);  return MLINE_COMMENT; }
+<comment>(("*"+[^*)])|([^*]))*    {b_pointer = 0;  while (yytext[b_pointer] != '\0') {
+    			 buff[old_p + b_pointer] = yytext[b_pointer];
+   			 b_pointer++;}old_p=b_pointer;}	
+<comment>"*"		{buff[old_p]='*';b_pointer++;old_p+=1;}
+<comment>"*"+")"        { BEGIN(INITIAL);b_pointer=0;		while(b_pointer<=strlen(buff))
+									{if(buff[b_pointer] == '\n') 											line_num++;
+									  b_pointer++;  
+									} yylval.str = strdup(buff);  return MLINE_COMMENT; }
 
 
 
@@ -145,14 +150,31 @@ writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
 
 
 
-[ \r\t]		/* skip whitespace */
-\n 			++line_num;
+[ \r\t]		{strcat(buff,yytext);}/* skip whitespace */
+\n 		{cleanup();	++line_num;}
 <<EOF>> 	return EOF;  
 
 .           {printf("Unrecognised Token %s in line %d:\n",yytext,line_num); return EOF;} /* na ektupwsw kai olh thn grammh, kai return EOF*/
 
-
+strcat(buff,ytext);
 %%
+
+void add(char *ytext)
+{
+	strcat(buff,ytext);
+}
+
+void cleanup()
+{
+	
+	b_pointer = 0;old_p=0;
+	while(buff[b_pointer]!='\0') 
+	{
+		buff[b_pointer]='\0';//clean up
+		b_pointer++;
+	}
+	b_pointer = 0;old_p=0;
+}
 
 /*
 int main() { 
