@@ -119,7 +119,7 @@ writeReal		{yylval.str = strdup(yytext); return WRITEREAL_FUNC;}
 <comment>"*"		{comm[old_p]='*';comm_pointer++;old_p+=1;}
 <comment>"*"+")"        { BEGIN(INITIAL);comm_pointer=0;		while(comm_pointer<=strlen(comm))
 									{if(comm[comm_pointer] == '\n') 										line_num++;
-									  comm_pointer++; 
+									  comm_pointer++;  
 									} yylval.str = strdup(comm);  return MLINE_COMMENT; }
 
 

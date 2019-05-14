@@ -45,6 +45,10 @@ result = isPrime;
 return result;
 }
 
+/*
+
+skata
+*/
 
 int main(){
 limit = readInt();

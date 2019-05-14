@@ -28,7 +28,10 @@ fi;
 return result;
 };
 
+(*
 
+skata
+*)
 const start <- (): int => {
 limit <- readInt();
 counter <- 0;
