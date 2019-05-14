@@ -32,7 +32,7 @@
 %token <str> KW_CONST
 %token <str> KW_LET
 %token <str> KW_RETURN
-///*
+
 %token <str> KW_NOT
 %token <str> KW_AND
 %token <str> KW_OR
@@ -40,7 +40,7 @@
 %token <str> NOT_EQUAL_OP
 %token <str> LESS_OP
 %token <str> LESS_EQUAL_OP
-//*/
+
 %token <str> FUNC_START_ARROW
 %token <str> KW_START
 %token <str> IDENTIFIER
@@ -60,7 +60,7 @@
 %token <str> WRITEREAL_FUNC
 
 
-//%right KW_THEN KW_ELSE
+
 %nonassoc KW_THEN
 %nonassoc KW_ELSE
 
@@ -85,8 +85,7 @@
 %%
 
 input:
-final_form
-//|input func_decl1 main 
+final_form 
 { 
   if (yyerror_count == 0) {
     printf("//Expression evaluates to:\n\n%s",$1); 
@@ -101,20 +100,17 @@ KW_CONST KW_START ASSIGN '(' ')' ':' KW_INT FUNC_START_ARROW '{' body '}' {$$ = 
 
 
 body:
-%empty		 { $$="";}
-|more 		 { $$=template("%s",$1);}
+%empty		 		{ $$="";}
+|more 		 		{ $$=template("%s",$1);}
 ;
 
 more:
 while_loop
 |if_stmt
 |decl_list1
-|printf_func
 |more while_loop		{ $$ = template("%s\n%s", $1, $2); }
 |more if_stmt	 		{ $$ = template("%s\n%s", $1, $2); }
 |more decl_list1 		{ $$ = template("%s\n%s", $1, $2); }
-|more printf_func		{ $$ = template("%s\n%s", $1, $2); }
-
 ;
 
 decl_list1:
@@ -199,8 +195,8 @@ else
 
 
 while_loop:
-KW_WHILE expr KW_LOOP body KW_POOL ';' 		{$$ = template("while (%s)\n{\n%s\n}\n",$2,$4);}
-
+KW_WHILE expr KW_LOOP body KW_POOL ';' 		         {$$ = template("while (%s)\n{\n%s\n}\n",$2,$4);}
+    
 ;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -226,16 +222,16 @@ data_type:
 ;
 
 printf_func:
-WRITESTRING_FUNC'(' string ')' 		{$$ = template("%s(%s)",$1,$3);} //..simple, it can be used as an expression too..
+WRITESTRING_FUNC'(' string ')' 		{$$ = template("%s(%s)",$1,$3);} //.. it can be used as an expression too..
 |WRITEINT_FUNC'('expr')' 		{$$ = template("%s(%s)",$1,$3);}
 |WRITEREAL_FUNC'('expr')'	 	{$$ = template("%s(%s)",$1,$3);}
 ;
 
 function_call:
-IDENTIFIER'('func_parameters')' {$$ = template("%s(%s)",$1, $3);}
+IDENTIFIER'('func_parameters')'      {$$ = template("%s(%s)",$1, $3);}
 |READSTRING_FUNC '('')'              {$$ = template("%s()",$1);}
-|READINT_FUNC '('')'              {$$ = template("%s()",$1);}
-|READREAL_FUNC '('')'              {$$ = template("%s()",$1);}
+|READINT_FUNC '('')'                 {$$ = template("%s()",$1);}
+|READREAL_FUNC '('')'                {$$ = template("%s()",$1);}
 ;
 cmd_line:
 function_call ';'		 {$$ = template("%s;",$1);}
@@ -270,7 +266,7 @@ string
 | expr '-' expr  	 { $$ = template("%s - %s", $1, $3); }
 | expr '*' expr 	 { $$ = template("%s * %s", $1, $3); }
 | expr '/' expr 	 { $$ = template("%s / %s", $1, $3); }
-| expr '%' expr      { $$ = template("%s %% %s", $1, $3); }
+| expr '%' expr          { $$ = template("%s %% %s", $1, $3); }
 | expr EQUAL_OP expr     { $$ = template("%s == %s", $1, $3); }
 | expr NOT_EQUAL_OP expr { $$ = template("%s != %s", $1, $3); }
 | expr LESS_OP expr      { $$ = template("%s < %s", $1, $3); }
@@ -295,7 +291,6 @@ int check(char a,char b){
 if((a=='*')||(b==']')){
     yyerror("\nWrong identifier format(No '[]' allowed!\n)\n");
     return 1;
-//printf("\n\n%c%c\n",a,b);
 }
 else 
 return 0;

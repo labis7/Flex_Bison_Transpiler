@@ -1,4 +1,6 @@
 You can type the following.
+make c#: correct teac code, where # = 1 or 2 .
+make w#: wrong teac code, where # = 1 or 2 .
+make c#res  : gcc compile and run of the correct .c transpiled code , where # = 1 or 2 .
+make w#res  : gcc compile and run of the wrong .c transpiled code , where # = 1 or 2 .
 make test : Its my test.tc for testing out the limits of my project.(Not a proper .c program)
-make test1: You can change test1.tc file by adding your teac code
-make res  : gcc compile and run of the .c transpiled code 

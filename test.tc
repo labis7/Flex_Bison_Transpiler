@@ -4,7 +4,7 @@ const x<-():[]int=>{
  };
 let x:bool;
 let x,y:int;
-let x<-5,y<-10:int;
+let x<-5,y[5]<-10:int;
 let x,y<-5:int;
 
 const start<-():int=>

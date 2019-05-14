@@ -3,7 +3,7 @@
    #include <string.h>  
   #include "cgen.h"
   #include  "parser_test.tab.h"
-void add(char *ytext);
+
 void cleanup();
  int line_num = 1;
  
@@ -12,9 +12,7 @@ int b_pointer=0;
 %}
 %x string 
 %x comment
-/*
-KW	    ("int")|("real")|("bool")|("string")|("true")|("false")|("if")|("else")|("fi")|("while")|("loop")|("pool")|("const")|("let")|("break")|("return")|("not")|("and")|("or")|("start")
-*/
+
 
 INT_CON      ("0")|([1-9]([0-9])*)
 REAL	     ({INT_CON})(".")("0")*({INT_CON}) 	   
@@ -135,8 +133,7 @@ writeReal		{yylval.str = strdup(yytext);strcat(buff,yytext); return WRITEREAL_FU
 
 	/*////////// ERROR HANDLING ///////////*/
 
-{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", line_num, yytext); } /* na ektupwsw kai olh thn grammh, kai return EOF*/
- 	
+{INT_CON_ERROR} { printf("Line %d: Number format ERROR (Zero padding is not allowed!): %s\n", line_num, yytext); } 
 
 {ID_ERROR} { printf("Line %d: Identifier Error:\t%s\n", line_num, yytext); } 
 
@@ -154,18 +151,13 @@ writeReal		{yylval.str = strdup(yytext);strcat(buff,yytext); return WRITEREAL_FU
 \n 		{cleanup();	++line_num;}
 <<EOF>> 	return EOF;  
 
-.           {printf("Unrecognised Token %s in line %d:\n",yytext,line_num); return EOF;} /* na ektupwsw kai olh thn grammh, kai return EOF*/
+.           {printf("Unrecognised Token %s in line %d:\n",yytext,line_num); return EOF;} 
 
-strcat(buff,ytext);
 %%
 
-void add(char *ytext)
-{
-	strcat(buff,ytext);
-}
 
-void cleanup()
-{
+
+void cleanup(){
 	
 	b_pointer = 0;old_p=0;
 	while(buff[b_pointer]!='\0') 
